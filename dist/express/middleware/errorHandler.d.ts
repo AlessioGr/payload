@@ -1,5 +1,4 @@
 import { NextFunction, Response } from 'express';
-import { Logger } from 'pino';
 import { SanitizedConfig } from '../../config/types';
 import { ErrorResponse } from '../responses/formatError';
 import { PayloadRequest } from '../types';
