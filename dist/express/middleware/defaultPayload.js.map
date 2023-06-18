@@ -1,0 +1,1 @@
+{"version":3,"file":"defaultPayload.js","sourceRoot":"","sources":["../../../src/express/middleware/defaultPayload.ts"],"names":[],"mappings":";;AAEA,sDAA2D;AAE3D,SAAS,cAAc,CAAC,GAAmB,EAAE,GAAa,EAAE,IAAkB;IAC5E,IAAA,uCAAsB,EAAC,GAAG,CAAC,CAAC;IAC5B,IAAI,EAAE,CAAC;AACT,CAAC;AAED,kBAAe,cAAc,CAAC"}
