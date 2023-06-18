@@ -600,16 +600,41 @@ describe('fields', () => {
       });
 
       test('should respect customizing the default fields', async () => {
+        const linkText = 'link';
+        const value = 'test value';
         await navigateToRichTextFields();
         const field = page.locator('.rich-text', { has: page.locator('#field-richTextCustomFields') });
+        // open link drawer
         const button = await field.locator('button.rich-text__button.link');
-
         await button.click();
 
+        // fill link fields
         const linkDrawer = await page.locator('[id^=drawer_1_rich-text-link-]');
-        await expect(linkDrawer).toBeVisible();
-        const fieldCount = await linkDrawer.locator('.render-fields > .field-type').count();
-        await expect(fieldCount).toEqual(1);
+        const fields = await linkDrawer.locator('.render-fields > .field-type');
+        await fields.locator('#field-text').fill(linkText);
+        await fields.locator('#field-url').fill('https://payloadcms.com');
+        const input = await fields.locator('#field-fields__customLinkField');
+        await input.fill(value);
+
+        // submit link closing drawer
+        await linkDrawer.locator('button[type="submit"]').click();
+        const linkInEditor = field.locator(`.rich-text-link >> text="${linkText}"`);
+        await saveDocAndAssert(page);
+
+        // open modal again
+        await linkInEditor.click();
+
+        const popup = page.locator('.popup--active .rich-text-link__popup');
+        await expect(popup).toBeVisible();
+
+        await popup.locator('.rich-text-link__link-edit').click();
+
+        const linkDrawer2 = await page.locator('[id^=drawer_1_rich-text-link-]');
+        const fields2 = await linkDrawer2.locator('.render-fields > .field-type');
+        const input2 = await fields2.locator('#field-fields__customLinkField');
+
+
+        await expect(input2).toHaveValue(value);
       });
     });
 
@@ -863,7 +888,7 @@ describe('fields', () => {
 
       // create a jpg upload
       await page.locator('.file-field__upload input[type="file"]').setInputFiles(path.resolve(__dirname, './collections/Upload/payload.jpg'));
-      await expect(page.locator('.file-field .file-field__filename')).toContainText('payload.jpg');
+      await expect(page.locator('.file-field .file-field__filename')).toHaveValue('payload.jpg');
       await page.locator('#action-save').click();
       await wait(200);
       await expect(page.locator('.Toastify')).toContainText('successfully');

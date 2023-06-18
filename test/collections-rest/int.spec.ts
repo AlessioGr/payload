@@ -62,6 +62,22 @@ describe('collections-rest', () => {
       expect(result.docs[0].id).toEqual(post1.id);
     });
 
+    it('should find with pagination false', async () => {
+      const post1 = await createPost();
+      const post2 = await createPost();
+
+      const { docs, totalDocs } = await payload.find({
+        collection: slug,
+        pagination: false,
+      });
+
+      const expectedDocs = [post1, post2];
+      expect(docs).toHaveLength(expectedDocs.length);
+      expect(docs).toEqual(expect.arrayContaining(expectedDocs));
+
+      expect(totalDocs).toEqual(2);
+    });
+
     it('should update existing', async () => {
       const {
         id,
@@ -898,6 +914,21 @@ describe('collections-rest', () => {
           expect(status).toEqual(200);
           expect(result.totalDocs).toEqual(50);
         });
+      });
+
+      it('can query deeply nested fields within rows, tabs, collapsibles', async () => {
+        const withDeeplyNestedField = await createPost({ D1: { D2: { D3: { D4: 'nested message' } } } });
+
+        const { result } = await client.find<Post>({
+          query: {
+            'D1.D2.D3.D4': {
+              equals: 'nested message',
+            },
+          },
+        });
+
+        expect(result.totalDocs).toEqual(1);
+        expect(result.docs).toEqual([withDeeplyNestedField]);
       });
     });
   });
