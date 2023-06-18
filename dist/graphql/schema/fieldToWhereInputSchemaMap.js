@@ -4,12 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("graphql");
-const types_1 = require("../../fields/config/types");
 const withOperators_1 = require("./withOperators");
 const combineParentName_1 = __importDefault(require("../utilities/combineParentName"));
 const formatName_1 = __importDefault(require("../utilities/formatName"));
 const recursivelyBuildNestedPaths_1 = __importDefault(require("./recursivelyBuildNestedPaths"));
-const fieldToSchemaMap = (parentName) => ({
+const fieldToSchemaMap = (parentName, nestedFieldName) => ({
     number: (field) => ({
         type: (0, withOperators_1.withOperators)(field, parentName),
     }),
@@ -75,79 +74,11 @@ const fieldToSchemaMap = (parentName) => ({
     select: (field) => ({
         type: (0, withOperators_1.withOperators)(field, parentName),
     }),
-    array: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, field),
-    group: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, field),
-    row: (field) => field.fields.reduce((rowSchema, subField) => {
-        const getFieldSchema = fieldToSchemaMap(parentName)[subField.type];
-        if (getFieldSchema) {
-            const rowFieldSchema = getFieldSchema(subField);
-            if ((0, types_1.fieldHasSubFields)(subField)) {
-                return [
-                    ...rowSchema,
-                    ...rowFieldSchema,
-                ];
-            }
-            if ((0, types_1.fieldAffectsData)(subField)) {
-                return [
-                    ...rowSchema,
-                    {
-                        key: subField.name,
-                        type: rowFieldSchema,
-                    },
-                ];
-            }
-        }
-        return rowSchema;
-    }, []),
-    collapsible: (field) => field.fields.reduce((rowSchema, subField) => {
-        const getFieldSchema = fieldToSchemaMap(parentName)[subField.type];
-        if (getFieldSchema) {
-            const rowFieldSchema = getFieldSchema(subField);
-            if ((0, types_1.fieldHasSubFields)(subField)) {
-                return [
-                    ...rowSchema,
-                    ...rowFieldSchema,
-                ];
-            }
-            if ((0, types_1.fieldAffectsData)(subField)) {
-                return [
-                    ...rowSchema,
-                    {
-                        key: subField.name,
-                        type: rowFieldSchema,
-                    },
-                ];
-            }
-        }
-        return rowSchema;
-    }, []),
-    tabs: (field) => field.tabs.reduce((tabSchema, tab) => {
-        return [
-            ...tabSchema,
-            ...tab.fields.reduce((rowSchema, subField) => {
-                const getFieldSchema = fieldToSchemaMap(parentName)[subField.type];
-                if (getFieldSchema) {
-                    const rowFieldSchema = getFieldSchema(subField);
-                    if ((0, types_1.fieldHasSubFields)(subField)) {
-                        return [
-                            ...rowSchema,
-                            ...rowFieldSchema,
-                        ];
-                    }
-                    if ((0, types_1.fieldAffectsData)(subField)) {
-                        return [
-                            ...rowSchema,
-                            {
-                                key: subField.name,
-                                type: rowFieldSchema,
-                            },
-                        ];
-                    }
-                }
-                return rowSchema;
-            }, []),
-        ];
-    }, []),
+    array: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, nestedFieldName, field),
+    group: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, nestedFieldName, field),
+    row: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, nestedFieldName, field),
+    collapsible: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, nestedFieldName, field),
+    tabs: (field) => (0, recursivelyBuildNestedPaths_1.default)(parentName, nestedFieldName, field),
 });
 exports.default = fieldToSchemaMap;
 //# sourceMappingURL=fieldToWhereInputSchemaMap.js.map

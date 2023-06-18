@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.iterateFields = void 0;
 const types_1 = require("../../../../../fields/config/types");
 const addFieldStatePromise_1 = require("./addFieldStatePromise");
-const iterateFields = async ({ fields, data, parentPassesCondition, path = '', fullData, user, locale, operation, id, state, t, }) => {
+const iterateFields = async ({ fields, data, parentPassesCondition, path = '', fullData, user, locale, operation, id, state, t, preferences, }) => {
     const promises = [];
     fields.forEach((field) => {
         var _a, _b;
@@ -22,6 +22,7 @@ const iterateFields = async ({ fields, data, parentPassesCondition, path = '', f
                 passesCondition,
                 data,
                 t,
+                preferences,
             }));
         }
     });

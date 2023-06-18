@@ -52,7 +52,7 @@ async function update(args) {
         }
     }
     const originalDoc = await (0, afterRead_1.afterRead)({
-        depth,
+        depth: 0,
         doc: globalJSON,
         entityConfig: globalConfig,
         req,

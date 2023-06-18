@@ -11,6 +11,8 @@ const sanitizeInternalFields_1 = __importDefault(require("../../utilities/saniti
 const types_1 = require("../../fields/config/types");
 const afterRead_1 = require("../../fields/hooks/afterRead");
 const unlock_1 = __importDefault(require("./unlock"));
+const incrementLoginAttempts_1 = require("../strategies/local/incrementLoginAttempts");
+const authenticate_1 = require("../strategies/local/authenticate");
 async function login(incomingArgs) {
     let args = incomingArgs;
     // /////////////////////////////////////
@@ -31,18 +33,25 @@ async function login(incomingArgs) {
     const email = unsanitizedEmail ? unsanitizedEmail.toLowerCase().trim() : null;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore Improper typing in library, additional args should be optional
-    const userDoc = await Model.findByUsername(email);
+    const userDoc = await Model.findOne({ email }).lean();
+    let user = JSON.parse(JSON.stringify(userDoc));
     if (!userDoc || (args.collection.config.auth.verify && userDoc._verified === false)) {
         throw new errors_1.AuthenticationError(req.t);
     }
     if (userDoc && (0, isLocked_1.default)(userDoc.lockUntil)) {
         throw new errors_1.LockedAuth(req.t);
     }
-    const authResult = await userDoc.authenticate(password);
+    const authResult = await (0, authenticate_1.authenticateLocalStrategy)({ password, doc: user });
+    user = (0, sanitizeInternalFields_1.default)(user);
     const maxLoginAttemptsEnabled = args.collection.config.auth.maxLoginAttempts > 0;
-    if (!authResult.user) {
-        if (maxLoginAttemptsEnabled)
-            await userDoc.incLoginAttempts();
+    if (!authResult) {
+        if (maxLoginAttemptsEnabled) {
+            await (0, incrementLoginAttempts_1.incrementLoginAttempts)({
+                payload: req.payload,
+                doc: user,
+                collection: collectionConfig,
+            });
+        }
         throw new errors_1.AuthenticationError(req.t);
     }
     if (maxLoginAttemptsEnabled) {
@@ -56,9 +65,6 @@ async function login(incomingArgs) {
             overrideAccess: true,
         });
     }
-    let user = userDoc.toJSON({ virtuals: true });
-    user = JSON.parse(JSON.stringify(user));
-    user = (0, sanitizeInternalFields_1.default)(user);
     const fieldsToSign = collectionConfig.fields.reduce((signedFields, field) => {
         const result = {
             ...signedFields,

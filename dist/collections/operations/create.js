@@ -19,6 +19,7 @@ const afterRead_1 = require("../../fields/hooks/afterRead");
 const generateFileData_1 = require("../../uploads/generateFileData");
 const saveVersion_1 = require("../../versions/saveVersion");
 const mapAsync_1 = require("../../utilities/mapAsync");
+const register_1 = require("../../auth/strategies/local/register");
 const unlinkFile = (0, util_1.promisify)(fs_1.default.unlink);
 async function create(incomingArgs) {
     var _a;
@@ -135,16 +136,12 @@ async function create(incomingArgs) {
             resultWithLocales._verified = Boolean(resultWithLocales._verified) || false;
             resultWithLocales._verificationToken = crypto_1.default.randomBytes(20).toString('hex');
         }
-        try {
-            doc = await Model.register(resultWithLocales, data.password);
-        }
-        catch (error) {
-            // Handle user already exists from passport-local-mongoose
-            if (error.name === 'UserExistsError') {
-                throw new errors_1.ValidationError([{ message: error.message, field: 'email' }], req.t);
-            }
-            throw error;
-        }
+        doc = await (0, register_1.registerLocalStrategy)({
+            collection: collectionConfig,
+            doc: resultWithLocales,
+            payload: req.payload,
+            password: data.password,
+        });
     }
     else {
         try {

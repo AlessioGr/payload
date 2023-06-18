@@ -12,15 +12,13 @@ async function docAccess(args) {
     if (config.versions) {
         collectionOperations.push('readVersions');
     }
-    const [policy, promises] = (0, getEntityPolicies_1.getEntityPolicies)({
+    return (0, getEntityPolicies_1.getEntityPolicies)({
         type: 'collection',
         req,
         entity: config,
         operations: collectionOperations,
         id,
     });
-    await Promise.all(promises);
-    return policy;
 }
 exports.docAccess = docAccess;
 //# sourceMappingURL=docAccess.js.map

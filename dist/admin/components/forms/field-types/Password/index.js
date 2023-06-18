@@ -34,7 +34,7 @@ const withCondition_1 = __importDefault(require("../../withCondition"));
 const validations_1 = require("../../../../../fields/validations");
 require("./index.scss");
 const Password = (props) => {
-    const { path: pathFromProps, name, required, validate = validations_1.password, style, className, width, autoComplete, label, } = props;
+    const { path: pathFromProps, name, required, validate = validations_1.password, style, className, width, autoComplete, label, disabled, } = props;
     const path = pathFromProps || name;
     const memoizedValidate = (0, react_1.useCallback)((value, options) => {
         const validationResult = validate(value, { ...options, required });
@@ -56,7 +56,7 @@ const Password = (props) => {
         } },
         react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage }),
         react_1.default.createElement(Label_1.default, { htmlFor: `field-${path.replace(/\./gi, '__')}`, label: label, required: required }),
-        react_1.default.createElement("input", { id: `field-${path.replace(/\./gi, '__')}`, value: value || '', onChange: setValue, disabled: formProcessing, type: "password", autoComplete: autoComplete, name: path })));
+        react_1.default.createElement("input", { id: `field-${path.replace(/\./gi, '__')}`, value: value || '', onChange: setValue, disabled: formProcessing || disabled, type: "password", autoComplete: autoComplete, name: path })));
 };
 exports.default = (0, withCondition_1.default)(Password);
 //# sourceMappingURL=index.js.map

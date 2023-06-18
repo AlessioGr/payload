@@ -30,6 +30,7 @@ exports.useSelection = exports.SelectionProvider = exports.SelectAllStatus = voi
 const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const qs_1 = __importDefault(require("qs"));
+const Locale_1 = require("../../../../utilities/Locale");
 var SelectAllStatus;
 (function (SelectAllStatus) {
     SelectAllStatus["AllAvailable"] = "allAvailable";
@@ -41,6 +42,7 @@ const Context = (0, react_1.createContext)({});
 const SelectionProvider = ({ children, docs = [], totalDocs }) => {
     const contextRef = (0, react_1.useRef)({});
     const history = (0, react_router_dom_1.useHistory)();
+    const locale = (0, Locale_1.useLocale)();
     const [selected, setSelected] = (0, react_1.useState)({});
     const [selectAll, setSelectAll] = (0, react_1.useState)(SelectAllStatus.None);
     const [count, setCount] = (0, react_1.useState)(0);
@@ -101,8 +103,9 @@ const SelectionProvider = ({ children, docs = [], totalDocs }) => {
         }
         return qs_1.default.stringify({
             where,
+            locale,
         }, { addQueryPrefix: true });
-    }, [history.location.search, selectAll, selected]);
+    }, [history.location.search, selectAll, selected, locale]);
     (0, react_1.useEffect)(() => {
         if (selectAll === SelectAllStatus.AllAvailable) {
             return;

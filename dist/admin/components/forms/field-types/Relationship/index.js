@@ -63,7 +63,7 @@ const Relationship = (props) => {
     const hasMultipleRelations = Array.isArray(relationTo);
     const [options, dispatchOptions] = (0, react_1.useReducer)(optionsReducer_1.default, []);
     const [lastFullyLoadedRelation, setLastFullyLoadedRelation] = (0, react_1.useState)(-1);
-    const [lastLoadedPage, setLastLoadedPage] = (0, react_1.useState)(1);
+    const [lastLoadedPage, setLastLoadedPage] = (0, react_1.useState)({});
     const [errorLoading, setErrorLoading] = (0, react_1.useState)('');
     const [filterOptionsResult, setFilterOptionsResult] = (0, react_1.useState)();
     const [search, setSearch] = (0, react_1.useState)('');
@@ -81,11 +81,10 @@ const Relationship = (props) => {
         condition,
     });
     const [drawerIsOpen, setDrawerIsOpen] = (0, react_1.useState)(false);
-    const getResults = (0, react_1.useCallback)(async ({ lastFullyLoadedRelation: lastFullyLoadedRelationArg, lastLoadedPage: lastLoadedPageArg, search: searchArg, value: valueArg, sort, onSuccess, }) => {
+    const getResults = (0, react_1.useCallback)(async ({ lastFullyLoadedRelation: lastFullyLoadedRelationArg, search: searchArg, value: valueArg, sort, onSuccess, }) => {
         if (!permissions) {
             return;
         }
-        let lastLoadedPageToUse = typeof lastLoadedPageArg !== 'undefined' ? lastLoadedPageArg : 1;
         const lastFullyLoadedRelationToUse = typeof lastFullyLoadedRelationArg !== 'undefined' ? lastFullyLoadedRelationArg : -1;
         const relations = Array.isArray(relationTo) ? relationTo : [relationTo];
         const relationsToFetch = lastFullyLoadedRelationToUse === -1 ? relations : relations.slice(lastFullyLoadedRelationToUse + 1);
@@ -98,6 +97,7 @@ const Relationship = (props) => {
         if (!errorLoading) {
             relationsToFetch.reduce(async (priorRelation, relation) => {
                 var _a;
+                const lastLoadedPageToUse = (lastLoadedPage[relation] + 1) || 1;
                 await priorRelation;
                 if (resultsFetched < 10) {
                     const collection = collections.find((coll) => coll.slug === relation);
@@ -136,6 +136,13 @@ const Relationship = (props) => {
                     });
                     if (response.ok) {
                         const data = await response.json();
+                        setLastLoadedPage((prevState) => ({
+                            ...prevState,
+                            [relation]: lastLoadedPageToUse,
+                        }));
+                        if (!data.nextPage) {
+                            setLastFullyLoadedRelation(relations.indexOf(relation));
+                        }
                         if (data.docs.length > 0) {
                             resultsFetched += data.docs.length;
                             dispatchOptions({
@@ -146,20 +153,10 @@ const Relationship = (props) => {
                                 i18n,
                                 config,
                             });
-                            setLastLoadedPage(data.page);
-                            if (!data.nextPage) {
-                                setLastFullyLoadedRelation(relations.indexOf(relation));
-                                // If there are more relations to search, need to reset lastLoadedPage to 1
-                                // both locally within function and state
-                                if (relations.indexOf(relation) + 1 < relations.length) {
-                                    lastLoadedPageToUse = 1;
-                                }
-                            }
                         }
                     }
                     else if (response.status === 403) {
                         setLastFullyLoadedRelation(relations.indexOf(relation));
-                        lastLoadedPageToUse = 1;
                         dispatchOptions({
                             type: 'ADD',
                             docs: [],
@@ -179,6 +176,7 @@ const Relationship = (props) => {
                 onSuccess();
         }
     }, [
+        lastLoadedPage,
         permissions,
         relationTo,
         hasMany,
@@ -285,7 +283,7 @@ const Relationship = (props) => {
         }
         dispatchOptions({ type: 'CLEAR' });
         setLastFullyLoadedRelation(-1);
-        setLastLoadedPage(1);
+        setLastLoadedPage({});
         setHasLoadedFirstPage(false);
     }, [relationTo, filterOptionsResult, locale]);
     const onSave = (0, react_1.useCallback)((args) => {
@@ -337,7 +335,6 @@ const Relationship = (props) => {
                 } : undefined, onMenuScrollToBottom: () => {
                     getResults({
                         lastFullyLoadedRelation,
-                        lastLoadedPage: lastLoadedPage + 1,
                         search,
                         value: initialValue,
                         sort: false,

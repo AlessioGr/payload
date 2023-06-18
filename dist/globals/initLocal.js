@@ -21,6 +21,7 @@ function initGlobalsLocal(ctx) {
                 const versionModelName = (0, getVersionsModelName_1.getVersionsModelName)(global);
                 const versionGlobalFields = (0, buildGlobalFields_1.buildVersionGlobalFields)(global);
                 const versionSchema = (0, buildSchema_1.default)(ctx.config, versionGlobalFields, {
+                    indexSortableFields: ctx.config.indexSortableFields,
                     disableUnique: true,
                     draftsEnabled: true,
                     options: {

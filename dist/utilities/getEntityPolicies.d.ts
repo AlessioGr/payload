@@ -10,6 +10,6 @@ type Args = {
     type: 'collection' | 'global';
     entity: SanitizedCollectionConfig | SanitizedGlobalConfig;
 };
-type ReturnType<T extends Args> = T['type'] extends 'global' ? [GlobalPermission, Promise<void>[]] : [CollectionPermission, Promise<void>[]];
-export declare function getEntityPolicies<T extends Args>(args: T): ReturnType<T>;
+type ReturnType<T extends Args> = T['type'] extends 'global' ? GlobalPermission : CollectionPermission;
+export declare function getEntityPolicies<T extends Args>(args: T): Promise<ReturnType<T>>;
 export {};

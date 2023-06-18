@@ -37,7 +37,7 @@ const context_1 = require("../../../../forms/Form/context");
 const GenerateConfirmation_1 = __importDefault(require("../../../../elements/GenerateConfirmation"));
 const path = 'apiKey';
 const baseClass = 'api-key';
-const APIKey = () => {
+const APIKey = ({ readOnly }) => {
     const [initialAPIKey, setInitialAPIKey] = (0, react_1.useState)(null);
     const [highlightedField, setHighlightedField] = (0, react_1.useState)(false);
     const { t } = (0, react_i18next_1.useTranslation)();
@@ -84,7 +84,7 @@ const APIKey = () => {
         react_1.default.createElement("div", { className: classes },
             react_1.default.createElement(Label_1.default, { htmlFor: path, label: APIKeyLabel }),
             react_1.default.createElement("input", { value: value || '', className: highlightedField ? 'highlight' : undefined, disabled: true, type: "text", id: "apiKey", name: "apiKey" })),
-        react_1.default.createElement(GenerateConfirmation_1.default, { setKey: () => setValue((0, uuid_1.v4)()), highlightField: highlightField })));
+        !readOnly && (react_1.default.createElement(GenerateConfirmation_1.default, { setKey: () => setValue((0, uuid_1.v4)()), highlightField: highlightField }))));
 };
 exports.default = APIKey;
 //# sourceMappingURL=APIKey.js.map

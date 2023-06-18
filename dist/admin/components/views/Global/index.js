@@ -47,7 +47,7 @@ const GlobalView = (props) => {
     const { user } = (0, Auth_1.useAuth)();
     const [initialState, setInitialState] = (0, react_1.useState)();
     const [updatedAt, setUpdatedAt] = (0, react_1.useState)();
-    const { getVersions, preferencesKey, docPermissions, getDocPermissions } = (0, DocumentInfo_1.useDocumentInfo)();
+    const { getVersions, preferencesKey, docPermissions, getDocPermissions, getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const { getPreference } = (0, Preferences_1.usePreferences)();
     const { t } = (0, react_i18next_1.useTranslation)();
     const { serverURL, routes: { api, }, } = (0, Config_1.useConfig)();
@@ -58,9 +58,10 @@ const GlobalView = (props) => {
         getVersions();
         getDocPermissions();
         setUpdatedAt((_a = json === null || json === void 0 ? void 0 : json.result) === null || _a === void 0 ? void 0 : _a.updatedAt);
-        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: fields, data: json.result, operation: 'update', user, locale, t });
+        const preferences = await getDocPreferences();
+        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: fields, preferences, data: json.result, operation: 'update', user, locale, t });
         setInitialState(state);
-    }, [getVersions, fields, user, locale, t, getDocPermissions]);
+    }, [getVersions, fields, user, locale, t, getDocPermissions, getDocPreferences]);
     const [{ data, isLoading: isLoadingData }] = (0, usePayloadAPI_1.default)(`${serverURL}${api}/globals/${slug}`, { initialParams: { 'fallback-locale': 'null', depth: 0, draft: 'true' }, initialData: null });
     const dataToRender = (locationState === null || locationState === void 0 ? void 0 : locationState.data) || data;
     (0, react_1.useEffect)(() => {
@@ -71,13 +72,14 @@ const GlobalView = (props) => {
     }, [setStepNav, label]);
     (0, react_1.useEffect)(() => {
         const awaitInitialState = async () => {
-            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: fields, data: dataToRender, user, operation: 'update', locale, t });
+            const preferences = await getDocPreferences();
+            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: fields, preferences, data: dataToRender, user, operation: 'update', locale, t });
             await getPreference(preferencesKey);
             setInitialState(state);
         };
         if (dataToRender)
             awaitInitialState();
-    }, [dataToRender, fields, user, locale, getPreference, preferencesKey, t]);
+    }, [dataToRender, fields, user, locale, getPreference, preferencesKey, t, getDocPreferences]);
     const isLoading = !initialState || !docPermissions || isLoadingData;
     return (react_1.default.createElement(RenderCustomComponent_1.default, { DefaultComponent: Default_1.default, CustomComponent: CustomEdit, componentProps: {
             isLoading,

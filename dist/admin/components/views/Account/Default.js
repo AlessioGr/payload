@@ -49,7 +49,7 @@ const DefaultAccount = (props) => {
                         react_1.default.createElement(Gutter_1.Gutter, { className: `${baseClass}__header` },
                             react_1.default.createElement("h1", null,
                                 react_1.default.createElement(RenderTitle_1.default, { data: data, collection: collection, useAsTitle: useAsTitle, fallback: `[${t('general:untitled')}]` })),
-                            react_1.default.createElement(Auth_1.default, { useAPIKey: auth.useAPIKey, collection: collection, email: data === null || data === void 0 ? void 0 : data.email, operation: "update" }),
+                            react_1.default.createElement(Auth_1.default, { useAPIKey: auth.useAPIKey, collection: collection, email: data === null || data === void 0 ? void 0 : data.email, operation: "update", readOnly: !hasSavePermission }),
                             react_1.default.createElement(RenderFields_1.default, { permissions: permissions.fields, readOnly: !hasSavePermission, filter: (field) => { var _a; return ((_a = field === null || field === void 0 ? void 0 : field.admin) === null || _a === void 0 ? void 0 : _a.position) !== 'sidebar'; }, fieldTypes: field_types_1.default, fieldSchema: fields })),
                         react_1.default.createElement(Gutter_1.Gutter, { className: `${baseClass}__payload-settings` },
                             react_1.default.createElement("h3", null, t('general:payloadSettings')),

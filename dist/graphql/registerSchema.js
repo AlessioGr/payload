@@ -41,6 +41,9 @@ function registerSchema(payload) {
     payload.types = {
         blockTypes: {},
         blockInputTypes: {},
+        groupTypes: {},
+        arrayTypes: {},
+        tabTypes: {},
     };
     if (payload.config.localization) {
         payload.types.localeInputType = (0, buildLocaleInputType_1.default)(payload.config.localization);

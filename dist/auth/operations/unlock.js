@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_1 = require("../../errors");
 const executeAccess_1 = __importDefault(require("../executeAccess"));
+const resetLoginAttempts_1 = require("../strategies/local/resetLoginAttempts");
 async function unlock(args) {
     if (!Object.prototype.hasOwnProperty.call(args.data, 'email')) {
         throw new errors_1.APIError('Missing email.');
@@ -24,7 +25,11 @@ async function unlock(args) {
     const user = await Model.findOne({ email: data.email.toLowerCase() });
     if (!user)
         return null;
-    await user.resetLoginAttempts();
+    await (0, resetLoginAttempts_1.resetLoginAttempts)({
+        payload: req.payload,
+        collection: collectionConfig,
+        doc: user,
+    });
     return true;
 }
 exports.default = unlock;

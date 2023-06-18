@@ -214,16 +214,16 @@ const upload = (value, options) => {
 };
 exports.upload = upload;
 const relationship = async (value, options) => {
-    const { required, min, max, relationTo, payload, t, } = options;
+    const { required, minRows, maxRows, relationTo, payload, t, } = options;
     if ((!value || (Array.isArray(value) && value.length === 0)) && required) {
         return options.t('validation:required');
     }
     if (Array.isArray(value)) {
-        if (min && value.length < min) {
-            return t('validation:lessThanMin', { count: min, label: t('rows') });
+        if (minRows && value.length < minRows) {
+            return t('validation:lessThanMin', { count: minRows, label: t('rows') });
         }
-        if (max && value.length > max) {
-            return t('validation:greaterThanMax', { count: max, label: t('rows') });
+        if (maxRows && value.length > maxRows) {
+            return t('validation:greaterThanMax', { count: maxRows, label: t('rows') });
         }
     }
     if (!canUseDOM_1.default && typeof value !== 'undefined' && value !== null) {
@@ -235,7 +235,7 @@ const relationship = async (value, options) => {
             if (typeof relationTo === 'string') {
                 collection = relationTo;
                 // custom id
-                if (typeof val === 'string' || typeof val === 'number') {
+                if (val) {
                     requestedID = val;
                 }
             }

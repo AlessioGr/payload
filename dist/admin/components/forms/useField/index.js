@@ -16,7 +16,7 @@ const useThrottledEffect_1 = __importDefault(require("../../../hooks/useThrottle
  * @see https://payloadcms.com/docs/admin/hooks#usefield
  */
 const useField = (options) => {
-    const { path, validate, disableFormData = false, condition, } = options;
+    const { path, validate, disableFormData = false, condition, hasRows, } = options;
     const submitted = (0, context_1.useFormSubmitted)();
     const processing = (0, context_1.useFormProcessing)();
     const modified = (0, context_1.useFormModified)();
@@ -48,7 +48,7 @@ const useField = (options) => {
             type: 'UPDATE',
             path,
             value: val,
-            disableFormData,
+            disableFormData: disableFormData || (hasRows && val > 0),
         });
     }, [
         setModified,
@@ -56,6 +56,7 @@ const useField = (options) => {
         path,
         dispatchField,
         disableFormData,
+        hasRows,
     ]);
     // Store result from hook as ref
     // to prevent unnecessary rerenders
@@ -67,6 +68,7 @@ const useField = (options) => {
         formProcessing: processing,
         setValue,
         initialValue,
+        rows: field === null || field === void 0 ? void 0 : field.rows,
     }), [field, processing, setValue, showError, submitted, value, initialValue]);
     // Throttle the validate function
     (0, useThrottledEffect_1.default)(() => {
@@ -74,12 +76,13 @@ const useField = (options) => {
             const action = {
                 type: 'UPDATE',
                 path,
-                disableFormData,
+                disableFormData: disableFormData || (hasRows ? typeof value === 'number' && value > 0 : false),
                 validate,
                 condition,
                 value,
                 valid: false,
                 errorMessage: undefined,
+                rows: field === null || field === void 0 ? void 0 : field.rows,
             };
             const validateOptions = {
                 id,
@@ -115,6 +118,7 @@ const useField = (options) => {
         path,
         user,
         validate,
+        field === null || field === void 0 ? void 0 : field.rows,
     ]);
     return result;
 };

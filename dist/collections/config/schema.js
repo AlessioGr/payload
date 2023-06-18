@@ -57,6 +57,10 @@ const collectionSchema = joi_1.default.object().keys({
                 SaveDraftButton: componentSchema_1.componentSchema,
                 PreviewButton: componentSchema_1.componentSchema,
             }),
+            BeforeList: joi_1.default.array().items(componentSchema_1.componentSchema),
+            BeforeListTable: joi_1.default.array().items(componentSchema_1.componentSchema),
+            AfterListTable: joi_1.default.array().items(componentSchema_1.componentSchema),
+            AfterList: joi_1.default.array().items(componentSchema_1.componentSchema),
         }),
         pagination: joi_1.default.object({
             defaultLimit: joi_1.default.number(),

@@ -94,7 +94,7 @@ const DefaultEditView = (props) => {
                                     customHeader && customHeader,
                                     !customHeader && (react_1.default.createElement("h1", null,
                                         react_1.default.createElement(RenderTitle_1.default, { data: data, collection: collection, useAsTitle: useAsTitle, fallback: `[${t('untitled')}]` })))),
-                                auth && (react_1.default.createElement(Auth_1.default, { useAPIKey: auth.useAPIKey, requirePassword: !isEditing, verify: auth.verify, collection: collection, email: data === null || data === void 0 ? void 0 : data.email, operation: operation })),
+                                auth && (react_1.default.createElement(Auth_1.default, { useAPIKey: auth.useAPIKey, requirePassword: !isEditing, verify: auth.verify, collection: collection, email: data === null || data === void 0 ? void 0 : data.email, operation: operation, readOnly: !hasSavePermission })),
                                 upload && (react_1.default.createElement(Upload_1.default, { data: data, collection: collection, internalState: internalState })),
                                 react_1.default.createElement(RenderFields_1.default, { readOnly: !hasSavePermission, permissions: permissions.fields, filter: (field) => { var _a, _b; return (!((_a = field === null || field === void 0 ? void 0 : field.admin) === null || _a === void 0 ? void 0 : _a.position) || (((_b = field === null || field === void 0 ? void 0 : field.admin) === null || _b === void 0 ? void 0 : _b.position) !== 'sidebar')); }, fieldTypes: field_types_1.default, fieldSchema: fields }))),
                         react_1.default.createElement("div", { className: `${baseClass}__sidebar-wrap` },

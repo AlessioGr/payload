@@ -8,14 +8,12 @@ async function docAccess(args) {
     if (globalConfig.versions) {
         globalOperations.push('readVersions');
     }
-    const [policy, promises] = (0, getEntityPolicies_1.getEntityPolicies)({
+    return (0, getEntityPolicies_1.getEntityPolicies)({
         type: 'global',
         req,
         entity: globalConfig,
         operations: globalOperations,
     });
-    await Promise.all(promises);
-    return policy;
 }
 exports.docAccess = docAccess;
 //# sourceMappingURL=docAccess.js.map

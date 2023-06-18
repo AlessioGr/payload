@@ -53,7 +53,7 @@ require("./index.scss");
 const baseClass = 'collection-list';
 const DefaultList = (props) => {
     var _a, _b;
-    const { collection, collection: { labels: { singular: singularLabel, plural: pluralLabel, }, admin: { description, } = {}, }, data, newDocumentURL, limit, hasCreatePermission, disableEyebrow, modifySearchParams, handleSortChange, handleWhereChange, handlePageChange, handlePerPageChange, customHeader, resetParams, } = props;
+    const { collection, collection: { labels: { singular: singularLabel, plural: pluralLabel, }, admin: { description, components: { BeforeList, BeforeListTable, AfterListTable, AfterList, } = {}, } = {}, }, data, newDocumentURL, limit, hasCreatePermission, disableEyebrow, modifySearchParams, handleSortChange, handleWhereChange, handlePageChange, handlePerPageChange, customHeader, resetParams, } = props;
     const { breakpoints: { s: smallBreak } } = (0, window_info_1.useWindowInfo)();
     const { t, i18n } = (0, react_i18next_1.useTranslation)('general');
     let formattedDocs = data.docs || [];
@@ -66,6 +66,7 @@ const DefaultList = (props) => {
         });
     }
     return (react_1.default.createElement("div", { className: baseClass },
+        Array.isArray(BeforeList) && BeforeList.map((Component, i) => (react_1.default.createElement(Component, { key: i, ...props }))),
         react_1.default.createElement(Meta_1.default, { title: (0, getTranslation_1.getTranslation)(collection.labels.plural, i18n) }),
         react_1.default.createElement(SelectionProvider_1.SelectionProvider, { docs: data.docs, totalDocs: data.totalDocs },
             !disableEyebrow && (react_1.default.createElement(Eyebrow_1.default, null)),
@@ -79,12 +80,14 @@ const DefaultList = (props) => {
                         description && (react_1.default.createElement("div", { className: `${baseClass}__sub-header` },
                             react_1.default.createElement(ViewDescription_1.default, { description: description })))))),
                 react_1.default.createElement(ListControls_1.default, { collection: collection, modifySearchQuery: modifySearchParams, handleSortChange: handleSortChange, handleWhereChange: handleWhereChange, resetParams: resetParams }),
+                Array.isArray(BeforeListTable) && BeforeListTable.map((Component, i) => (react_1.default.createElement(Component, { key: i, ...props }))),
                 !data.docs && (react_1.default.createElement(ShimmerEffect_1.StaggeredShimmers, { className: [`${baseClass}__shimmer`, `${baseClass}__shimmer--rows`].join(' '), count: 6 })),
                 (data.docs && data.docs.length > 0) && (react_1.default.createElement(RelationshipProvider_1.RelationshipProvider, null,
                     react_1.default.createElement(Table_1.Table, { data: formattedDocs }))),
                 data.docs && data.docs.length === 0 && (react_1.default.createElement("div", { className: `${baseClass}__no-results` },
                     react_1.default.createElement("p", null, t('noResults', { label: (0, getTranslation_1.getTranslation)(pluralLabel, i18n) })),
                     hasCreatePermission && newDocumentURL && (react_1.default.createElement(Button_1.default, { el: "link", to: newDocumentURL }, t('createNewLabel', { label: (0, getTranslation_1.getTranslation)(singularLabel, i18n) }))))),
+                Array.isArray(AfterListTable) && AfterListTable.map((Component, i) => (react_1.default.createElement(Component, { key: i, ...props }))),
                 react_1.default.createElement("div", { className: `${baseClass}__page-controls` },
                     react_1.default.createElement(Paginator_1.default, { limit: data.limit, totalPages: data.totalPages, page: data.page, hasPrevPage: data.hasPrevPage, hasNextPage: data.hasNextPage, prevPage: data.prevPage, nextPage: data.nextPage, numberOfNeighbors: 1, disableHistoryChange: modifySearchParams === false, onChange: handlePageChange }),
                     (data === null || data === void 0 ? void 0 : data.totalDocs) > 0 && (react_1.default.createElement(react_1.Fragment, null,
@@ -103,7 +106,8 @@ const DefaultList = (props) => {
                                 react_1.default.createElement(EditMany_1.default, { collection: collection, resetParams: resetParams }),
                                 react_1.default.createElement(PublishMany_1.default, { collection: collection, resetParams: resetParams }),
                                 react_1.default.createElement(UnpublishMany_1.default, { collection: collection, resetParams: resetParams }),
-                                react_1.default.createElement(DeleteMany_1.default, { collection: collection, resetParams: resetParams }))))))))))));
+                                react_1.default.createElement(DeleteMany_1.default, { collection: collection, resetParams: resetParams })))))))))),
+        Array.isArray(AfterList) && AfterList.map((Component, i) => (react_1.default.createElement(Component, { key: i, ...props })))));
 };
 exports.default = DefaultList;
 //# sourceMappingURL=Default.js.map

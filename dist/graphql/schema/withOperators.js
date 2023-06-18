@@ -121,12 +121,13 @@ const withOperators = (field, parentName) => {
     const fieldOperators = [...defaults[field.type].operators];
     if (!('required' in field) || !field.required)
         fieldOperators.push('exists');
-    let gqlType = typeof defaults[field.type].type === 'function'
+    const initialGqlType = typeof defaults[field.type].type === 'function'
         ? defaults[field.type].type(field, parentName)
         : defaults === null || defaults === void 0 ? void 0 : defaults[field.type].type;
     return new graphql_1.GraphQLInputObjectType({
         name,
         fields: fieldOperators.reduce((objectTypeFields, operator) => {
+            let gqlType = initialGqlType;
             if (listOperators.includes(operator)) {
                 gqlType = new graphql_1.GraphQLList(gqlType);
             }

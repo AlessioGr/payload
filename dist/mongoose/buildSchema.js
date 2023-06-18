@@ -306,6 +306,8 @@ const fieldToSchemaMap = {
     },
     group: (field, schema, config, buildSchemaOptions) => {
         const formattedBaseSchema = formatBaseSchema(field, buildSchemaOptions);
+        // carry indexSortableFields through to versions if drafts enabled
+        const indexSortableFields = (buildSchemaOptions.indexSortableFields && field.name === 'version' && buildSchemaOptions.draftsEnabled);
         const baseSchema = {
             ...formattedBaseSchema,
             type: buildSchema(config, field.fields, {
@@ -314,6 +316,7 @@ const fieldToSchemaMap = {
                     id: false,
                     minimize: false,
                 },
+                indexSortableFields,
                 disableUnique: buildSchemaOptions.disableUnique,
                 draftsEnabled: buildSchemaOptions.draftsEnabled,
             }),

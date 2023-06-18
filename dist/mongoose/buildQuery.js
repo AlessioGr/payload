@@ -8,6 +8,8 @@ exports.ParamParser = void 0;
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 const deepmerge_1 = __importDefault(require("deepmerge"));
+const bson_objectid_1 = __importDefault(require("bson-objectid"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const combineMerge_1 = require("../utilities/combineMerge");
 const operatorMap_1 = require("./operatorMap");
 const sanitizeQueryValue_1 = require("./sanitizeQueryValue");
@@ -195,7 +197,14 @@ class ParamParser {
                             overrideAccess,
                         });
                         const result = await SubModel.find(subQuery, subQueryOptions);
-                        const $in = result.map((doc) => doc._id.toString());
+                        const $in = [];
+                        result.forEach((doc) => {
+                            const stringID = doc._id.toString();
+                            $in.push(stringID);
+                            if (mongoose_1.default.Types.ObjectId.isValid(stringID)) {
+                                $in.push(doc._id);
+                            }
+                        });
                         if (pathsToQuery.length === 1)
                             return { path, value: { $in } };
                         const nextSubPath = pathsToQuery[i + 1].path;
@@ -221,6 +230,38 @@ class ParamParser {
             }
             if (operator && validOperators.includes(operator)) {
                 const operatorKey = operatorMap_1.operatorMap[operator];
+                if (field.type === 'relationship' || field.type === 'upload') {
+                    let hasNumberIDRelation;
+                    const result = {
+                        value: {
+                            $or: [
+                                { [path]: { [operatorKey]: formattedValue } },
+                            ],
+                        },
+                    };
+                    if (typeof formattedValue === 'string') {
+                        if (mongoose_1.default.Types.ObjectId.isValid(formattedValue)) {
+                            result.value.$or.push({ [path]: { [operatorKey]: (0, bson_objectid_1.default)(formattedValue) } });
+                        }
+                        else {
+                            (Array.isArray(field.relationTo) ? field.relationTo : [field.relationTo]).forEach((relationTo) => {
+                                var _a, _b;
+                                const isRelatedToCustomNumberID = (_b = (_a = this.req.payload.collections[relationTo]) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.fields.find((relatedField) => {
+                                    return (0, types_1.fieldAffectsData)(relatedField) && relatedField.name === 'id' && relatedField.type === 'number';
+                                });
+                                if (isRelatedToCustomNumberID) {
+                                    if (isRelatedToCustomNumberID.type === 'number')
+                                        hasNumberIDRelation = true;
+                                }
+                            });
+                            if (hasNumberIDRelation)
+                                result.value.$or.push({ [path]: { [operatorKey]: parseFloat(formattedValue) } });
+                        }
+                    }
+                    if (result.value.$or.length > 1) {
+                        return result;
+                    }
+                }
                 // Some operators like 'near' need to define a full query
                 // so if there is no operator key, just return the value
                 if (!operatorKey) {
@@ -257,13 +298,12 @@ class ParamParser {
                 const collection = { ...this.req.payload.collections[collectionSlug].config };
                 collection.fields = fields;
                 if (!this.policies.collections[collectionSlug]) {
-                    const [policy, promises] = (0, getEntityPolicies_1.getEntityPolicies)({
+                    const policy = await (0, getEntityPolicies_1.getEntityPolicies)({
                         req: this.req,
                         entity: collection,
                         operations: ['read'],
                         type: 'collection',
                     });
-                    await Promise.all(promises);
                     this.policies.collections[collectionSlug] = policy;
                 }
                 paths[0].fieldPolicies = this.policies.collections[collectionSlug].fields;
@@ -276,13 +316,12 @@ class ParamParser {
                 if (!this.policies.globals[globalSlug]) {
                     const global = { ...this.req.payload.globals.config.find(({ slug }) => slug === globalSlug) };
                     global.fields = fields;
-                    const [policy, promises] = (0, getEntityPolicies_1.getEntityPolicies)({
+                    const policy = await (0, getEntityPolicies_1.getEntityPolicies)({
                         req: this.req,
                         entity: global,
                         operations: ['read'],
                         type: 'global',
                     });
-                    await Promise.all(promises);
                     this.policies.globals[globalSlug] = policy;
                 }
                 paths[0].fieldPolicies = this.policies.globals[globalSlug].fields;

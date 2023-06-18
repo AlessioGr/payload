@@ -42,6 +42,7 @@ const Submit_1 = __importDefault(require("../../../../../../Submit"));
 const buildStateFromSchema_1 = __importDefault(require("../../../../../../Form/buildStateFromSchema"));
 const getTranslation_1 = require("../../../../../../../../../utilities/getTranslation");
 const deepCopyObject_1 = __importDefault(require("../../../../../../../../../utilities/deepCopyObject"));
+const DocumentInfo_1 = require("../../../../../../../utilities/DocumentInfo");
 const UploadDrawer = (props) => {
     var _a, _b, _c, _d;
     const editor = (0, slate_react_1.useSlateStatic)();
@@ -50,6 +51,7 @@ const UploadDrawer = (props) => {
     const locale = (0, Locale_1.useLocale)();
     const { user } = (0, Auth_1.useAuth)();
     const { closeModal } = (0, modal_1.useModal)();
+    const { getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const [initialState, setInitialState] = (0, react_1.useState)({});
     const fieldSchema = (_d = (_c = (_b = (_a = fieldProps === null || fieldProps === void 0 ? void 0 : fieldProps.admin) === null || _a === void 0 ? void 0 : _a.upload) === null || _b === void 0 ? void 0 : _b.collections) === null || _c === void 0 ? void 0 : _c[relatedCollection.slug]) === null || _d === void 0 ? void 0 : _d.fields;
     const handleUpdateEditData = (0, react_1.useCallback)((_, data) => {
@@ -62,11 +64,12 @@ const UploadDrawer = (props) => {
     }, [closeModal, editor, element, drawerSlug]);
     (0, react_1.useEffect)(() => {
         const awaitInitialState = async () => {
-            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, data: (0, deepCopyObject_1.default)((element === null || element === void 0 ? void 0 : element.fields) || {}), user, operation: 'update', locale, t });
+            const preferences = await getDocPreferences();
+            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, preferences, data: (0, deepCopyObject_1.default)((element === null || element === void 0 ? void 0 : element.fields) || {}), user, operation: 'update', locale, t });
             setInitialState(state);
         };
         awaitInitialState();
-    }, [fieldSchema, element.fields, user, locale, t]);
+    }, [fieldSchema, element.fields, user, locale, t, getDocPreferences]);
     return (react_1.default.createElement(Drawer_1.Drawer, { slug: drawerSlug, title: t('general:editLabel', { label: (0, getTranslation_1.getTranslation)(relatedCollection.labels.singular, i18n) }) },
         react_1.default.createElement(Form_1.default, { onSubmit: handleUpdateEditData, initialState: initialState },
             react_1.default.createElement(RenderFields_1.default, { readOnly: false, fieldTypes: __1.default, fieldSchema: fieldSchema }),

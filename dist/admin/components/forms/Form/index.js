@@ -38,7 +38,7 @@ const Locale_1 = require("../../utilities/Locale");
 const DocumentInfo_1 = require("../../utilities/DocumentInfo");
 const api_1 = require("../../../api");
 const useThrottledEffect_1 = __importDefault(require("../../../hooks/useThrottledEffect"));
-const fieldReducer_1 = __importDefault(require("./fieldReducer"));
+const fieldReducer_1 = require("./fieldReducer");
 const initContextState_1 = __importDefault(require("./initContextState"));
 const reduceFieldsToValues_1 = __importDefault(require("./reduceFieldsToValues"));
 const getSiblingData_1 = __importDefault(require("./getSiblingData"));
@@ -58,7 +58,7 @@ const Form = (props) => {
     const locale = (0, Locale_1.useLocale)();
     const { t, i18n } = (0, react_i18next_1.useTranslation)('general');
     const { refreshCookie, user } = (0, Auth_1.useAuth)();
-    const { id } = (0, DocumentInfo_1.useDocumentInfo)();
+    const { id, getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const operation = (0, OperationProvider_1.useOperation)();
     const [modified, setModified] = (0, react_1.useState)(false);
     const [processing, setProcessing] = (0, react_1.useState)(false);
@@ -71,7 +71,7 @@ const Form = (props) => {
         initialFieldState = formattedInitialData;
     if (initialState)
         initialFieldState = initialState;
-    const fieldsReducer = (0, react_1.useReducer)(fieldReducer_1.default, {}, () => initialFieldState);
+    const fieldsReducer = (0, react_1.useReducer)(fieldReducer_1.fieldReducer, {}, () => initialFieldState);
     const [fields, dispatchFields] = fieldsReducer;
     contextRef.current.fields = fields;
     contextRef.current.dispatchFields = dispatchFields;
@@ -284,11 +284,12 @@ const Form = (props) => {
         return formData;
     }, [contextRef]);
     const reset = (0, react_1.useCallback)(async (fieldSchema, data) => {
-        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, data, user, id, operation, locale, t });
+        const preferences = await getDocPreferences();
+        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, preferences, data, user, id, operation, locale, t });
         contextRef.current = { ...initContextState_1.default };
         setModified(false);
         dispatchFields({ type: 'REPLACE_STATE', state });
-    }, [id, user, operation, locale, t, dispatchFields]);
+    }, [id, user, operation, locale, t, dispatchFields, getDocPreferences]);
     const replaceState = (0, react_1.useCallback)((state) => {
         contextRef.current = { ...initContextState_1.default };
         setModified(false);

@@ -57,7 +57,7 @@ const Content = ({ collectionSlug, drawerSlug, customHeader, onSave, }) => {
     const hasInitializedState = (0, react_1.useRef)(false);
     const [isOpen, setIsOpen] = (0, react_1.useState)(false);
     const [collectionConfig] = (0, useRelatedCollections_1.useRelatedCollections)(collectionSlug);
-    const { docPermissions, id } = (0, DocumentInfo_1.useDocumentInfo)();
+    const { docPermissions, id, getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const [fields, setFields] = (0, react_1.useState)(() => (0, formatFields_1.default)(collectionConfig, true));
     // no need to an additional requests when creating new documents
     const initialID = (0, react_1.useRef)(id);
@@ -70,8 +70,10 @@ const Content = ({ collectionSlug, drawerSlug, customHeader, onSave, }) => {
             return;
         }
         const awaitInitialState = async () => {
+            const preferences = await getDocPreferences();
             const state = await (0, buildStateFromSchema_1.default)({
                 fieldSchema: fields,
+                preferences,
                 data,
                 user,
                 operation: id ? 'update' : 'create',
@@ -83,7 +85,7 @@ const Content = ({ collectionSlug, drawerSlug, customHeader, onSave, }) => {
         };
         awaitInitialState();
         hasInitializedState.current = true;
-    }, [data, fields, id, user, locale, isLoadingDocument, t]);
+    }, [data, fields, id, user, locale, isLoadingDocument, t, getDocPreferences]);
     (0, react_1.useEffect)(() => {
         var _a;
         setIsOpen(Boolean((_a = modalState[drawerSlug]) === null || _a === void 0 ? void 0 : _a.isOpen));

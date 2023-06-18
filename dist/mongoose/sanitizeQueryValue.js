@@ -40,6 +40,9 @@ const sanitizeQueryValue = ({ field, path, operator, val, hasCustomID }) => {
             return undefined;
         }
     }
+    if (['all', 'not_in', 'in'].includes(operator) && typeof formattedValue === 'string') {
+        formattedValue = (0, createArrayFromCommaDelineated_1.createArrayFromCommaDelineated)(formattedValue);
+    }
     if (['relationship', 'upload'].includes(field.type)) {
         if (val === 'null') {
             formattedValue = null;
@@ -83,9 +86,6 @@ const sanitizeQueryValue = ({ field, path, operator, val, hasCustomID }) => {
             if (minDistance)
                 formattedValue.$minDistance = parseFloat(minDistance);
         }
-    }
-    if (['all', 'not_in', 'in'].includes(operator) && typeof formattedValue === 'string') {
-        formattedValue = (0, createArrayFromCommaDelineated_1.createArrayFromCommaDelineated)(formattedValue);
     }
     if (path !== '_id' || (path === '_id' && hasCustomID && field.type === 'text')) {
         if (operator === 'contains') {

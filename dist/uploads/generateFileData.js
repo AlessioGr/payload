@@ -92,16 +92,21 @@ const generateFileData = async ({ config, collection: { config: collectionConfig
         else {
             mime = file.mimetype;
             fileData.filesize = file.size;
-            ext = file.name.split('.').pop();
+            if (file.name.includes('.')) {
+                ext = file.name.split('.').pop();
+            }
+            else {
+                ext = '';
+            }
         }
         // Adust SVG mime type. fromBuffer modifies it.
         if (mime === 'application/xml' && ext === 'svg')
             mime = 'image/svg+xml';
         fileData.mimeType = mime;
         const baseFilename = (0, sanitize_filename_1.default)(file.name.substring(0, file.name.lastIndexOf('.')) || file.name);
-        fsSafeName = `${baseFilename}.${ext}`;
+        fsSafeName = `${baseFilename}${ext ? `.${ext}` : ''}`;
         if (!overwriteExistingFiles) {
-            fsSafeName = await (0, getSafeFilename_1.default)(Model, staticPath, `${baseFilename}.${ext}`);
+            fsSafeName = await (0, getSafeFilename_1.default)(Model, staticPath, fsSafeName);
         }
         fileData.filename = fsSafeName;
         // Original file

@@ -1,2 +1,2 @@
-declare const fieldToSchemaMap: (parentName: string) => any;
+declare const fieldToSchemaMap: (parentName: string, nestedFieldName?: string) => any;
 export default fieldToSchemaMap;

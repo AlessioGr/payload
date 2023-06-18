@@ -7,6 +7,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const errors_1 = require("../../errors");
 const getCookieExpiration_1 = __importDefault(require("../../utilities/getCookieExpiration"));
 const types_1 = require("../../fields/config/types");
+const authenticate_1 = require("../strategies/local/authenticate");
+const generatePasswordSaltHash_1 = require("../strategies/local/generatePasswordSaltHash");
+const sanitizeInternalFields_1 = __importDefault(require("../../utilities/sanitizeInternalFields"));
 async function resetPassword(args) {
     if (!Object.prototype.hasOwnProperty.call(args.data, 'token')
         || !Object.prototype.hasOwnProperty.call(args.data, 'password')) {
@@ -16,19 +19,26 @@ async function resetPassword(args) {
     // /////////////////////////////////////
     // Reset Password
     // /////////////////////////////////////
-    const user = await Model.findOne({
+    let user = await Model.findOne({
         resetPasswordToken: data.token,
         resetPasswordExpiration: { $gt: Date.now() },
-    });
+    }).lean();
+    user = JSON.parse(JSON.stringify(user));
+    user = (0, sanitizeInternalFields_1.default)(user);
     if (!user)
         throw new errors_1.APIError('Token is either invalid or has expired.');
-    await user.setPassword(data.password);
+    // TODO: replace this method
+    const { salt, hash } = await (0, generatePasswordSaltHash_1.generatePasswordSaltHash)({ password: data.password });
+    user.salt = salt;
+    user.hash = hash;
     user.resetPasswordExpiration = Date.now();
     if (collectionConfig.auth.verify) {
         user._verified = true;
     }
-    await user.save();
-    await user.authenticate(data.password);
+    let doc = await Model.findByIdAndUpdate({ _id: user.id }, user, { new: true }).lean();
+    doc = JSON.parse(JSON.stringify(doc));
+    doc = (0, sanitizeInternalFields_1.default)(doc);
+    await (0, authenticate_1.authenticateLocalStrategy)({ password: data.password, doc });
     const fieldsToSign = collectionConfig.fields.reduce((signedFields, field) => {
         if ((0, types_1.fieldAffectsData)(field) && field.saveToJWT) {
             return {

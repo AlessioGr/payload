@@ -9,7 +9,7 @@ const bson_objectid_1 = __importDefault(require("bson-objectid"));
 const types_1 = require("../../../../../fields/config/types");
 const getDefaultValue_1 = __importDefault(require("../../../../../fields/getDefaultValue"));
 const iterateFields_1 = require("./iterateFields");
-const addFieldStatePromise = async ({ field, locale, user, state, path, passesCondition, fullData, data, id, operation, t, }) => {
+const addFieldStatePromise = async ({ field, locale, user, state, path, passesCondition, fullData, data, id, operation, t, preferences, }) => {
     var _a;
     if ((0, types_1.fieldAffectsData)(field)) {
         const fieldState = {
@@ -46,14 +46,15 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
         switch (field.type) {
             case 'array': {
                 const arrayValue = Array.isArray(valueWithDefault) ? valueWithDefault : [];
-                const promises = arrayValue.map((row, i) => {
+                const { promises, rowMetadata } = arrayValue.reduce((acc, row, i) => {
+                    var _a, _b;
                     const rowPath = `${path}${field.name}.${i}.`;
                     state[`${rowPath}id`] = {
                         value: row.id,
                         initialValue: row.id || new bson_objectid_1.default().toHexString(),
                         valid: true,
                     };
-                    return (0, iterateFields_1.iterateFields)({
+                    acc.promises.push((0, iterateFields_1.iterateFields)({
                         state,
                         fields: field.fields,
                         data: row,
@@ -65,7 +66,17 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                         locale,
                         operation,
                         t,
+                        preferences,
+                    }));
+                    const collapsedRowIDs = (_b = (_a = preferences === null || preferences === void 0 ? void 0 : preferences.fields) === null || _a === void 0 ? void 0 : _a[`${path}${field.name}`]) === null || _b === void 0 ? void 0 : _b.collapsed;
+                    acc.rowMetadata.push({
+                        id: row.id,
+                        collapsed: collapsedRowIDs === undefined ? field.admin.initCollapsed : collapsedRowIDs.includes(row.id),
                     });
+                    return acc;
+                }, {
+                    promises: [],
+                    rowMetadata: [],
                 });
                 await Promise.all(promises);
                 // Add values to field state
@@ -80,14 +91,15 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                         fieldState.disableFormData = true;
                     }
                 }
+                fieldState.rows = rowMetadata;
                 // Add field to state
                 state[`${path}${field.name}`] = fieldState;
                 break;
             }
             case 'blocks': {
                 const blocksValue = Array.isArray(valueWithDefault) ? valueWithDefault : [];
-                const promises = [];
-                blocksValue.forEach((row, i) => {
+                const { promises, rowMetadata } = blocksValue.reduce((acc, row, i) => {
+                    var _a, _b;
                     const block = field.blocks.find((blockType) => blockType.slug === row.blockType);
                     const rowPath = `${path}${field.name}.${i}.`;
                     if (block) {
@@ -106,7 +118,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                             initialValue: row.blockName,
                             valid: true,
                         };
-                        promises.push((0, iterateFields_1.iterateFields)({
+                        acc.promises.push((0, iterateFields_1.iterateFields)({
                             state,
                             fields: block.fields,
                             data: row,
@@ -118,8 +130,19 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                             operation,
                             id,
                             t,
+                            preferences,
                         }));
+                        const collapsedRowIDs = (_b = (_a = preferences === null || preferences === void 0 ? void 0 : preferences.fields) === null || _a === void 0 ? void 0 : _a[`${path}${field.name}`]) === null || _b === void 0 ? void 0 : _b.collapsed;
+                        acc.rowMetadata.push({
+                            id: row.id,
+                            collapsed: collapsedRowIDs === undefined ? field.admin.initCollapsed : collapsedRowIDs.includes(row.id),
+                            blockType: row.blockType,
+                        });
                     }
+                    return acc;
+                }, {
+                    promises: [],
+                    rowMetadata: [],
                 });
                 await Promise.all(promises);
                 // Add values to field state
@@ -134,6 +157,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                         fieldState.disableFormData = true;
                     }
                 }
+                fieldState.rows = rowMetadata;
                 // Add field to state
                 state[`${path}${field.name}`] = fieldState;
                 break;
@@ -151,6 +175,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                     locale,
                     user,
                     t,
+                    preferences,
                 });
                 break;
             }
@@ -177,6 +202,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
             locale,
             operation,
             t,
+            preferences,
         });
     }
     else if (field.type === 'tabs') {
@@ -192,6 +218,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
             locale,
             operation,
             t,
+            preferences,
         }));
         await Promise.all(promises);
     }

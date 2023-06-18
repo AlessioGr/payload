@@ -11,6 +11,9 @@ type Args = {
     operation?: 'create' | 'update';
     locale: string;
     t: TFunction;
+    preferences: {
+        [key: string]: unknown;
+    };
 };
 declare const buildStateFromSchema: (args: Args) => Promise<Fields>;
 export default buildStateFromSchema;

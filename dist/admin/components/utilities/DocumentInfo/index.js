@@ -41,7 +41,7 @@ const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, i
     const { id: idFromParams } = (0, react_router_dom_1.useParams)();
     const id = idFromProps || (getIDFromParams ? idFromParams : null);
     const { serverURL, routes: { api } } = (0, Config_1.useConfig)();
-    const { getPreference } = (0, Preferences_1.usePreferences)();
+    const { getPreference, setPreference } = (0, Preferences_1.usePreferences)();
     const { i18n } = (0, react_i18next_1.useTranslation)();
     const { permissions } = (0, Auth_1.useAuth)();
     const [publishedDoc, setPublishedDoc] = (0, react_1.useState)(null);
@@ -50,18 +50,15 @@ const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, i
     const [docPermissions, setDocPermissions] = (0, react_1.useState)(null);
     const baseURL = `${serverURL}${api}`;
     let slug;
-    let type;
     let pluralType;
     let preferencesKey;
     if (global) {
         slug = global.slug;
-        type = 'global';
         pluralType = 'globals';
         preferencesKey = `global-${slug}`;
     }
     if (collection) {
         slug = collection.slug;
-        type = 'collection';
         pluralType = 'collections';
         if (id) {
             preferencesKey = `collection-${slug}-${id}`;
@@ -204,23 +201,33 @@ const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, i
             setDocPermissions(permissions[pluralType][slug]);
         }
     }, [serverURL, api, pluralType, slug, id, permissions, i18n.language]);
+    const getDocPreferences = (0, react_1.useCallback)(async () => {
+        return getPreference(preferencesKey);
+    }, [getPreference, preferencesKey]);
+    const setDocFieldPreferences = (0, react_1.useCallback)(async (path, fieldPreferences) => {
+        var _a;
+        const allPreferences = await getDocPreferences();
+        if (preferencesKey) {
+            setPreference(preferencesKey, {
+                ...allPreferences,
+                fields: {
+                    ...((allPreferences === null || allPreferences === void 0 ? void 0 : allPreferences.fields) || {}),
+                    [path]: {
+                        ...(_a = allPreferences === null || allPreferences === void 0 ? void 0 : allPreferences.fields) === null || _a === void 0 ? void 0 : _a[path],
+                        ...fieldPreferences,
+                    },
+                },
+            });
+        }
+    }, [setPreference, preferencesKey, getDocPreferences]);
     (0, react_1.useEffect)(() => {
         getVersions();
     }, [getVersions]);
-    (0, react_1.useEffect)(() => {
-        if (preferencesKey) {
-            const getDocPreferences = async () => {
-                await getPreference(preferencesKey);
-            };
-            getDocPreferences();
-        }
-    }, [getPreference, preferencesKey]);
     (0, react_1.useEffect)(() => {
         getDocPermissions();
     }, [getDocPermissions]);
     const value = {
         slug,
-        type,
         preferencesKey,
         global,
         collection,
@@ -231,6 +238,8 @@ const DocumentInfoProvider = ({ children, global, collection, id: idFromProps, i
         id,
         getDocPermissions,
         docPermissions,
+        setDocFieldPreferences,
+        getDocPreferences,
     };
     return (react_1.default.createElement(Context.Provider, { value: value }, children));
 };

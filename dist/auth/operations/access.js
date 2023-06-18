@@ -7,7 +7,6 @@ async function accessOperation(args) {
     const { req, req: { user, payload: { config, }, }, } = args;
     (0, adminInit_1.adminInit)(req);
     const results = {};
-    const promises = [];
     const isLoggedIn = !!(user);
     const userCollectionConfig = (user && user.collection) ? config.collections.find((collection) => collection.slug === user.collection) : null;
     if (userCollectionConfig) {
@@ -16,7 +15,7 @@ async function accessOperation(args) {
     else {
         results.canAccessAdmin = false;
     }
-    config.collections.forEach((collection) => {
+    await Promise.all(config.collections.map(async (collection) => {
         const collectionOperations = [...allOperations];
         if (collection.auth && (typeof collection.auth.maxLoginAttempts !== 'undefined' && collection.auth.maxLoginAttempts !== 0)) {
             collectionOperations.push('unlock');
@@ -24,7 +23,7 @@ async function accessOperation(args) {
         if (collection.versions) {
             collectionOperations.push('readVersions');
         }
-        const [collectionPolicy, collectionPromises] = (0, getEntityPolicies_1.getEntityPolicies)({
+        const collectionPolicy = await (0, getEntityPolicies_1.getEntityPolicies)({
             type: 'collection',
             req,
             entity: collection,
@@ -34,14 +33,13 @@ async function accessOperation(args) {
             ...results.collections,
             [collection.slug]: collectionPolicy,
         };
-        promises.push(...collectionPromises);
-    });
-    config.globals.forEach((global) => {
+    }));
+    await Promise.all(config.globals.map(async (global) => {
         const globalOperations = ['read', 'update'];
         if (global.versions) {
             globalOperations.push('readVersions');
         }
-        const [globalPolicy, globalPromises] = (0, getEntityPolicies_1.getEntityPolicies)({
+        const globalPolicy = await (0, getEntityPolicies_1.getEntityPolicies)({
             type: 'global',
             req,
             entity: global,
@@ -51,9 +49,7 @@ async function accessOperation(args) {
             ...results.globals,
             [global.slug]: globalPolicy,
         };
-        promises.push(...globalPromises);
-    });
-    await Promise.all(promises);
+    }));
     return results;
 }
 exports.default = accessOperation;

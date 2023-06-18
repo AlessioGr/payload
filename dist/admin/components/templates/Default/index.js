@@ -21,7 +21,7 @@ const Default = ({ children, className }) => {
         className,
     ].filter(Boolean).join(' ');
     return (react_1.default.createElement("div", { className: classes },
-        react_1.default.createElement(Meta_1.default, { title: t('dashboard'), description: `${t('dashboard')} Payload CMS`, keywords: `${t('dashboard')}, Payload CMS` }),
+        react_1.default.createElement(Meta_1.default, { title: t('dashboard'), description: `${t('dashboard')} Payload`, keywords: `${t('dashboard')}, Payload` }),
         react_1.default.createElement(RenderCustomComponent_1.default, { DefaultComponent: Nav_1.default, CustomComponent: CustomNav }),
         react_1.default.createElement("div", { className: `${baseClass}__wrap` }, children)));
 };

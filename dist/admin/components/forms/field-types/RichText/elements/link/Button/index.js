@@ -38,12 +38,15 @@ const reduceFieldsToValues_1 = __importDefault(require("../../../../../Form/redu
 const Config_1 = require("../../../../../../utilities/Config");
 const isActive_1 = __importDefault(require("../../isActive"));
 const utilities_1 = require("../utilities");
-const baseFields_1 = require("../LinkDrawer/baseFields");
 const LinkDrawer_1 = require("../LinkDrawer");
 const buildStateFromSchema_1 = __importDefault(require("../../../../../Form/buildStateFromSchema"));
 const Auth_1 = require("../../../../../../utilities/Auth");
 const Locale_1 = require("../../../../../../utilities/Locale");
 const useDrawerSlug_1 = require("../../../../../../elements/Drawer/useDrawerSlug");
+const DocumentInfo_1 = require("../../../../../../utilities/DocumentInfo");
+/**
+ * This function is called when an new link is created - not when an existing link is edited.
+ */
 const insertLink = (editor, fields) => {
     const isCollapsed = editor.selection && slate_1.Range.isCollapsed(editor.selection);
     const data = (0, reduceFieldsToValues_1.default)(fields, true);
@@ -86,27 +89,12 @@ const LinkButton = ({ fieldProps }) => {
     const editor = (0, slate_react_1.useSlate)();
     const config = (0, Config_1.useConfig)();
     const [fieldSchema] = (0, react_1.useState)(() => {
-        const baseFields = (0, baseFields_1.getBaseFields)(config);
-        const fields = typeof customFieldSchema === 'function' ? customFieldSchema({ defaultFields: baseFields, config, i18n }) : baseFields;
-        if (Array.isArray(customFieldSchema)) {
-            fields.push({
-                name: 'fields',
-                type: 'group',
-                admin: {
-                    style: {
-                        margin: 0,
-                        padding: 0,
-                        borderTop: 0,
-                        borderBottom: 0,
-                    },
-                },
-                fields: customFieldSchema,
-            });
-        }
+        const fields = (0, utilities_1.transformExtraFields)(customFieldSchema, config, i18n);
         return fields;
     });
     const { openModal, closeModal } = (0, modal_1.useModal)();
     const drawerSlug = (0, useDrawerSlug_1.useDrawerSlug)('rich-text-link');
+    const { getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     return (react_1.default.createElement(react_1.Fragment, null,
         react_1.default.createElement(Button_1.default, { format: "link", tooltip: t('fields:addLink'), className: "link", onClick: async () => {
                 if ((0, isActive_1.default)(editor, 'link')) {
@@ -119,7 +107,8 @@ const LinkButton = ({ fieldProps }) => {
                         const data = {
                             text: editor.selection ? slate_1.Editor.string(editor, editor.selection) : '',
                         };
-                        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, data, user, operation: 'create', locale, t });
+                        const preferences = await getDocPreferences();
+                        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, preferences, data, user, operation: 'create', locale, t });
                         setInitialState(state);
                     }
                 }

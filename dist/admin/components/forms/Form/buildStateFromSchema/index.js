@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const iterateFields_1 = require("./iterateFields");
 const buildStateFromSchema = async (args) => {
-    const { fieldSchema, data: fullData = {}, user, id, operation, locale, t, } = args;
+    const { fieldSchema, data: fullData = {}, user, id, operation, locale, t, preferences, } = args;
     if (fieldSchema) {
         const state = {};
         await (0, iterateFields_1.iterateFields)({
@@ -17,6 +17,7 @@ const buildStateFromSchema = async (args) => {
             fullData,
             parentPassesCondition: true,
             t,
+            preferences,
         });
         return state;
     }

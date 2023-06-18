@@ -14,6 +14,9 @@ type Args = {
     data: Data;
     fullData: Data;
     t: TFunction;
+    preferences: {
+        [key: string]: unknown;
+    };
 };
-export declare const addFieldStatePromise: ({ field, locale, user, state, path, passesCondition, fullData, data, id, operation, t, }: Args) => Promise<void>;
+export declare const addFieldStatePromise: ({ field, locale, user, state, path, passesCondition, fullData, data, id, operation, t, preferences, }: Args) => Promise<void>;
 export {};

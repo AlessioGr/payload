@@ -34,6 +34,7 @@ const Button_1 = __importDefault(require("../../../../elements/Button"));
 const FileDetails_1 = __importDefault(require("../../../../elements/FileDetails"));
 const Error_1 = __importDefault(require("../../../../forms/Error"));
 const reduceFieldsToValues_1 = __importDefault(require("../../../../forms/Form/reduceFieldsToValues"));
+const Label_1 = __importDefault(require("../../../../forms/Label"));
 require("./index.scss");
 const baseClass = 'file-field';
 const handleDrag = (e) => {
@@ -55,7 +56,7 @@ const Upload = (props) => {
     const [dragging, setDragging] = (0, react_1.useState)(false);
     const [dragCounter, setDragCounter] = (0, react_1.useState)(0);
     const [replacingFile, setReplacingFile] = (0, react_1.useState)(false);
-    const { t } = (0, react_i18next_1.useTranslation)('upload');
+    const { t } = (0, react_i18next_1.useTranslation)(['upload', 'general']);
     const [doc, setDoc] = (0, react_1.useState)((0, reduceFieldsToValues_1.default)(internalState || {}, true));
     const { docPermissions } = (0, DocumentInfo_1.useDocumentInfo)();
     const { value, setValue, showError, errorMessage, } = (0, useField_1.default)({
@@ -92,6 +93,15 @@ const Upload = (props) => {
             setDragging(false);
         }
     }, [setValue]);
+    const handleFileNameChange = (e) => {
+        const updatedFileName = e.target.value;
+        if (value) {
+            const fileValue = value;
+            // Creating a new File object with updated properties
+            const newFile = new File([fileValue], updatedFileName, { type: fileValue.type });
+            setValue(newFile); // Updating the state with the new File object
+        }
+    };
     // Only called when input is interacted with directly
     // Not called when drag + drop is used
     // Or when input is cleared
@@ -140,11 +150,13 @@ const Upload = (props) => {
             } : undefined })),
         (!doc.filename || replacingFile) && (react_1.default.createElement("div", { className: `${baseClass}__upload` },
             value && (react_1.default.createElement("div", { className: `${baseClass}__file-selected` },
-                react_1.default.createElement("span", { className: `${baseClass}__filename` }, value.name),
-                react_1.default.createElement(Button_1.default, { icon: "x", round: true, buttonStyle: "icon-label", iconStyle: "with-border", onClick: () => {
-                        setValue(null);
-                        inputRef.current.value = null;
-                    } }))),
+                react_1.default.createElement(Label_1.default, { label: t('fileName'), required: true }),
+                react_1.default.createElement("div", { className: `${baseClass}__file-upload` },
+                    react_1.default.createElement("input", { type: "text", className: `${baseClass}__filename`, value: value.name, onChange: handleFileNameChange }),
+                    react_1.default.createElement(Button_1.default, { icon: "x", buttonStyle: "none", tooltip: t('general:cancel'), onClick: () => {
+                            setValue(null);
+                            inputRef.current.value = null;
+                        } })))),
             !value && (react_1.default.createElement(react_1.default.Fragment, null,
                 react_1.default.createElement("div", { className: `${baseClass}__drop-zone`, ref: dropRef, onPaste: (e) => {
                         var _a;

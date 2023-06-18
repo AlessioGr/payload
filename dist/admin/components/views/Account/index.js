@@ -46,7 +46,7 @@ const AccountView = () => {
     const { setStepNav } = (0, StepNav_1.useStepNav)();
     const { user } = (0, Auth_1.useAuth)();
     const [initialState, setInitialState] = (0, react_1.useState)();
-    const { id, preferencesKey, docPermissions, getDocPermissions, slug } = (0, DocumentInfo_1.useDocumentInfo)();
+    const { id, preferencesKey, docPermissions, getDocPermissions, slug, getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const { getPreference } = (0, Preferences_1.usePreferences)();
     const { serverURL, routes: { api }, collections, admin: { components: { views: { Account: CustomAccount, } = {
         Account: undefined,
@@ -67,9 +67,10 @@ const AccountView = () => {
     const action = `${serverURL}${api}/${slug}/${data === null || data === void 0 ? void 0 : data.id}?locale=${locale}&depth=0`;
     const onSave = react_1.default.useCallback(async (json) => {
         getDocPermissions();
-        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: collection.fields, data: json.doc, user, id, operation: 'update', locale, t });
+        const preferences = await getDocPreferences();
+        const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: collection.fields, preferences, data: json.doc, user, id, operation: 'update', locale, t });
         setInitialState(state);
-    }, [collection, user, id, t, locale, getDocPermissions]);
+    }, [collection, user, id, t, locale, getDocPermissions, getDocPreferences]);
     (0, react_1.useEffect)(() => {
         const nav = [{
                 label: t('account'),
@@ -78,8 +79,10 @@ const AccountView = () => {
     }, [setStepNav, t]);
     (0, react_1.useEffect)(() => {
         const awaitInitialState = async () => {
+            const preferences = await getDocPreferences();
             const state = await (0, buildStateFromSchema_1.default)({
                 fieldSchema: fields,
+                preferences,
                 data: dataToRender,
                 operation: 'update',
                 id,
@@ -92,7 +95,7 @@ const AccountView = () => {
         };
         if (dataToRender)
             awaitInitialState();
-    }, [dataToRender, fields, id, user, locale, preferencesKey, getPreference, t]);
+    }, [dataToRender, fields, id, user, locale, preferencesKey, getPreference, t, getDocPreferences]);
     const isLoading = !initialState || !docPermissions || isLoadingData;
     return (react_1.default.createElement(RenderCustomComponent_1.default, { DefaultComponent: Default_1.default, CustomComponent: CustomAccount, componentProps: {
             action,

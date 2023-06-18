@@ -155,6 +155,7 @@ exports.collapsible = exports.baseField.keys({
 const tab = exports.baseField.keys({
     name: joi_1.default.string().when('localized', { is: joi_1.default.exist(), then: joi_1.default.required() }),
     localized: joi_1.default.boolean(),
+    interfaceName: joi_1.default.string().when('name', { not: joi_1.default.exist(), then: joi_1.default.forbidden() }),
     label: joi_1.default.alternatives().try(joi_1.default.string(), joi_1.default.object().pattern(joi_1.default.string(), [joi_1.default.string()])).required(),
     fields: joi_1.default.array().items(joi_1.default.link('#field')).required(),
     description: joi_1.default.alternatives().try(joi_1.default.string(), componentSchema_1.componentSchema),
@@ -172,6 +173,7 @@ exports.group = exports.baseField.keys({
     type: joi_1.default.string().valid('group').required(),
     name: joi_1.default.string().required(),
     fields: joi_1.default.array().items(joi_1.default.link('#field')),
+    interfaceName: joi_1.default.string(),
     defaultValue: joi_1.default.alternatives().try(joi_1.default.object(), joi_1.default.func()),
     admin: exports.baseAdminFields.keys({
         hideGutter: joi_1.default.boolean().default(true),
@@ -193,6 +195,7 @@ exports.array = exports.baseField.keys({
             RowLabel: componentSchema_1.componentSchema,
         }).default({}),
     }).default({}),
+    interfaceName: joi_1.default.string(),
 });
 exports.upload = exports.baseField.keys({
     type: joi_1.default.string().valid('upload').required(),
@@ -225,8 +228,14 @@ exports.relationship = exports.baseField.keys({
         allowCreate: joi_1.default.boolean().default(true),
     }),
     min: joi_1.default.number()
-        .when('hasMany', { is: joi_1.default.not(true), then: joi_1.default.forbidden() }),
+        .when('hasMany', { is: joi_1.default.not(true), then: joi_1.default.forbidden() })
+        .warning('deprecated', { message: 'Use minRows instead.' }),
     max: joi_1.default.number()
+        .when('hasMany', { is: joi_1.default.not(true), then: joi_1.default.forbidden() })
+        .warning('deprecated', { message: 'Use maxRows instead.' }),
+    minRows: joi_1.default.number()
+        .when('hasMany', { is: joi_1.default.not(true), then: joi_1.default.forbidden() }),
+    maxRows: joi_1.default.number()
         .when('hasMany', { is: joi_1.default.not(true), then: joi_1.default.forbidden() }),
 });
 exports.blocks = exports.baseField.keys({
@@ -242,6 +251,7 @@ exports.blocks = exports.baseField.keys({
         slug: joi_1.default.string().required(),
         imageURL: joi_1.default.string(),
         imageAltText: joi_1.default.string(),
+        interfaceName: joi_1.default.string(),
         graphQL: joi_1.default.object().keys({
             singularName: joi_1.default.string(),
         }),
@@ -303,7 +313,7 @@ exports.date = exports.baseField.keys({
 });
 exports.ui = joi_1.default.object().keys({
     name: joi_1.default.string().required(),
-    label: joi_1.default.string(),
+    label: joi_1.default.alternatives().try(joi_1.default.string(), joi_1.default.object().pattern(joi_1.default.string(), [joi_1.default.string()])),
     type: joi_1.default.string().valid('ui').required(),
     admin: joi_1.default.object().keys({
         position: joi_1.default.string().valid('sidebar'),
@@ -314,6 +324,7 @@ exports.ui = joi_1.default.object().keys({
             Field: componentSchema_1.componentSchema,
         }).default({}),
     }).default(),
+    custom: joi_1.default.object().pattern(joi_1.default.string(), joi_1.default.any()),
 });
 const fieldSchema = joi_1.default.alternatives()
     .try(exports.text, exports.number, exports.textarea, exports.email, exports.code, exports.json, exports.select, exports.group, exports.array, exports.row, exports.collapsible, exports.tabs, exports.radio, exports.relationship, exports.checkbox, exports.upload, exports.richText, exports.blocks, exports.date, exports.point, exports.ui)

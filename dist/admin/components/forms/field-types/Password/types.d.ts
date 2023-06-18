@@ -12,4 +12,5 @@ export type Props = {
     width?: string;
     label?: string;
     description?: Description;
+    disabled?: boolean;
 };

@@ -18,6 +18,7 @@ const generateFileData_1 = require("../../uploads/generateFileData");
 const getLatestCollectionVersion_1 = require("../../versions/getLatestCollectionVersion");
 const deleteAssociatedFiles_1 = require("../../uploads/deleteAssociatedFiles");
 const unlinkTempFiles_1 = require("../../uploads/unlinkTempFiles");
+const generatePasswordSaltHash_1 = require("../../auth/strategies/local/generatePasswordSaltHash");
 async function updateByID(incomingArgs) {
     let args = incomingArgs;
     // /////////////////////////////////////
@@ -161,9 +162,11 @@ async function updateByID(incomingArgs) {
     // /////////////////////////////////////
     // Handle potential password update
     // /////////////////////////////////////
-    if (shouldSavePassword) {
-        await doc.setPassword(password);
-        await doc.save();
+    const dataToUpdate = { ...result };
+    if (shouldSavePassword && typeof password === 'string') {
+        const { hash, salt } = await (0, generatePasswordSaltHash_1.generatePasswordSaltHash)({ password });
+        dataToUpdate.salt = salt;
+        dataToUpdate.hash = hash;
         delete data.password;
         delete result.password;
     }
@@ -172,7 +175,7 @@ async function updateByID(incomingArgs) {
     // /////////////////////////////////////
     if (!shouldSaveDraft) {
         try {
-            result = await Model.findByIdAndUpdate({ _id: id }, result, { new: true });
+            result = await Model.findByIdAndUpdate({ _id: id }, dataToUpdate, { new: true });
         }
         catch (error) {
             // Handle uniqueness error from MongoDB

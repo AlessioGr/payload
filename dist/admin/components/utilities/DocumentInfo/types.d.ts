@@ -20,6 +20,12 @@ export type ContextType = {
     getVersions: () => Promise<void>;
     docPermissions: DocumentPermissions;
     getDocPermissions: () => Promise<void>;
+    setDocFieldPreferences: (field: string, fieldPreferences: {
+        [key: string]: unknown;
+    }) => void;
+    getDocPreferences: () => Promise<{
+        [key: string]: unknown;
+    }>;
 };
 export type Props = {
     collection?: SanitizedCollectionConfig;

@@ -39,14 +39,18 @@ const buildStateFromSchema_1 = __importDefault(require("../../../../../Form/buil
 const Auth_1 = require("../../../../../../utilities/Auth");
 const Locale_1 = require("../../../../../../utilities/Locale");
 const Config_1 = require("../../../../../../utilities/Config");
-const baseFields_1 = require("../LinkDrawer/baseFields");
 const reduceFieldsToValues_1 = __importDefault(require("../../../../../Form/reduceFieldsToValues"));
 const deepCopyObject_1 = __importDefault(require("../../../../../../../../utilities/deepCopyObject"));
 const Button_1 = __importDefault(require("../../../../../../elements/Button"));
 const getTranslation_1 = require("../../../../../../../../utilities/getTranslation");
-require("./index.scss");
 const useDrawerSlug_1 = require("../../../../../../elements/Drawer/useDrawerSlug");
+const DocumentInfo_1 = require("../../../../../../utilities/DocumentInfo");
+require("./index.scss");
 const baseClass = 'rich-text-link';
+/**
+ * This function is called when an existing link is edited.
+ * When a link is first created, another function is called: {@link ../Button/index.tsx#insertLink}
+ */
 const insertChange = (editor, fields, customFieldSchema) => {
     const data = (0, reduceFieldsToValues_1.default)(fields, true);
     const [, parentPath] = slate_1.Editor.above(editor);
@@ -78,24 +82,9 @@ const LinkElement = (props) => {
     const [renderModal, setRenderModal] = (0, react_1.useState)(false);
     const [renderPopup, setRenderPopup] = (0, react_1.useState)(false);
     const [initialState, setInitialState] = (0, react_1.useState)({});
+    const { getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const [fieldSchema] = (0, react_1.useState)(() => {
-        const baseFields = (0, baseFields_1.getBaseFields)(config);
-        const fields = typeof customFieldSchema === 'function' ? customFieldSchema({ defaultFields: baseFields, config, i18n }) : baseFields;
-        if (Array.isArray(customFieldSchema)) {
-            fields.push({
-                name: 'fields',
-                type: 'group',
-                admin: {
-                    style: {
-                        margin: 0,
-                        padding: 0,
-                        borderTop: 0,
-                        borderBottom: 0,
-                    },
-                },
-                fields: customFieldSchema,
-            });
-        }
+        const fields = (0, utilities_1.transformExtraFields)(customFieldSchema, config, i18n);
         return fields;
     });
     const drawerSlug = (0, useDrawerSlug_1.useDrawerSlug)('rich-text-link');
@@ -114,11 +103,12 @@ const LinkElement = (props) => {
                 newTab: element.newTab,
                 fields: (0, deepCopyObject_1.default)(element.fields),
             };
-            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, data, user, operation: 'update', locale, t });
+            const preferences = await getDocPreferences();
+            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema, preferences, data, user, operation: 'update', locale, t });
             setInitialState(state);
         };
         awaitInitialState();
-    }, [renderModal, element, fieldSchema, user, locale, t]);
+    }, [renderModal, element, fieldSchema, user, locale, t, getDocPreferences]);
     return (react_1.default.createElement("span", { className: baseClass, ...attributes },
         react_1.default.createElement("span", { style: { userSelect: 'none' }, contentEditable: false },
             renderModal && (react_1.default.createElement(LinkDrawer_1.LinkDrawer, { drawerSlug: drawerSlug, fieldSchema: fieldSchema, handleClose: () => {

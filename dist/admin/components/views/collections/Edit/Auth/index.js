@@ -40,7 +40,7 @@ const APIKey_1 = __importDefault(require("./APIKey"));
 require("./index.scss");
 const baseClass = 'auth-fields';
 const Auth = (props) => {
-    const { useAPIKey, requirePassword, verify, collection: { slug }, collection, email, operation } = props;
+    const { useAPIKey, requirePassword, verify, collection: { slug }, collection, email, operation, readOnly } = props;
     const [changingPassword, setChangingPassword] = (0, react_1.useState)(requirePassword);
     const enableAPIKey = (0, context_1.useFormFields)(([fields]) => fields.enableAPIKey);
     const dispatchFields = (0, context_1.useFormFields)((reducer) => reducer[1]);
@@ -84,17 +84,17 @@ const Auth = (props) => {
     }
     return (react_1.default.createElement("div", { className: baseClass },
         !collection.auth.disableLocalStrategy && (react_1.default.createElement(react_1.default.Fragment, null,
-            react_1.default.createElement(Email_1.default, { required: true, name: "email", label: t('general:email'), admin: { autoComplete: 'email' } }),
+            react_1.default.createElement(Email_1.default, { required: true, name: "email", label: t('general:email'), admin: { autoComplete: 'email', readOnly } }),
             (changingPassword || requirePassword) && (react_1.default.createElement("div", { className: `${baseClass}__changing-password` },
-                react_1.default.createElement(Password_1.default, { autoComplete: "off", required: true, name: "password", label: t('newPassword') }),
-                react_1.default.createElement(ConfirmPassword_1.default, null),
-                !requirePassword && (react_1.default.createElement(Button_1.default, { size: "small", buttonStyle: "secondary", onClick: () => handleChangePassword(false) }, t('general:cancel'))))),
-            (!changingPassword && !requirePassword) && (react_1.default.createElement(Button_1.default, { id: "change-password", size: "small", buttonStyle: "secondary", onClick: () => handleChangePassword(true) }, t('changePassword'))),
-            operation === 'update' && (react_1.default.createElement(Button_1.default, { size: "small", buttonStyle: "secondary", onClick: () => unlock() }, t('forceUnlock'))))),
+                react_1.default.createElement(Password_1.default, { autoComplete: "off", required: true, name: "password", label: t('newPassword'), disabled: readOnly }),
+                react_1.default.createElement(ConfirmPassword_1.default, { disabled: readOnly }),
+                !requirePassword && (react_1.default.createElement(Button_1.default, { size: "small", buttonStyle: "secondary", onClick: () => handleChangePassword(false), disabled: readOnly }, t('general:cancel'))))),
+            (!changingPassword && !requirePassword) && (react_1.default.createElement(Button_1.default, { id: "change-password", size: "small", buttonStyle: "secondary", onClick: () => handleChangePassword(true), disabled: readOnly }, t('changePassword'))),
+            operation === 'update' && (react_1.default.createElement(Button_1.default, { size: "small", buttonStyle: "secondary", onClick: () => unlock(), disabled: readOnly }, t('forceUnlock'))))),
         useAPIKey && (react_1.default.createElement("div", { className: `${baseClass}__api-key` },
-            react_1.default.createElement(Checkbox_1.default, { label: t('enableAPIKey'), name: "enableAPIKey" }),
-            (enableAPIKey === null || enableAPIKey === void 0 ? void 0 : enableAPIKey.value) && (react_1.default.createElement(APIKey_1.default, null)))),
-        verify && (react_1.default.createElement(Checkbox_1.default, { label: t('verified'), name: "_verified" }))));
+            react_1.default.createElement(Checkbox_1.default, { label: t('enableAPIKey'), name: "enableAPIKey", admin: { readOnly } }),
+            (enableAPIKey === null || enableAPIKey === void 0 ? void 0 : enableAPIKey.value) && (react_1.default.createElement(APIKey_1.default, { readOnly: readOnly })))),
+        verify && (react_1.default.createElement(Checkbox_1.default, { label: t('verified'), name: "_verified", admin: { readOnly } }))));
 };
 exports.default = Auth;
 //# sourceMappingURL=index.js.map

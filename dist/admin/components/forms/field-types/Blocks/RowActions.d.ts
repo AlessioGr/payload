@@ -1,6 +1,6 @@
 import React from 'react';
 import { Block, Labels } from '../../../../../fields/config/types';
-import { Row } from '../rowReducer';
+import { Row } from '../../Form/types';
 export declare const RowActions: React.FC<{
     addRow: (rowIndex: number, blockType: string) => void;
     duplicateRow: (rowIndex: number, blockType: string) => void;

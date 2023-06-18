@@ -34,8 +34,7 @@ const DraggableSortable = (props) => {
     });
     const sensors = (0, core_1.useSensors)((0, core_1.useSensor)(core_1.PointerSensor, {
         activationConstraint: {
-            delay: 100,
-            tolerance: 5,
+            distance: 5,
         },
     }), (0, core_1.useSensor)(core_1.KeyboardSensor, {
         coordinateGetter: sortable_1.sortableKeyboardCoordinates,

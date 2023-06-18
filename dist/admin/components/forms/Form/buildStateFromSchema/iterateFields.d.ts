@@ -14,6 +14,9 @@ type Args = {
     id: string | number;
     operation: 'create' | 'update';
     t: TFunction;
+    preferences: {
+        [key: string]: unknown;
+    };
 };
-export declare const iterateFields: ({ fields, data, parentPassesCondition, path, fullData, user, locale, operation, id, state, t, }: Args) => Promise<void>;
+export declare const iterateFields: ({ fields, data, parentPassesCondition, path, fullData, user, locale, operation, id, state, t, preferences, }: Args) => Promise<void>;
 export {};

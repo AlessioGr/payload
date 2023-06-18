@@ -33,7 +33,8 @@ const Label_1 = __importDefault(require("../../Label"));
 const Error_1 = __importDefault(require("../../Error"));
 const context_1 = require("../../Form/context");
 require("./index.scss");
-const ConfirmPassword = () => {
+const ConfirmPassword = (props) => {
+    const { disabled, } = props;
     const password = (0, context_1.useFormFields)(([fields]) => fields.password);
     const { t } = (0, react_i18next_1.useTranslation)('fields');
     const validate = (0, react_1.useCallback)((value) => {
@@ -58,7 +59,7 @@ const ConfirmPassword = () => {
     return (react_1.default.createElement("div", { className: classes },
         react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage }),
         react_1.default.createElement(Label_1.default, { htmlFor: "field-confirm-password", label: t('authentication:confirmPassword'), required: true }),
-        react_1.default.createElement("input", { value: value || '', onChange: setValue, type: "password", autoComplete: "off", id: "field-confirm-password", name: "confirm-password" })));
+        react_1.default.createElement("input", { value: value || '', onChange: setValue, type: "password", autoComplete: "off", id: "field-confirm-password", name: "confirm-password", disabled: !!disabled })));
 };
 exports.default = ConfirmPassword;
 //# sourceMappingURL=index.js.map

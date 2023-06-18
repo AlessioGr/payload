@@ -18,7 +18,6 @@ const formatLabels_1 = require("../../utilities/formatLabels");
 const richTextRelationshipPromise_1 = __importDefault(require("../../fields/richText/richTextRelationshipPromise"));
 const formatOptions_1 = __importDefault(require("../utilities/formatOptions"));
 const buildWhereInputType_1 = __importDefault(require("./buildWhereInputType"));
-const buildBlockType_1 = __importDefault(require("./buildBlockType"));
 const isFieldNullable_1 = __importDefault(require("./isFieldNullable"));
 function buildObjectType({ payload, name, fields, parentName, baseFields = {}, forceNullable, }) {
     const fieldToSchemaMap = {
@@ -302,41 +301,60 @@ function buildObjectType({ payload, name, fields, parentName, baseFields = {}, f
             };
         },
         array: (objectTypeConfig, field) => {
-            const fullName = (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(field.name, true));
-            const type = buildObjectType({
-                payload,
-                name: fullName,
-                fields: field.fields,
-                parentName: fullName,
-                forceNullable: (0, isFieldNullable_1.default)(field, forceNullable),
-            });
-            const arrayType = new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(type));
+            const interfaceName = (field === null || field === void 0 ? void 0 : field.interfaceName) || (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(field.name, true));
+            if (!payload.types.arrayTypes[interfaceName]) {
+                // eslint-disable-next-line no-param-reassign
+                payload.types.arrayTypes[interfaceName] = buildObjectType({
+                    payload,
+                    name: interfaceName,
+                    parentName: interfaceName,
+                    fields: field.fields,
+                    forceNullable: (0, isFieldNullable_1.default)(field, forceNullable),
+                });
+            }
+            const arrayType = new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(payload.types.arrayTypes[interfaceName]));
             return {
                 ...objectTypeConfig,
                 [field.name]: { type: (0, withNullableType_1.default)(field, arrayType) },
             };
         },
         group: (objectTypeConfig, field) => {
-            const fullName = (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(field.name, true));
-            const type = buildObjectType({
-                payload,
-                name: fullName,
-                parentName: fullName,
-                fields: field.fields,
-                forceNullable: (0, isFieldNullable_1.default)(field, forceNullable),
-            });
+            const interfaceName = (field === null || field === void 0 ? void 0 : field.interfaceName) || (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(field.name, true));
+            if (!payload.types.groupTypes[interfaceName]) {
+                // eslint-disable-next-line no-param-reassign
+                payload.types.groupTypes[interfaceName] = buildObjectType({
+                    payload,
+                    name: interfaceName,
+                    parentName: interfaceName,
+                    fields: field.fields,
+                    forceNullable: (0, isFieldNullable_1.default)(field, forceNullable),
+                });
+            }
             return {
                 ...objectTypeConfig,
-                [field.name]: { type },
+                [field.name]: { type: payload.types.groupTypes[interfaceName] },
             };
         },
         blocks: (objectTypeConfig, field) => {
             const blockTypes = field.blocks.map((block) => {
-                (0, buildBlockType_1.default)({
-                    payload,
-                    block,
-                    forceNullable: (0, isFieldNullable_1.default)(field, forceNullable),
-                });
+                var _a;
+                if (!payload.types.blockTypes[block.slug]) {
+                    const interfaceName = (block === null || block === void 0 ? void 0 : block.interfaceName) || ((_a = block === null || block === void 0 ? void 0 : block.graphQL) === null || _a === void 0 ? void 0 : _a.singularName) || (0, formatLabels_1.toWords)(block.slug, true);
+                    // eslint-disable-next-line no-param-reassign
+                    payload.types.blockTypes[block.slug] = buildObjectType({
+                        payload,
+                        name: interfaceName,
+                        parentName: interfaceName,
+                        fields: [
+                            ...block.fields,
+                            {
+                                name: 'blockType',
+                                type: 'text',
+                            },
+                        ],
+                        forceNullable,
+                    });
+                }
                 return payload.types.blockTypes[block.slug];
             });
             const fullName = (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(field.name, true));
@@ -364,17 +382,20 @@ function buildObjectType({ payload, name, fields, parentName, baseFields = {}, f
         }, objectTypeConfig),
         tabs: (objectTypeConfig, field) => field.tabs.reduce((tabSchema, tab) => {
             if ((0, types_1.tabHasName)(tab)) {
-                const fullName = (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(tab.name, true));
-                const type = buildObjectType({
-                    payload,
-                    name: fullName,
-                    parentName: fullName,
-                    fields: tab.fields,
-                    forceNullable,
-                });
+                const interfaceName = (tab === null || tab === void 0 ? void 0 : tab.interfaceName) || (0, combineParentName_1.default)(parentName, (0, formatLabels_1.toWords)(tab.name, true));
+                if (!payload.types.tabTypes[interfaceName]) {
+                    // eslint-disable-next-line no-param-reassign
+                    payload.types.tabTypes[interfaceName] = buildObjectType({
+                        payload,
+                        name: interfaceName,
+                        parentName: interfaceName,
+                        fields: tab.fields,
+                        forceNullable,
+                    });
+                }
                 return {
                     ...tabSchema,
-                    [tab.name]: { type },
+                    [tab.name]: { type: payload.types.tabTypes[interfaceName] },
                 };
             }
             return {

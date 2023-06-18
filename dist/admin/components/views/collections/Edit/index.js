@@ -38,7 +38,6 @@ const formatFields_1 = __importDefault(require("./formatFields"));
 const buildStateFromSchema_1 = __importDefault(require("../../../forms/Form/buildStateFromSchema"));
 const Locale_1 = require("../../../utilities/Locale");
 const DocumentInfo_1 = require("../../../utilities/DocumentInfo");
-const Preferences_1 = require("../../../utilities/Preferences");
 const EditDepth_1 = require("../../../utilities/EditDepth");
 const EditView = (props) => {
     var _a, _b;
@@ -55,8 +54,7 @@ const EditView = (props) => {
     const [internalState, setInternalState] = (0, react_1.useState)();
     const [updatedAt, setUpdatedAt] = (0, react_1.useState)();
     const { user } = (0, Auth_1.useAuth)();
-    const { getVersions, preferencesKey, getDocPermissions, docPermissions } = (0, DocumentInfo_1.useDocumentInfo)();
-    const { getPreference } = (0, Preferences_1.usePreferences)();
+    const { getVersions, getDocPermissions, docPermissions, getDocPreferences } = (0, DocumentInfo_1.useDocumentInfo)();
     const { t } = (0, react_i18next_1.useTranslation)('general');
     const [{ data, isLoading: isLoadingData, isError }] = (0, usePayloadAPI_1.default)((isEditing ? `${serverURL}${api}/${slug}/${id}` : null), { initialParams: { 'fallback-locale': 'null', depth: 0, draft: 'true' }, initialData: null });
     const onSave = (0, react_1.useCallback)(async (json) => {
@@ -68,21 +66,22 @@ const EditView = (props) => {
             setRedirect(`${admin}/collections/${collection.slug}/${(_b = json === null || json === void 0 ? void 0 : json.doc) === null || _b === void 0 ? void 0 : _b.id}`);
         }
         else {
-            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: collection.fields, data: json.doc, user, id, operation: 'update', locale, t });
+            const preferences = await getDocPreferences();
+            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: collection.fields, preferences, data: json.doc, user, id, operation: 'update', locale, t });
             setInternalState(state);
         }
-    }, [admin, collection, isEditing, getVersions, user, id, t, locale, getDocPermissions]);
+    }, [admin, collection.fields, collection.slug, getDocPreferences, getDocPermissions, getVersions, id, isEditing, locale, t, user]);
     const dataToRender = (locationState === null || locationState === void 0 ? void 0 : locationState.data) || data;
     (0, react_1.useEffect)(() => {
         const awaitInternalState = async () => {
             setUpdatedAt(dataToRender === null || dataToRender === void 0 ? void 0 : dataToRender.updatedAt);
-            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: fields, data: dataToRender || {}, user, operation: isEditing ? 'update' : 'create', id, locale, t });
-            await getPreference(preferencesKey);
+            const preferences = await getDocPreferences();
+            const state = await (0, buildStateFromSchema_1.default)({ fieldSchema: fields, preferences, data: dataToRender || {}, user, operation: isEditing ? 'update' : 'create', id, locale, t });
             setInternalState(state);
         };
         if (!isEditing || dataToRender)
             awaitInternalState();
-    }, [dataToRender, fields, isEditing, id, user, locale, preferencesKey, getPreference, t]);
+    }, [dataToRender, fields, isEditing, id, user, locale, t, getDocPreferences]);
     (0, react_1.useEffect)(() => {
         if (redirect) {
             history.push(redirect);

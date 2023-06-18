@@ -4,5 +4,5 @@ import { Options, FieldType } from './types';
  *
  * @see https://payloadcms.com/docs/admin/hooks#usefield
  */
-declare const useField: <T extends unknown>(options: Options) => FieldType<T>;
+declare const useField: <T>(options: Options) => FieldType<T>;
 export default useField;

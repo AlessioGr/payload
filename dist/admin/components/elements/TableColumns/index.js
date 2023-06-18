@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TableColumnsProvider = exports.useTableColumns = exports.TableColumnContext = void 0;
 const react_1 = __importStar(require("react"));
-const react_i18next_1 = require("react-i18next");
 const Preferences_1 = require("../../utilities/Preferences");
 const buildColumns_1 = __importDefault(require("./buildColumns"));
 const columnReducer_1 = require("./columnReducer");
@@ -42,7 +41,6 @@ const TableColumnsProvider = ({ children, cellProps, collection, collection: { a
     const prevCollection = (0, react_1.useRef)();
     const hasInitialized = (0, react_1.useRef)(false);
     const { getPreference, setPreference } = (0, Preferences_1.usePreferences)();
-    const { t } = (0, react_i18next_1.useTranslation)();
     const [formattedFields] = (0, react_1.useState)(() => (0, formatFields_1.default)(collection));
     const [tableColumns, dispatchTableColumns] = (0, react_1.useReducer)(columnReducer_1.columnReducer, {}, () => {
         const initialColumns = (0, getInitialColumns_1.default)(formattedFields, useAsTitle, defaultColumns);
