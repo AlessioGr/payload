@@ -119,7 +119,7 @@ type CollectionConfigType<TSlug extends CollectionSlug> = {
      * @default true
      */
     timestamps?: boolean
-    /** Extension  point to add your custom data. */
+    /** Extension point to add your custom data. */
     custom?: Record<string, any>;
 }
 
@@ -378,109 +378,6 @@ export type CollectionAdminOptions = {
    */
   preview?: GeneratePreviewURL
 }
-
-/** Manage all aspects of a data collection */
-export type CollectionConfig = {
-  slug: string;
-  /**
-   * Label configuration
-   */
-  labels?: {
-    singular?: Record<string, string> | string;
-    plural?: Record<string, string> | string;
-  };
-  /**
-   * Default field to sort by in collection list view
-   */
-  defaultSort?: string;
-  /**
-   * GraphQL configuration
-   */
-  graphQL?: {
-    singularName?: string
-    pluralName?: string
-  }
-  /**
-   * Options used in typescript generation
-   */
-  typescript?: {
-    /**
-     * Typescript generation name given to the interface type
-     */
-    interface?: string
-  }
-  fields: Field[];
-  /**
-   * Array of database indexes to create, including compound indexes that have multiple fields
-   */
-  indexes?: TypeOfIndex[];
-  /**
-   * Collection admin options
-   */
-  admin?: CollectionAdminOptions;
-  /**
-   * Hooks to modify Payload functionality
-   */
-  hooks?: {
-    beforeOperation?: BeforeOperationHook[];
-    beforeValidate?: BeforeValidateHook[];
-    beforeChange?: BeforeChangeHook[];
-    afterChange?: AfterChangeHook[];
-    beforeRead?: BeforeReadHook[];
-    afterRead?: AfterReadHook[];
-    beforeDelete?: BeforeDeleteHook[];
-    afterDelete?: AfterDeleteHook[];
-    afterError?: AfterErrorHook;
-    beforeLogin?: BeforeLoginHook[];
-    afterLogin?: AfterLoginHook[];
-    afterLogout?: AfterLogoutHook[];
-    afterMe?: AfterMeHook[];
-    afterRefresh?: AfterRefreshHook[];
-    afterForgotPassword?: AfterForgotPasswordHook[];
-  };
-  /**
-   * Custom rest api endpoints
-   */
-  endpoints?: Omit<Endpoint, 'root'>[]
-  /**
-   * Access control
-   */
-  access?: {
-    create?: Access;
-    read?: Access;
-    readVersions?: Access;
-    update?: Access;
-    delete?: Access;
-    admin?: (args?: any) => boolean | Promise<boolean>;
-    unlock?: Access;
-  };
-  /**
-   * Collection login options
-   *
-   * Use `true` to enable with default options
-   */
-  auth?: IncomingAuthType | boolean;
-  /**
-   * Customize the handling of incoming file uploads
-   *
-   * @default false // disable uploads
-   */
-  upload?: IncomingUploadType | boolean;
-  /**
-   * Customize the handling of incoming file uploads
-   *
-   * @default false // disable versioning
-   */
-  versions?: IncomingCollectionVersions | boolean;
-  /**
-   * Add `createdAt` and `updatedAt` fields
-   *
-   * @default true
-   */
-  timestamps?: boolean
-  /** Extension point to add your custom data. */
-  custom?: Record<string, any>;
-};
 
 export interface SanitizedCollectionConfig extends Omit<DeepRequired<CollectionConfig>, 'auth' | 'upload' | 'fields' | 'versions' | 'endpoints'> {
   auth: Auth;
