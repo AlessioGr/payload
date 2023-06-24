@@ -64,7 +64,7 @@ export default async function createLocal<TSlug extends CollectionSlug>(
     throw new APIError(`The collection with slug ${String(collectionSlug)} can't be found.`);
   }
 
-  req.payloadAPI = 'local';
+  req.payloadAPI = req.payloadAPI || 'local';
   req.locale = locale ?? req?.locale ?? defaultLocale;
   req.fallbackLocale = fallbackLocale ?? req?.fallbackLocale ?? defaultLocale;
   req.payload = payload;

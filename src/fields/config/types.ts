@@ -133,6 +133,7 @@ export interface FieldBaseType<TSlug extends CollectionSlug, TFieldName extends 
   custom?: Record<string, any>;
 }
 
+
 type FieldBases<TSlug extends CollectionSlug = any> = {
   [K in FieldName<TSlug>]: FieldBaseType<TSlug, K>;
 }

@@ -44,8 +44,8 @@ const SelectAdapter: React.FC<ReactSelectAdapterProps> = (props) => {
     isLoading,
     onMenuOpen,
     components,
-    selectProps,
     isCreatable,
+    selectProps,
   } = props;
 
   const classes = [
