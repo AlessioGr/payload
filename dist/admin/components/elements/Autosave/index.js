@@ -57,6 +57,7 @@ const Autosave = ({ collection, global, id, publishedDocUpdatedAt }) => {
     const debouncedFields = (0, useDebounce_1.default)(fields, interval);
     const fieldRef = (0, react_1.useRef)(fields);
     const modifiedRef = (0, react_1.useRef)(modified);
+    const localeRef = (0, react_1.useRef)(locale);
     // Store fields in ref so the autosave func
     // can always retrieve the most to date copies
     // after the timeout has executed
@@ -102,11 +103,11 @@ const Autosave = ({ collection, global, id, publishedDocUpdatedAt }) => {
                 let url;
                 let method;
                 if (collection && id) {
-                    url = `${serverURL}${api}/${collection.slug}/${id}?draft=true&autosave=true&locale=${locale}`;
+                    url = `${serverURL}${api}/${collection.slug}/${id}?draft=true&autosave=true&locale=${localeRef.current}`;
                     method = 'PATCH';
                 }
                 if (global) {
-                    url = `${serverURL}${api}/globals/${global.slug}?draft=true&autosave=true&locale=${locale}`;
+                    url = `${serverURL}${api}/globals/${global.slug}?draft=true&autosave=true&locale=${localeRef.current}`;
                     method = 'POST';
                 }
                 if (url) {
@@ -136,7 +137,7 @@ const Autosave = ({ collection, global, id, publishedDocUpdatedAt }) => {
             }
         };
         autosave();
-    }, [i18n, debouncedFields, modified, serverURL, api, collection, global, id, getVersions, locale, modifiedRef]);
+    }, [i18n, debouncedFields, modified, serverURL, api, collection, global, id, getVersions, localeRef, modifiedRef]);
     (0, react_1.useEffect)(() => {
         var _a;
         if ((_a = versions === null || versions === void 0 ? void 0 : versions.docs) === null || _a === void 0 ? void 0 : _a[0]) {

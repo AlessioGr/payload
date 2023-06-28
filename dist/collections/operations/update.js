@@ -31,11 +31,11 @@ async function update(incomingArgs) {
             context: req.payloadContext,
         })) || args;
     }, Promise.resolve());
-    const { depth, collection, collection: { Model, config: collectionConfig, }, where, req, req: { t, locale, payload, payload: { config, }, }, overrideAccess, showHiddenFields, overwriteExistingFiles = false, draft: draftArg = false, } = args;
+    const { depth, collection, collection: { Model, config: collectionConfig, }, where, req, req: { t, payload, payload: { config, }, }, overrideAccess, showHiddenFields, overwriteExistingFiles = false, draft: draftArg = false, } = args;
     if (!where) {
         throw new errors_1.APIError('Missing \'where\' query of documents to update.', http_status_1.default.BAD_REQUEST);
     }
-    let { data } = args;
+    const { data: bulkUpdateData } = args;
     const shouldSaveDraft = Boolean(draftArg && collectionConfig.versions.drafts);
     // /////////////////////////////////////
     // Access
@@ -74,13 +74,16 @@ async function update(incomingArgs) {
         config,
         collection,
         req,
-        data,
+        data: bulkUpdateData,
         throwOnMissingFile: false,
         overwriteExistingFiles,
     });
-    data = newFileData;
     const errors = [];
     const promises = docs.map(async (doc) => {
+        let data = {
+            ...newFileData,
+            ...bulkUpdateData,
+        };
         let docWithLocales = JSON.stringify(doc);
         docWithLocales = JSON.parse(docWithLocales);
         const id = docWithLocales._id;
