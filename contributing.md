@@ -1,6 +1,6 @@
-# Contributing to Payload CMS
+# Contributing to Payload
 
-Below you'll find a set of guidelines for how to contribute to Payload CMS.
+Below you'll find a set of guidelines for how to contribute to Payload.
 
 ## Opening issues
 
@@ -22,7 +22,7 @@ If you're an incredibly awesome person and want to help us make Payload even bet
 
 ### Before Starting
 
-To help us work on new features, you can create a new feature request post in [GitHub Discussion](https://github.com/payloadcms/payload/discussions) or discuss it in our [Discord](https://discord.com/invite/r6sCXqVk3v). New functionality often has large implications across the entire Payload repo, so it is best to discuss the architecture and approach before starting work on a pull request.
+To help us work on new features, you can create a new feature request post in [GitHub Discussion](https://github.com/payloadcms/payload/discussions) or discuss it in our [Discord](https://discord.com/invite/payload). New functionality often has large implications across the entire Payload repo, so it is best to discuss the architecture and approach before starting work on a pull request.
 
 ### Code
 
