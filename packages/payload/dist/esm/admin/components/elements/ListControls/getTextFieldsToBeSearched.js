@@ -1,0 +1,15 @@
+import { fieldAffectsData } from "../../../../fields/config/types";
+import flattenFields from "../../../../utilities/flattenTopLevelFields";
+export var getTextFieldsToBeSearched = function(listSearchableFields, fields) {
+    return function() {
+        if (listSearchableFields) {
+            var flattenedFields = flattenFields(fields);
+            return flattenedFields.filter(function(field) {
+                return fieldAffectsData(field) && listSearchableFields.includes(field.name);
+            });
+        }
+        return null;
+    };
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2VsZW1lbnRzL0xpc3RDb250cm9scy9nZXRUZXh0RmllbGRzVG9CZVNlYXJjaGVkLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEZpZWxkLCBGaWVsZEFmZmVjdGluZ0RhdGEsIGZpZWxkQWZmZWN0c0RhdGEgfSBmcm9tICcuLi8uLi8uLi8uLi9maWVsZHMvY29uZmlnL3R5cGVzJztcbmltcG9ydCBmbGF0dGVuRmllbGRzIGZyb20gJy4uLy4uLy4uLy4uL3V0aWxpdGllcy9mbGF0dGVuVG9wTGV2ZWxGaWVsZHMnO1xuXG5leHBvcnQgY29uc3QgZ2V0VGV4dEZpZWxkc1RvQmVTZWFyY2hlZCA9IChsaXN0U2VhcmNoYWJsZUZpZWxkczogc3RyaW5nW10sIGZpZWxkczogRmllbGRbXSkgPT4gKCk6IEZpZWxkQWZmZWN0aW5nRGF0YVtdID0+IHtcbiAgaWYgKGxpc3RTZWFyY2hhYmxlRmllbGRzKSB7XG4gICAgY29uc3QgZmxhdHRlbmVkRmllbGRzID0gZmxhdHRlbkZpZWxkcyhmaWVsZHMpO1xuICAgIHJldHVybiBmbGF0dGVuZWRGaWVsZHMuZmlsdGVyKChmaWVsZCkgPT4gZmllbGRBZmZlY3RzRGF0YShmaWVsZCkgJiYgbGlzdFNlYXJjaGFibGVGaWVsZHMuaW5jbHVkZXMoZmllbGQubmFtZSkpIGFzIEZpZWxkQWZmZWN0aW5nRGF0YVtdO1xuICB9XG5cbiAgcmV0dXJuIG51bGw7XG59O1xuIl0sIm5hbWVzIjpbImZpZWxkQWZmZWN0c0RhdGEiLCJmbGF0dGVuRmllbGRzIiwiZ2V0VGV4dEZpZWxkc1RvQmVTZWFyY2hlZCIsImxpc3RTZWFyY2hhYmxlRmllbGRzIiwiZmllbGRzIiwiZmxhdHRlbmVkRmllbGRzIiwiZmlsdGVyIiwiZmllbGQiLCJpbmNsdWRlcyIsIm5hbWUiXSwibWFwcGluZ3MiOiJBQUFBLFNBQW9DQSxnQkFBZ0IsUUFBUSxrQ0FBa0M7QUFDOUYsT0FBT0MsbUJBQW1CLDhDQUE4QztBQUV4RSxPQUFPLElBQU1DLDRCQUE0QixTQUFDQyxzQkFBZ0NDO1dBQW9CO1FBQzVGLElBQUlELHNCQUFzQjtZQUN4QixJQUFNRSxrQkFBa0JKLGNBQWNHO1lBQ3RDLE9BQU9DLGdCQUFnQkMsTUFBTSxDQUFDLFNBQUNDO3VCQUFVUCxpQkFBaUJPLFVBQVVKLHFCQUFxQkssUUFBUSxDQUFDRCxNQUFNRSxJQUFJOztRQUM5RztRQUVBLE9BQU87SUFDVDtFQUFFIn0=

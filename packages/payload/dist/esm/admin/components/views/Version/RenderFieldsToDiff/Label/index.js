@@ -1,0 +1,12 @@
+import React from "react";
+import "./index.scss";
+var baseClass = "field-diff-label";
+var Label = function(param) {
+    var children = param.children;
+    return /*#__PURE__*/ React.createElement("div", {
+        className: baseClass
+    }, children);
+};
+export default Label;
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL3ZpZXdzL1ZlcnNpb24vUmVuZGVyRmllbGRzVG9EaWZmL0xhYmVsL2luZGV4LnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuXG5pbXBvcnQgJy4vaW5kZXguc2Nzcyc7XG5cbmNvbnN0IGJhc2VDbGFzcyA9ICdmaWVsZC1kaWZmLWxhYmVsJztcblxuY29uc3QgTGFiZWw6IFJlYWN0LkZDPHtjaGlsZHJlbj86IFJlYWN0LlJlYWN0Tm9kZX0+ID0gKHsgY2hpbGRyZW4gfSkgPT4gKFxuICA8ZGl2IGNsYXNzTmFtZT17YmFzZUNsYXNzfT5cbiAgICB7Y2hpbGRyZW59XG4gIDwvZGl2PlxuKTtcblxuZXhwb3J0IGRlZmF1bHQgTGFiZWw7XG4iXSwibmFtZXMiOlsiUmVhY3QiLCJiYXNlQ2xhc3MiLCJMYWJlbCIsImNoaWxkcmVuIiwiZGl2IiwiY2xhc3NOYW1lIl0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPQSxXQUFXLFFBQVE7QUFFMUIsT0FBTyxlQUFlO0FBRXRCLElBQU1DLFlBQVk7QUFFbEIsSUFBTUMsUUFBZ0Q7UUFBR0MsaUJBQUFBO3lCQUN2RCxvQkFBQ0M7UUFBSUMsV0FBV0o7T0FDYkU7O0FBSUwsZUFBZUQsTUFBTSJ9

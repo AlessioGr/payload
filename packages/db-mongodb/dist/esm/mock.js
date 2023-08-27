@@ -1,0 +1,5 @@
+export var mongooseAdapter = function() {
+    return {};
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9tb2NrLmpzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBjb25zdCBtb25nb29zZUFkYXB0ZXIgPSAoKSA9PiAoe30pOyJdLCJuYW1lcyI6WyJtb25nb29zZUFkYXB0ZXIiXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sSUFBTUEsa0JBQWtCO1dBQU8sQ0FBQztFQUFHIn0=

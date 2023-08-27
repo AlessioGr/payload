@@ -1,0 +1,14 @@
+import React, { createContext, useContext } from "react";
+var Context = /*#__PURE__*/ createContext(false);
+export var RowProvider = function(param) {
+    var children = param.children, _param_withinRow = param.withinRow, withinRow = _param_withinRow === void 0 ? true : _param_withinRow;
+    return /*#__PURE__*/ React.createElement(Context.Provider, {
+        value: withinRow
+    }, children);
+};
+export var useRow = function() {
+    return useContext(Context);
+};
+export default Context;
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2Zvcm1zL2ZpZWxkLXR5cGVzL1Jvdy9wcm92aWRlci50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFJlYWN0LCB7XG4gIGNyZWF0ZUNvbnRleHQsIHVzZUNvbnRleHQsXG59IGZyb20gJ3JlYWN0JztcblxuY29uc3QgQ29udGV4dCA9IGNyZWF0ZUNvbnRleHQoZmFsc2UpO1xuXG5leHBvcnQgY29uc3QgUm93UHJvdmlkZXI6IFJlYWN0LkZDPHsgY2hpbGRyZW4/OiBSZWFjdC5SZWFjdE5vZGUsIHdpdGhpblJvdz86IGJvb2xlYW4gfT4gPSAoeyBjaGlsZHJlbiwgd2l0aGluUm93ID0gdHJ1ZSB9KSA9PiB7XG4gIHJldHVybiAoXG4gICAgPENvbnRleHQuUHJvdmlkZXIgdmFsdWU9e3dpdGhpblJvd30+XG4gICAgICB7Y2hpbGRyZW59XG4gICAgPC9Db250ZXh0LlByb3ZpZGVyPlxuICApO1xufTtcblxuZXhwb3J0IGNvbnN0IHVzZVJvdyA9ICgpOiBib29sZWFuID0+IHVzZUNvbnRleHQoQ29udGV4dCk7XG5cbmV4cG9ydCBkZWZhdWx0IENvbnRleHQ7XG4iXSwibmFtZXMiOlsiUmVhY3QiLCJjcmVhdGVDb250ZXh0IiwidXNlQ29udGV4dCIsIkNvbnRleHQiLCJSb3dQcm92aWRlciIsImNoaWxkcmVuIiwid2l0aGluUm93IiwiUHJvdmlkZXIiLCJ2YWx1ZSIsInVzZVJvdyJdLCJtYXBwaW5ncyI6IkFBQUEsT0FBT0EsU0FDTEMsYUFBYSxFQUFFQyxVQUFVLFFBQ3BCLFFBQVE7QUFFZixJQUFNQyx3QkFBVUYsY0FBYztBQUU5QixPQUFPLElBQU1HLGNBQTZFO1FBQUdDLGlCQUFBQSxtQ0FBVUMsV0FBQUEsMENBQVk7SUFDakgscUJBQ0Usb0JBQUNILFFBQVFJLFFBQVE7UUFBQ0MsT0FBT0Y7T0FDdEJEO0FBR1AsRUFBRTtBQUVGLE9BQU8sSUFBTUksU0FBUztXQUFlUCxXQUFXQztFQUFTO0FBRXpELGVBQWVBLFFBQVEifQ==

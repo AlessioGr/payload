@@ -1,0 +1,14 @@
+import bold from "./bold";
+import code from "./code";
+import italic from "./italic";
+import strikethrough from "./strikethrough";
+import underline from "./underline";
+export default {
+    bold: bold,
+    code: code,
+    italic: italic,
+    strikethrough: strikethrough,
+    underline: underline
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2Zvcm1zL2ZpZWxkLXR5cGVzL1JpY2hUZXh0L2xlYXZlcy9pbmRleC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGJvbGQgZnJvbSAnLi9ib2xkJztcbmltcG9ydCBjb2RlIGZyb20gJy4vY29kZSc7XG5pbXBvcnQgaXRhbGljIGZyb20gJy4vaXRhbGljJztcbmltcG9ydCBzdHJpa2V0aHJvdWdoIGZyb20gJy4vc3RyaWtldGhyb3VnaCc7XG5pbXBvcnQgdW5kZXJsaW5lIGZyb20gJy4vdW5kZXJsaW5lJztcblxuZXhwb3J0IGRlZmF1bHQge1xuICBib2xkLFxuICBjb2RlLFxuICBpdGFsaWMsXG4gIHN0cmlrZXRocm91Z2gsXG4gIHVuZGVybGluZSxcbn07XG4iXSwibmFtZXMiOlsiYm9sZCIsImNvZGUiLCJpdGFsaWMiLCJzdHJpa2V0aHJvdWdoIiwidW5kZXJsaW5lIl0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPQSxVQUFVLFNBQVM7QUFDMUIsT0FBT0MsVUFBVSxTQUFTO0FBQzFCLE9BQU9DLFlBQVksV0FBVztBQUM5QixPQUFPQyxtQkFBbUIsa0JBQWtCO0FBQzVDLE9BQU9DLGVBQWUsY0FBYztBQUVwQyxlQUFlO0lBQ2JKLE1BQUFBO0lBQ0FDLE1BQUFBO0lBQ0FDLFFBQUFBO0lBQ0FDLGVBQUFBO0lBQ0FDLFdBQUFBO0FBQ0YsRUFBRSJ9

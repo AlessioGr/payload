@@ -1,0 +1,12 @@
+import plugin from "./plugin";
+import Element from "./Element";
+import Button from "./Button";
+export default {
+    Button: Button,
+    Element: Element,
+    plugins: [
+        plugin
+    ]
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2Zvcm1zL2ZpZWxkLXR5cGVzL1JpY2hUZXh0L2VsZW1lbnRzL3VwbG9hZC9pbmRleC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHBsdWdpbiBmcm9tICcuL3BsdWdpbic7XG5pbXBvcnQgRWxlbWVudCBmcm9tICcuL0VsZW1lbnQnO1xuaW1wb3J0IEJ1dHRvbiBmcm9tICcuL0J1dHRvbic7XG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgQnV0dG9uLFxuICBFbGVtZW50LFxuICBwbHVnaW5zOiBbXG4gICAgcGx1Z2luLFxuICBdLFxufTtcbiJdLCJuYW1lcyI6WyJwbHVnaW4iLCJFbGVtZW50IiwiQnV0dG9uIiwicGx1Z2lucyJdLCJtYXBwaW5ncyI6IkFBQUEsT0FBT0EsWUFBWSxXQUFXO0FBQzlCLE9BQU9DLGFBQWEsWUFBWTtBQUNoQyxPQUFPQyxZQUFZLFdBQVc7QUFFOUIsZUFBZTtJQUNiQSxRQUFBQTtJQUNBRCxTQUFBQTtJQUNBRSxTQUFTO1FBQ1BIO0tBQ0Q7QUFDSCxFQUFFIn0=

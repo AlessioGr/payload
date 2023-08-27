@@ -1,0 +1,100 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return _default;
+    }
+});
+var _APIError = /*#__PURE__*/ _interop_require_default(require("./APIError"));
+function _assert_this_initialized(self) {
+    if (self === void 0) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self;
+}
+function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _get_prototype_of(o) {
+    _get_prototype_of = Object.setPrototypeOf ? Object.getPrototypeOf : function getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _get_prototype_of(o);
+}
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            writable: true,
+            configurable: true
+        }
+    });
+    if (superClass) _set_prototype_of(subClass, superClass);
+}
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+function _possible_constructor_return(self, call) {
+    if (call && (_type_of(call) === "object" || typeof call === "function")) {
+        return call;
+    }
+    return _assert_this_initialized(self);
+}
+function _set_prototype_of(o, p) {
+    _set_prototype_of = Object.setPrototypeOf || function setPrototypeOf(o, p) {
+        o.__proto__ = p;
+        return o;
+    };
+    return _set_prototype_of(o, p);
+}
+function _type_of(obj) {
+    "@swc/helpers - typeof";
+    return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
+}
+function _is_native_reflect_construct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+function _create_super(Derived) {
+    var hasNativeReflectConstruct = _is_native_reflect_construct();
+    return function _createSuperInternal() {
+        var Super = _get_prototype_of(Derived), result;
+        if (hasNativeReflectConstruct) {
+            var NewTarget = _get_prototype_of(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+        } else {
+            result = Super.apply(this, arguments);
+        }
+        return _possible_constructor_return(this, result);
+    };
+}
+var DuplicateGlobal = /*#__PURE__*/ function(APIError) {
+    "use strict";
+    _inherits(DuplicateGlobal, APIError);
+    var _super = _create_super(DuplicateGlobal);
+    function DuplicateGlobal(config) {
+        _class_call_check(this, DuplicateGlobal);
+        return _super.call(this, 'Global label "'.concat(config.label, '" is already in use'));
+    }
+    return DuplicateGlobal;
+}(_APIError.default);
+var _default = DuplicateGlobal;
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9lcnJvcnMvRHVwbGljYXRlR2xvYmFsLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEdsb2JhbENvbmZpZyB9IGZyb20gJy4uL2dsb2JhbHMvY29uZmlnL3R5cGVzJztcbmltcG9ydCBBUElFcnJvciBmcm9tICcuL0FQSUVycm9yJztcblxuY2xhc3MgRHVwbGljYXRlR2xvYmFsIGV4dGVuZHMgQVBJRXJyb3Ige1xuICBjb25zdHJ1Y3Rvcihjb25maWc6IEdsb2JhbENvbmZpZykge1xuICAgIHN1cGVyKGBHbG9iYWwgbGFiZWwgXCIke2NvbmZpZy5sYWJlbH1cIiBpcyBhbHJlYWR5IGluIHVzZWApO1xuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IER1cGxpY2F0ZUdsb2JhbDtcbiJdLCJuYW1lcyI6WyJEdXBsaWNhdGVHbG9iYWwiLCJjb25maWciLCJsYWJlbCIsIkFQSUVycm9yIl0sIm1hcHBpbmdzIjoiOzs7OytCQVNBOzs7ZUFBQTs7OytEQVJxQjs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFFckIsSUFBQSxBQUFNQSxnQ0FNSCxBQU5IOztjQUFNQTsrQkFBQUE7YUFBQUEsZ0JBQ1FDLE1BQW9CO2dDQUQ1QkQ7aUNBRUksQUFBQyxpQkFBNkIsT0FBYkMsT0FBT0MsS0FBSyxFQUFDOztXQUZsQ0Y7RUFBd0JHLGlCQUFRO0lBTXRDLFdBQWVIIn0=

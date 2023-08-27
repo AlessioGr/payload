@@ -1,0 +1,8 @@
+export var getIDType = function(idField) {
+    if (idField) {
+        return idField.type === "number" ? "number" : "text";
+    }
+    return "ObjectID";
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy91dGlsaXRpZXMvZ2V0SURUeXBlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEZpZWxkIH0gZnJvbSAnLi4vZmllbGRzL2NvbmZpZy90eXBlcyc7XG5cbmV4cG9ydCBjb25zdCBnZXRJRFR5cGUgPSAoaWRGaWVsZDogRmllbGQgfCBudWxsKTogJ251bWJlcicgfCAndGV4dCcgfCAnT2JqZWN0SUQnID0+IHtcbiAgaWYgKGlkRmllbGQpIHtcbiAgICByZXR1cm4gaWRGaWVsZC50eXBlID09PSAnbnVtYmVyJyA/ICdudW1iZXInIDogJ3RleHQnO1xuICB9XG4gIHJldHVybiAnT2JqZWN0SUQnO1xufTtcbiJdLCJuYW1lcyI6WyJnZXRJRFR5cGUiLCJpZEZpZWxkIiwidHlwZSJdLCJtYXBwaW5ncyI6IkFBRUEsT0FBTyxJQUFNQSxZQUFZLFNBQUNDO0lBQ3hCLElBQUlBLFNBQVM7UUFDWCxPQUFPQSxRQUFRQyxJQUFJLEtBQUssV0FBVyxXQUFXO0lBQ2hEO0lBQ0EsT0FBTztBQUNULEVBQUUifQ==

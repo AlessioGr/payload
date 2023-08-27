@@ -1,0 +1,13 @@
+import * as React from "react";
+import useThrottledEffect from "../../../hooks/useThrottledEffect";
+export var WatchFormErrors = function(param) {
+    var buildRowErrors = param.buildRowErrors;
+    useThrottledEffect(function() {
+        buildRowErrors();
+    }, 250, [
+        buildRowErrors
+    ]);
+    return null;
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2Zvcm1zL0Zvcm0vV2F0Y2hGb3JtRXJyb3JzLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBSZWFjdCBmcm9tICdyZWFjdCc7XG5pbXBvcnQgdXNlVGhyb3R0bGVkRWZmZWN0IGZyb20gJy4uLy4uLy4uL2hvb2tzL3VzZVRocm90dGxlZEVmZmVjdCc7XG5cbnR5cGUgUHJvcHMgPSB7XG4gIGJ1aWxkUm93RXJyb3JzOiAoKSA9PiB2b2lkO1xufTtcbmV4cG9ydCBjb25zdCBXYXRjaEZvcm1FcnJvcnM6IFJlYWN0LkZDPFByb3BzPiA9ICh7IGJ1aWxkUm93RXJyb3JzIH0pID0+IHtcbiAgdXNlVGhyb3R0bGVkRWZmZWN0KCgpID0+IHtcbiAgICBidWlsZFJvd0Vycm9ycygpO1xuICB9LCAyNTAsIFtidWlsZFJvd0Vycm9yc10pO1xuXG4gIHJldHVybiBudWxsO1xufTtcbiJdLCJuYW1lcyI6WyJSZWFjdCIsInVzZVRocm90dGxlZEVmZmVjdCIsIldhdGNoRm9ybUVycm9ycyIsImJ1aWxkUm93RXJyb3JzIl0sIm1hcHBpbmdzIjoiQUFBQSxZQUFZQSxXQUFXLFFBQVE7QUFDL0IsT0FBT0Msd0JBQXdCLG9DQUFvQztBQUtuRSxPQUFPLElBQU1DLGtCQUFtQztRQUFHQyx1QkFBQUE7SUFDakRGLG1CQUFtQjtRQUNqQkU7SUFDRixHQUFHLEtBQUs7UUFBQ0E7S0FBZTtJQUV4QixPQUFPO0FBQ1QsRUFBRSJ9

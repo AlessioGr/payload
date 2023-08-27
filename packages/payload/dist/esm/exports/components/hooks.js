@@ -1,0 +1,3 @@
+export { useStepNav } from "../../admin/components/elements/StepNav";
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL3NyYy9leHBvcnRzL2NvbXBvbmVudHMvaG9va3MudHMiXSwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IHsgdXNlU3RlcE5hdiB9IGZyb20gJy4uLy4uL2FkbWluL2NvbXBvbmVudHMvZWxlbWVudHMvU3RlcE5hdic7Il0sIm5hbWVzIjpbInVzZVN0ZXBOYXYiXSwibWFwcGluZ3MiOiJBQUFBLFNBQVNBLFVBQVUsUUFBUSwwQ0FBMEMifQ==

@@ -1,0 +1,13 @@
+import { useId } from "react";
+import { formatDrawerSlug } from ".";
+import { useEditDepth } from "../../utilities/EditDepth";
+export var useDrawerSlug = function(slug) {
+    var uuid = useId();
+    var editDepth = useEditDepth();
+    return formatDrawerSlug({
+        slug: "".concat(slug, "-").concat(uuid),
+        depth: editDepth
+    });
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2VsZW1lbnRzL0RyYXdlci91c2VEcmF3ZXJTbHVnLnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyB1c2VJZCB9IGZyb20gJ3JlYWN0JztcbmltcG9ydCB7IGZvcm1hdERyYXdlclNsdWcgfSBmcm9tICcuJztcbmltcG9ydCB7IHVzZUVkaXREZXB0aCB9IGZyb20gJy4uLy4uL3V0aWxpdGllcy9FZGl0RGVwdGgnO1xuXG5leHBvcnQgY29uc3QgdXNlRHJhd2VyU2x1ZyA9IChzbHVnOiBzdHJpbmcpOiBzdHJpbmcgPT4ge1xuICBjb25zdCB1dWlkID0gdXNlSWQoKTtcbiAgY29uc3QgZWRpdERlcHRoID0gdXNlRWRpdERlcHRoKCk7XG4gIHJldHVybiBmb3JtYXREcmF3ZXJTbHVnKHtcbiAgICBzbHVnOiBgJHtzbHVnfS0ke3V1aWR9YCxcbiAgICBkZXB0aDogZWRpdERlcHRoLFxuICB9KTtcbn07XG4iXSwibmFtZXMiOlsidXNlSWQiLCJmb3JtYXREcmF3ZXJTbHVnIiwidXNlRWRpdERlcHRoIiwidXNlRHJhd2VyU2x1ZyIsInNsdWciLCJ1dWlkIiwiZWRpdERlcHRoIiwiZGVwdGgiXSwibWFwcGluZ3MiOiJBQUFBLFNBQVNBLEtBQUssUUFBUSxRQUFRO0FBQzlCLFNBQVNDLGdCQUFnQixRQUFRLElBQUk7QUFDckMsU0FBU0MsWUFBWSxRQUFRLDRCQUE0QjtBQUV6RCxPQUFPLElBQU1DLGdCQUFnQixTQUFDQztJQUM1QixJQUFNQyxPQUFPTDtJQUNiLElBQU1NLFlBQVlKO0lBQ2xCLE9BQU9ELGlCQUFpQjtRQUN0QkcsTUFBTSxBQUFDLEdBQVVDLE9BQVJELE1BQUssS0FBUSxPQUFMQztRQUNqQkUsT0FBT0Q7SUFDVDtBQUNGLEVBQUUifQ==

@@ -1,0 +1,9 @@
+export var email = "test@test.com";
+export var password = "test123";
+export var connection = {
+    url: "mongodb://127.0.0.1",
+    port: 27018,
+    name: "payloadmemory"
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy90ZXN0Q3JlZGVudGlhbHMudHMiXSwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGNvbnN0IGVtYWlsID0gJ3Rlc3RAdGVzdC5jb20nO1xuZXhwb3J0IGNvbnN0IHBhc3N3b3JkID0gJ3Rlc3QxMjMnO1xuZXhwb3J0IGNvbnN0IGNvbm5lY3Rpb24gPSB7XG4gIHVybDogJ21vbmdvZGI6Ly8xMjcuMC4wLjEnLFxuICBwb3J0OiAyNzAxOCxcbiAgbmFtZTogJ3BheWxvYWRtZW1vcnknLFxufTtcbiJdLCJuYW1lcyI6WyJlbWFpbCIsInBhc3N3b3JkIiwiY29ubmVjdGlvbiIsInVybCIsInBvcnQiLCJuYW1lIl0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLElBQU1BLFFBQVEsZ0JBQWdCO0FBQ3JDLE9BQU8sSUFBTUMsV0FBVyxVQUFVO0FBQ2xDLE9BQU8sSUFBTUMsYUFBYTtJQUN4QkMsS0FBSztJQUNMQyxNQUFNO0lBQ05DLE1BQU07QUFDUixFQUFFIn0=

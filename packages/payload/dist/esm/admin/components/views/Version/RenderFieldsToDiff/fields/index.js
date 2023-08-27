@@ -1,0 +1,30 @@
+import Text from "./Text";
+import Nested from "./Nested";
+import Iterable from "./Iterable";
+import Relationship from "./Relationship";
+import Tabs from "./Tabs";
+import Select from "./Select";
+export default {
+    text: Text,
+    textarea: Text,
+    number: Text,
+    email: Text,
+    code: Text,
+    json: Text,
+    checkbox: Text,
+    radio: Select,
+    row: Nested,
+    collapsible: Nested,
+    group: Nested,
+    array: Iterable,
+    blocks: Iterable,
+    date: Text,
+    select: Select,
+    richText: Text,
+    relationship: Relationship,
+    upload: Relationship,
+    point: Text,
+    tabs: Tabs
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL3ZpZXdzL1ZlcnNpb24vUmVuZGVyRmllbGRzVG9EaWZmL2ZpZWxkcy9pbmRleC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IFRleHQgZnJvbSAnLi9UZXh0JztcbmltcG9ydCBOZXN0ZWQgZnJvbSAnLi9OZXN0ZWQnO1xuaW1wb3J0IEl0ZXJhYmxlIGZyb20gJy4vSXRlcmFibGUnO1xuaW1wb3J0IFJlbGF0aW9uc2hpcCBmcm9tICcuL1JlbGF0aW9uc2hpcCc7XG5pbXBvcnQgVGFicyBmcm9tICcuL1RhYnMnO1xuaW1wb3J0IFNlbGVjdCBmcm9tICcuL1NlbGVjdCc7XG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgdGV4dDogVGV4dCxcbiAgdGV4dGFyZWE6IFRleHQsXG4gIG51bWJlcjogVGV4dCxcbiAgZW1haWw6IFRleHQsXG4gIGNvZGU6IFRleHQsXG4gIGpzb246IFRleHQsXG4gIGNoZWNrYm94OiBUZXh0LFxuICByYWRpbzogU2VsZWN0LFxuICByb3c6IE5lc3RlZCxcbiAgY29sbGFwc2libGU6IE5lc3RlZCxcbiAgZ3JvdXA6IE5lc3RlZCxcbiAgYXJyYXk6IEl0ZXJhYmxlLFxuICBibG9ja3M6IEl0ZXJhYmxlLFxuICBkYXRlOiBUZXh0LFxuICBzZWxlY3Q6IFNlbGVjdCxcbiAgcmljaFRleHQ6IFRleHQsXG4gIHJlbGF0aW9uc2hpcDogUmVsYXRpb25zaGlwLFxuICB1cGxvYWQ6IFJlbGF0aW9uc2hpcCxcbiAgcG9pbnQ6IFRleHQsXG4gIHRhYnM6IFRhYnMsXG59O1xuIl0sIm5hbWVzIjpbIlRleHQiLCJOZXN0ZWQiLCJJdGVyYWJsZSIsIlJlbGF0aW9uc2hpcCIsIlRhYnMiLCJTZWxlY3QiLCJ0ZXh0IiwidGV4dGFyZWEiLCJudW1iZXIiLCJlbWFpbCIsImNvZGUiLCJqc29uIiwiY2hlY2tib3giLCJyYWRpbyIsInJvdyIsImNvbGxhcHNpYmxlIiwiZ3JvdXAiLCJhcnJheSIsImJsb2NrcyIsImRhdGUiLCJzZWxlY3QiLCJyaWNoVGV4dCIsInJlbGF0aW9uc2hpcCIsInVwbG9hZCIsInBvaW50IiwidGFicyJdLCJtYXBwaW5ncyI6IkFBQUEsT0FBT0EsVUFBVSxTQUFTO0FBQzFCLE9BQU9DLFlBQVksV0FBVztBQUM5QixPQUFPQyxjQUFjLGFBQWE7QUFDbEMsT0FBT0Msa0JBQWtCLGlCQUFpQjtBQUMxQyxPQUFPQyxVQUFVLFNBQVM7QUFDMUIsT0FBT0MsWUFBWSxXQUFXO0FBRTlCLGVBQWU7SUFDYkMsTUFBTU47SUFDTk8sVUFBVVA7SUFDVlEsUUFBUVI7SUFDUlMsT0FBT1Q7SUFDUFUsTUFBTVY7SUFDTlcsTUFBTVg7SUFDTlksVUFBVVo7SUFDVmEsT0FBT1I7SUFDUFMsS0FBS2I7SUFDTGMsYUFBYWQ7SUFDYmUsT0FBT2Y7SUFDUGdCLE9BQU9mO0lBQ1BnQixRQUFRaEI7SUFDUmlCLE1BQU1uQjtJQUNOb0IsUUFBUWY7SUFDUmdCLFVBQVVyQjtJQUNWc0IsY0FBY25CO0lBQ2RvQixRQUFRcEI7SUFDUnFCLE9BQU94QjtJQUNQeUIsTUFBTXJCO0FBQ1IsRUFBRSJ9

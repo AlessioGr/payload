@@ -1,0 +1,11 @@
+export function createArrayFromCommaDelineated(input) {
+    if (Array.isArray(input)) return input;
+    if (input.indexOf(",") > -1) {
+        return input.split(",");
+    }
+    return [
+        input
+    ];
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy91dGlsaXRpZXMvY3JlYXRlQXJyYXlGcm9tQ29tbWFEZWxpbmVhdGVkLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBmdW5jdGlvbiBjcmVhdGVBcnJheUZyb21Db21tYURlbGluZWF0ZWQoaW5wdXQ6IHN0cmluZyk6IHN0cmluZ1tdIHtcbiAgaWYgKEFycmF5LmlzQXJyYXkoaW5wdXQpKSByZXR1cm4gaW5wdXQ7XG4gIGlmIChpbnB1dC5pbmRleE9mKCcsJykgPiAtMSkge1xuICAgIHJldHVybiBpbnB1dC5zcGxpdCgnLCcpO1xuICB9XG4gIHJldHVybiBbaW5wdXRdO1xufVxuIl0sIm5hbWVzIjpbImNyZWF0ZUFycmF5RnJvbUNvbW1hRGVsaW5lYXRlZCIsImlucHV0IiwiQXJyYXkiLCJpc0FycmF5IiwiaW5kZXhPZiIsInNwbGl0Il0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPLFNBQVNBLCtCQUErQkMsS0FBYTtJQUMxRCxJQUFJQyxNQUFNQyxPQUFPLENBQUNGLFFBQVEsT0FBT0E7SUFDakMsSUFBSUEsTUFBTUcsT0FBTyxDQUFDLE9BQU8sQ0FBQyxHQUFHO1FBQzNCLE9BQU9ILE1BQU1JLEtBQUssQ0FBQztJQUNyQjtJQUNBLE9BQU87UUFBQ0o7S0FBTTtBQUNoQiJ9

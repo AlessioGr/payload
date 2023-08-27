@@ -1,0 +1,13 @@
+import { withLinks } from "./utilities";
+import { LinkButton } from "./Button";
+import { LinkElement } from "./Element";
+var link = {
+    Button: LinkButton,
+    Element: LinkElement,
+    plugins: [
+        withLinks
+    ]
+};
+export default link;
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2Zvcm1zL2ZpZWxkLXR5cGVzL1JpY2hUZXh0L2VsZW1lbnRzL2xpbmsvaW5kZXgudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHdpdGhMaW5rcyB9IGZyb20gJy4vdXRpbGl0aWVzJztcbmltcG9ydCB7IExpbmtCdXR0b24gfSBmcm9tICcuL0J1dHRvbic7XG5pbXBvcnQgeyBMaW5rRWxlbWVudCB9IGZyb20gJy4vRWxlbWVudCc7XG5cbmNvbnN0IGxpbmsgPSB7XG4gIEJ1dHRvbjogTGlua0J1dHRvbixcbiAgRWxlbWVudDogTGlua0VsZW1lbnQsXG4gIHBsdWdpbnM6IFtcbiAgICB3aXRoTGlua3MsXG4gIF0sXG59O1xuXG5leHBvcnQgZGVmYXVsdCBsaW5rO1xuIl0sIm5hbWVzIjpbIndpdGhMaW5rcyIsIkxpbmtCdXR0b24iLCJMaW5rRWxlbWVudCIsImxpbmsiLCJCdXR0b24iLCJFbGVtZW50IiwicGx1Z2lucyJdLCJtYXBwaW5ncyI6IkFBQUEsU0FBU0EsU0FBUyxRQUFRLGNBQWM7QUFDeEMsU0FBU0MsVUFBVSxRQUFRLFdBQVc7QUFDdEMsU0FBU0MsV0FBVyxRQUFRLFlBQVk7QUFFeEMsSUFBTUMsT0FBTztJQUNYQyxRQUFRSDtJQUNSSSxTQUFTSDtJQUNUSSxTQUFTO1FBQ1BOO0tBQ0Q7QUFDSDtBQUVBLGVBQWVHLEtBQUsifQ==

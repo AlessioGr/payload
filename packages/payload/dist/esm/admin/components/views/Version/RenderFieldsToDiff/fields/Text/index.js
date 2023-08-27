@@ -1,0 +1,36 @@
+import React from "react";
+import ReactDiffViewer, { DiffMethod } from "react-diff-viewer-continued";
+import { useTranslation } from "react-i18next";
+import Label from "../../Label";
+import { diffStyles } from "../styles";
+import { getTranslation } from "../../../../../../../utilities/getTranslation";
+import "./index.scss";
+var baseClass = "text-diff";
+var Text = function(param) {
+    var field = param.field, locale = param.locale, version = param.version, comparison = param.comparison, _param_isRichText = param.isRichText, isRichText = _param_isRichText === void 0 ? false : _param_isRichText, diffMethod = param.diffMethod;
+    var placeholder = "";
+    var _useTranslation = useTranslation("general"), t = _useTranslation.t, i18n = _useTranslation.i18n;
+    if (version === comparison) placeholder = "[".concat(t("noValue"), "]");
+    var versionToRender = version;
+    var comparisonToRender = comparison;
+    if (isRichText) {
+        if (typeof version === "object") versionToRender = JSON.stringify(version, null, 2);
+        if (typeof comparison === "object") comparisonToRender = JSON.stringify(comparison, null, 2);
+    }
+    return /*#__PURE__*/ React.createElement("div", {
+        className: baseClass
+    }, /*#__PURE__*/ React.createElement(Label, null, locale && /*#__PURE__*/ React.createElement("span", {
+        className: "".concat(baseClass, "__locale-label")
+    }, locale), getTranslation(field.label, i18n)), /*#__PURE__*/ React.createElement(ReactDiffViewer, {
+        styles: diffStyles,
+        compareMethod: DiffMethod[diffMethod],
+        oldValue: typeof comparisonToRender !== "undefined" ? String(comparisonToRender) : placeholder,
+        newValue: typeof versionToRender !== "undefined" ? String(versionToRender) : placeholder,
+        splitView: true,
+        hideLineNumbers: true,
+        showDiffOnly: false
+    }));
+};
+export default Text;
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL3ZpZXdzL1ZlcnNpb24vUmVuZGVyRmllbGRzVG9EaWZmL2ZpZWxkcy9UZXh0L2luZGV4LnRzeCJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVhY3QgZnJvbSAncmVhY3QnO1xuaW1wb3J0IFJlYWN0RGlmZlZpZXdlciwgeyBEaWZmTWV0aG9kIH0gZnJvbSAncmVhY3QtZGlmZi12aWV3ZXItY29udGludWVkJztcbmltcG9ydCB7IHVzZVRyYW5zbGF0aW9uIH0gZnJvbSAncmVhY3QtaTE4bmV4dCc7XG5pbXBvcnQgTGFiZWwgZnJvbSAnLi4vLi4vTGFiZWwnO1xuaW1wb3J0IHsgZGlmZlN0eWxlcyB9IGZyb20gJy4uL3N0eWxlcyc7XG5pbXBvcnQgeyBQcm9wcyB9IGZyb20gJy4uL3R5cGVzJztcbmltcG9ydCB7IGdldFRyYW5zbGF0aW9uIH0gZnJvbSAnLi4vLi4vLi4vLi4vLi4vLi4vLi4vdXRpbGl0aWVzL2dldFRyYW5zbGF0aW9uJztcblxuaW1wb3J0ICcuL2luZGV4LnNjc3MnO1xuXG5jb25zdCBiYXNlQ2xhc3MgPSAndGV4dC1kaWZmJztcblxuY29uc3QgVGV4dDogUmVhY3QuRkM8UHJvcHM+ID0gKHsgZmllbGQsIGxvY2FsZSwgdmVyc2lvbiwgY29tcGFyaXNvbiwgaXNSaWNoVGV4dCA9IGZhbHNlLCBkaWZmTWV0aG9kIH0pID0+IHtcbiAgbGV0IHBsYWNlaG9sZGVyID0gJyc7XG4gIGNvbnN0IHsgdCwgaTE4biB9ID0gdXNlVHJhbnNsYXRpb24oJ2dlbmVyYWwnKTtcblxuICBpZiAodmVyc2lvbiA9PT0gY29tcGFyaXNvbikgcGxhY2Vob2xkZXIgPSBgWyR7dCgnbm9WYWx1ZScpfV1gO1xuXG4gIGxldCB2ZXJzaW9uVG9SZW5kZXIgPSB2ZXJzaW9uO1xuICBsZXQgY29tcGFyaXNvblRvUmVuZGVyID0gY29tcGFyaXNvbjtcblxuICBpZiAoaXNSaWNoVGV4dCkge1xuICAgIGlmICh0eXBlb2YgdmVyc2lvbiA9PT0gJ29iamVjdCcpIHZlcnNpb25Ub1JlbmRlciA9IEpTT04uc3RyaW5naWZ5KHZlcnNpb24sIG51bGwsIDIpO1xuICAgIGlmICh0eXBlb2YgY29tcGFyaXNvbiA9PT0gJ29iamVjdCcpIGNvbXBhcmlzb25Ub1JlbmRlciA9IEpTT04uc3RyaW5naWZ5KGNvbXBhcmlzb24sIG51bGwsIDIpO1xuICB9XG5cbiAgcmV0dXJuIChcbiAgICA8ZGl2IGNsYXNzTmFtZT17YmFzZUNsYXNzfT5cbiAgICAgIDxMYWJlbD5cbiAgICAgICAge2xvY2FsZSAmJiAoXG4gICAgICAgICAgPHNwYW4gY2xhc3NOYW1lPXtgJHtiYXNlQ2xhc3N9X19sb2NhbGUtbGFiZWxgfT57bG9jYWxlfTwvc3Bhbj5cbiAgICAgICAgKX1cbiAgICAgICAge2dldFRyYW5zbGF0aW9uKGZpZWxkLmxhYmVsLCBpMThuKX1cbiAgICAgIDwvTGFiZWw+XG4gICAgICA8UmVhY3REaWZmVmlld2VyXG4gICAgICAgIHN0eWxlcz17ZGlmZlN0eWxlc31cbiAgICAgICAgY29tcGFyZU1ldGhvZD17RGlmZk1ldGhvZFtkaWZmTWV0aG9kXX1cbiAgICAgICAgb2xkVmFsdWU9e3R5cGVvZiBjb21wYXJpc29uVG9SZW5kZXIgIT09ICd1bmRlZmluZWQnID8gU3RyaW5nKGNvbXBhcmlzb25Ub1JlbmRlcikgOiBwbGFjZWhvbGRlcn1cbiAgICAgICAgbmV3VmFsdWU9e3R5cGVvZiB2ZXJzaW9uVG9SZW5kZXIgIT09ICd1bmRlZmluZWQnID8gU3RyaW5nKHZlcnNpb25Ub1JlbmRlcikgOiBwbGFjZWhvbGRlcn1cbiAgICAgICAgc3BsaXRWaWV3XG4gICAgICAgIGhpZGVMaW5lTnVtYmVyc1xuICAgICAgICBzaG93RGlmZk9ubHk9e2ZhbHNlfVxuICAgICAgLz5cbiAgICA8L2Rpdj5cbiAgKTtcbn07XG5cbmV4cG9ydCBkZWZhdWx0IFRleHQ7XG4iXSwibmFtZXMiOlsiUmVhY3QiLCJSZWFjdERpZmZWaWV3ZXIiLCJEaWZmTWV0aG9kIiwidXNlVHJhbnNsYXRpb24iLCJMYWJlbCIsImRpZmZTdHlsZXMiLCJnZXRUcmFuc2xhdGlvbiIsImJhc2VDbGFzcyIsIlRleHQiLCJmaWVsZCIsImxvY2FsZSIsInZlcnNpb24iLCJjb21wYXJpc29uIiwiaXNSaWNoVGV4dCIsImRpZmZNZXRob2QiLCJwbGFjZWhvbGRlciIsInQiLCJpMThuIiwidmVyc2lvblRvUmVuZGVyIiwiY29tcGFyaXNvblRvUmVuZGVyIiwiSlNPTiIsInN0cmluZ2lmeSIsImRpdiIsImNsYXNzTmFtZSIsInNwYW4iLCJsYWJlbCIsInN0eWxlcyIsImNvbXBhcmVNZXRob2QiLCJvbGRWYWx1ZSIsIlN0cmluZyIsIm5ld1ZhbHVlIiwic3BsaXRWaWV3IiwiaGlkZUxpbmVOdW1iZXJzIiwic2hvd0RpZmZPbmx5Il0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPQSxXQUFXLFFBQVE7QUFDMUIsT0FBT0MsbUJBQW1CQyxVQUFVLFFBQVEsOEJBQThCO0FBQzFFLFNBQVNDLGNBQWMsUUFBUSxnQkFBZ0I7QUFDL0MsT0FBT0MsV0FBVyxjQUFjO0FBQ2hDLFNBQVNDLFVBQVUsUUFBUSxZQUFZO0FBRXZDLFNBQVNDLGNBQWMsUUFBUSxnREFBZ0Q7QUFFL0UsT0FBTyxlQUFlO0FBRXRCLElBQU1DLFlBQVk7QUFFbEIsSUFBTUMsT0FBd0I7UUFBR0MsY0FBQUEsT0FBT0MsZUFBQUEsUUFBUUMsZ0JBQUFBLFNBQVNDLG1CQUFBQSxzQ0FBWUMsWUFBQUEsNENBQWEsMkJBQU9DLG1CQUFBQTtJQUN2RixJQUFJQyxjQUFjO0lBQ2xCLElBQW9CWixrQkFBQUEsZUFBZSxZQUEzQmEsSUFBWWIsZ0JBQVphLEdBQUdDLE9BQVNkLGdCQUFUYztJQUVYLElBQUlOLFlBQVlDLFlBQVlHLGNBQWMsQUFBQyxJQUFnQixPQUFiQyxFQUFFLFlBQVc7SUFFM0QsSUFBSUUsa0JBQWtCUDtJQUN0QixJQUFJUSxxQkFBcUJQO0lBRXpCLElBQUlDLFlBQVk7UUFDZCxJQUFJLE9BQU9GLFlBQVksVUFBVU8sa0JBQWtCRSxLQUFLQyxTQUFTLENBQUNWLFNBQVMsTUFBTTtRQUNqRixJQUFJLE9BQU9DLGVBQWUsVUFBVU8scUJBQXFCQyxLQUFLQyxTQUFTLENBQUNULFlBQVksTUFBTTtJQUM1RjtJQUVBLHFCQUNFLG9CQUFDVTtRQUFJQyxXQUFXaEI7cUJBQ2Qsb0JBQUNILGFBQ0VNLHdCQUNDLG9CQUFDYztRQUFLRCxXQUFXLEFBQUMsR0FBWSxPQUFWaEIsV0FBVTtPQUFrQkcsU0FFakRKLGVBQWVHLE1BQU1nQixLQUFLLEVBQUVSLHNCQUUvQixvQkFBQ2hCO1FBQ0N5QixRQUFRckI7UUFDUnNCLGVBQWV6QixVQUFVLENBQUNZLFdBQVc7UUFDckNjLFVBQVUsT0FBT1QsdUJBQXVCLGNBQWNVLE9BQU9WLHNCQUFzQko7UUFDbkZlLFVBQVUsT0FBT1osb0JBQW9CLGNBQWNXLE9BQU9YLG1CQUFtQkg7UUFDN0VnQixXQUFBQTtRQUNBQyxpQkFBQUE7UUFDQUMsY0FBYzs7QUFJdEI7QUFFQSxlQUFlekIsS0FBSyJ9

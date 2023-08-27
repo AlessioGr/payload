@@ -1,0 +1,9 @@
+import React from "react";
+var Separator = function() {
+    return /*#__PURE__*/ React.createElement("span", {
+        className: "paginator__separator"
+    }, "—");
+};
+export default Separator;
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL2VsZW1lbnRzL1BhZ2luYXRvci9TZXBhcmF0b3IvaW5kZXgudHN4Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCBmcm9tICdyZWFjdCc7XG5cbmNvbnN0IFNlcGFyYXRvcjogUmVhY3QuRkMgPSAoKSA9PiA8c3BhbiBjbGFzc05hbWU9XCJwYWdpbmF0b3JfX3NlcGFyYXRvclwiPiZtZGFzaDs8L3NwYW4+O1xuXG5leHBvcnQgZGVmYXVsdCBTZXBhcmF0b3I7XG4iXSwibmFtZXMiOlsiUmVhY3QiLCJTZXBhcmF0b3IiLCJzcGFuIiwiY2xhc3NOYW1lIl0sIm1hcHBpbmdzIjoiQUFBQSxPQUFPQSxXQUFXLFFBQVE7QUFFMUIsSUFBTUMsWUFBc0I7eUJBQU0sb0JBQUNDO1FBQUtDLFdBQVU7T0FBdUI7O0FBRXpFLGVBQWVGLFVBQVUifQ==

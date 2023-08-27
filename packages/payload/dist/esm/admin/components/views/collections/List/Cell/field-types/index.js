@@ -1,0 +1,28 @@
+import array from "./Array";
+import blocks from "./Blocks";
+import checkbox from "./Checkbox";
+import code from "./Code";
+import date from "./Date";
+import json from "./JSON";
+import relationship from "./Relationship";
+import richText from "./Richtext";
+import select from "./Select";
+import textarea from "./Textarea";
+import File from "./File";
+export default {
+    array: array,
+    blocks: blocks,
+    code: code,
+    checkbox: checkbox,
+    date: date,
+    json: json,
+    relationship: relationship,
+    richText: richText,
+    select: select,
+    radio: select,
+    textarea: textarea,
+    upload: relationship,
+    File: File
+};
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL3NyYy9hZG1pbi9jb21wb25lbnRzL3ZpZXdzL2NvbGxlY3Rpb25zL0xpc3QvQ2VsbC9maWVsZC10eXBlcy9pbmRleC50c3giXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IGFycmF5IGZyb20gJy4vQXJyYXknO1xuaW1wb3J0IGJsb2NrcyBmcm9tICcuL0Jsb2Nrcyc7XG5pbXBvcnQgY2hlY2tib3ggZnJvbSAnLi9DaGVja2JveCc7XG5pbXBvcnQgY29kZSBmcm9tICcuL0NvZGUnO1xuaW1wb3J0IGRhdGUgZnJvbSAnLi9EYXRlJztcbmltcG9ydCBqc29uIGZyb20gJy4vSlNPTic7XG5pbXBvcnQgcmVsYXRpb25zaGlwIGZyb20gJy4vUmVsYXRpb25zaGlwJztcbmltcG9ydCByaWNoVGV4dCBmcm9tICcuL1JpY2h0ZXh0JztcbmltcG9ydCBzZWxlY3QgZnJvbSAnLi9TZWxlY3QnO1xuaW1wb3J0IHRleHRhcmVhIGZyb20gJy4vVGV4dGFyZWEnO1xuaW1wb3J0IEZpbGUgZnJvbSAnLi9GaWxlJztcblxuXG5leHBvcnQgZGVmYXVsdCB7XG4gIGFycmF5LFxuICBibG9ja3MsXG4gIGNvZGUsXG4gIGNoZWNrYm94LFxuICBkYXRlLFxuICBqc29uLFxuICByZWxhdGlvbnNoaXAsXG4gIHJpY2hUZXh0LFxuICBzZWxlY3QsXG4gIHJhZGlvOiBzZWxlY3QsXG4gIHRleHRhcmVhLFxuICB1cGxvYWQ6IHJlbGF0aW9uc2hpcCxcbiAgRmlsZSxcbn07XG4iXSwibmFtZXMiOlsiYXJyYXkiLCJibG9ja3MiLCJjaGVja2JveCIsImNvZGUiLCJkYXRlIiwianNvbiIsInJlbGF0aW9uc2hpcCIsInJpY2hUZXh0Iiwic2VsZWN0IiwidGV4dGFyZWEiLCJGaWxlIiwicmFkaW8iLCJ1cGxvYWQiXSwibWFwcGluZ3MiOiJBQUFBLE9BQU9BLFdBQVcsVUFBVTtBQUM1QixPQUFPQyxZQUFZLFdBQVc7QUFDOUIsT0FBT0MsY0FBYyxhQUFhO0FBQ2xDLE9BQU9DLFVBQVUsU0FBUztBQUMxQixPQUFPQyxVQUFVLFNBQVM7QUFDMUIsT0FBT0MsVUFBVSxTQUFTO0FBQzFCLE9BQU9DLGtCQUFrQixpQkFBaUI7QUFDMUMsT0FBT0MsY0FBYyxhQUFhO0FBQ2xDLE9BQU9DLFlBQVksV0FBVztBQUM5QixPQUFPQyxjQUFjLGFBQWE7QUFDbEMsT0FBT0MsVUFBVSxTQUFTO0FBRzFCLGVBQWU7SUFDYlYsT0FBQUE7SUFDQUMsUUFBQUE7SUFDQUUsTUFBQUE7SUFDQUQsVUFBQUE7SUFDQUUsTUFBQUE7SUFDQUMsTUFBQUE7SUFDQUMsY0FBQUE7SUFDQUMsVUFBQUE7SUFDQUMsUUFBQUE7SUFDQUcsT0FBT0g7SUFDUEMsVUFBQUE7SUFDQUcsUUFBUU47SUFDUkksTUFBQUE7QUFDRixFQUFFIn0=
