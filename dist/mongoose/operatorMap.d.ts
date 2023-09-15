@@ -10,4 +10,6 @@ export declare const operatorMap: {
     exists: string;
     equals: string;
     near: string;
+    within: string;
+    intersects: string;
 };

@@ -13,5 +13,7 @@ exports.operatorMap = {
     exists: '$exists',
     equals: '$eq',
     near: '$near',
+    within: '$geoWithin',
+    intersects: '$geoIntersects',
 };
 //# sourceMappingURL=operatorMap.js.map

@@ -58,7 +58,7 @@ const baseClass = 'form';
 const Form = (props) => {
     const { disabled, onSubmit, method, action, handleResponse, onSuccess, children, className, redirect, disableSuccessStatus, initialState, // fully formed initial field state
     initialData, // values only, paths are required as key - form should build initial state as convenience
-    waitForAutocomplete, } = props;
+    waitForAutocomplete, configFieldsSchema, } = props;
     const history = (0, react_router_dom_1.useHistory)();
     const locale = (0, Locale_1.useLocale)();
     const { t, i18n } = (0, react_i18next_1.useTranslation)('general');
@@ -349,12 +349,14 @@ const Form = (props) => {
         return config;
     }, []);
     const getRowConfigByPath = react_1.default.useCallback(({ path, blockType }) => {
-        const rowConfig = traverseRowConfigs({ path, fieldConfig: (collection === null || collection === void 0 ? void 0 : collection.fields) || (global === null || global === void 0 ? void 0 : global.fields) });
+        if (!configFieldsSchema)
+            return null;
+        const rowConfig = traverseRowConfigs({ path, fieldConfig: configFieldsSchema });
         const rowFieldConfigs = (0, buildFieldSchemaMap_1.buildFieldSchemaMap)(rowConfig);
         const pathSegments = (0, splitPathByArrayFields_1.splitPathByArrayFields)(path);
         const fieldKey = pathSegments.at(-1);
         return rowFieldConfigs.get(blockType ? `${fieldKey}.${blockType}` : fieldKey);
-    }, [traverseRowConfigs, collection === null || collection === void 0 ? void 0 : collection.fields, global === null || global === void 0 ? void 0 : global.fields]);
+    }, [traverseRowConfigs, configFieldsSchema]);
     // Array/Block row manipulation
     const addFieldRow = (0, react_1.useCallback)(async ({ path, rowIndex, data }) => {
         const preferences = await getDocPreferences();

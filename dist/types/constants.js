@@ -14,6 +14,8 @@ exports.validOperators = [
     'less_than',
     'less_than_equal',
     'like',
+    'within',
+    'intersects',
     'near',
 ];
 //# sourceMappingURL=constants.js.map

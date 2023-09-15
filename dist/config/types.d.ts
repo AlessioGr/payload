@@ -505,6 +505,15 @@ export type Config = {
     onInit?: (payload: Payload) => Promise<void> | void;
     /** Extension point to add your custom data. */
     custom?: Record<string, any>;
+    /** database specific configurations */
+    database?: {
+        /**
+         * Enable the v2.0 drafts query improvement, before 2.0.
+         *
+         * You must run the migration script for this feature to function properly.
+         */
+        queryDrafts_2_0?: boolean;
+    };
 };
 export type SanitizedConfig = Omit<DeepRequired<Config>, 'collections' | 'globals' | 'endpoint'> & {
     collections: SanitizedCollectionConfig[];

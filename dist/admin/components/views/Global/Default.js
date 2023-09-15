@@ -39,7 +39,7 @@ const DefaultGlobalView = (props) => {
     const hasSavePermission = (_a = permissions === null || permissions === void 0 ? void 0 : permissions.update) === null || _a === void 0 ? void 0 : _a.permission;
     return (react_1.default.createElement("div", { className: baseClass },
         react_1.default.createElement(OperationProvider_1.OperationContext.Provider, { value: "update" },
-            react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, method: "post", action: action, onSuccess: onSave, disabled: !hasSavePermission, initialState: initialState },
+            react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, method: "post", action: action, onSuccess: onSave, disabled: !hasSavePermission, initialState: initialState, configFieldsSchema: fields },
                 react_1.default.createElement(Loading_1.FormLoadingOverlayToggle, { action: "update", name: `global-edit--${label}`, loadingSuffix: (0, getTranslation_1.getTranslation)(label, i18n) }),
                 !isLoading && (react_1.default.createElement(react_1.default.Fragment, null,
                     react_1.default.createElement("div", { className: `${baseClass}__main` },

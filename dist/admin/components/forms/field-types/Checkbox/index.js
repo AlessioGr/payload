@@ -71,7 +71,7 @@ const Checkbox = (props) => {
         } },
         react_1.default.createElement("div", { className: `${baseClass}__error-wrap` },
             react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage })),
-        react_1.default.createElement(Input_1.CheckboxInput, { onToggle: onToggle, id: fieldID, label: (0, getTranslation_1.getTranslation)(label || name, i18n), name: path, checked: Boolean(value) }),
+        react_1.default.createElement(Input_1.CheckboxInput, { onToggle: onToggle, id: fieldID, label: (0, getTranslation_1.getTranslation)(label || name, i18n), name: path, checked: Boolean(value), readOnly: readOnly }),
         react_1.default.createElement(FieldDescription_1.default, { value: value, description: description })));
 };
 exports.default = (0, withCondition_1.default)(Checkbox);

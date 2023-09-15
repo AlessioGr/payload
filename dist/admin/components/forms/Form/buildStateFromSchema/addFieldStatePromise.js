@@ -47,7 +47,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
             case 'array': {
                 const arrayValue = Array.isArray(valueWithDefault) ? valueWithDefault : [];
                 const { promises, rowMetadata } = arrayValue.reduce((acc, row, i) => {
-                    var _a, _b;
+                    var _a, _b, _c;
                     const rowPath = `${path}${field.name}.${i}.`;
                     row.id = (row === null || row === void 0 ? void 0 : row.id) || new bson_objectid_1.default().toHexString();
                     state[`${rowPath}id`] = {
@@ -72,7 +72,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                     const collapsedRowIDs = (_b = (_a = preferences === null || preferences === void 0 ? void 0 : preferences.fields) === null || _a === void 0 ? void 0 : _a[`${path}${field.name}`]) === null || _b === void 0 ? void 0 : _b.collapsed;
                     acc.rowMetadata.push({
                         id: row.id,
-                        collapsed: collapsedRowIDs === undefined ? field.admin.initCollapsed : collapsedRowIDs.includes(row.id),
+                        collapsed: collapsedRowIDs === undefined ? Boolean((_c = field === null || field === void 0 ? void 0 : field.admin) === null || _c === void 0 ? void 0 : _c.initCollapsed) : collapsedRowIDs.includes(row.id),
                         childErrorPaths: new Set(),
                     });
                     return acc;
@@ -101,7 +101,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
             case 'blocks': {
                 const blocksValue = Array.isArray(valueWithDefault) ? valueWithDefault : [];
                 const { promises, rowMetadata } = blocksValue.reduce((acc, row, i) => {
-                    var _a, _b;
+                    var _a, _b, _c;
                     const block = field.blocks.find((blockType) => blockType.slug === row.blockType);
                     const rowPath = `${path}${field.name}.${i}.`;
                     if (block) {
@@ -138,7 +138,7 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                         const collapsedRowIDs = (_b = (_a = preferences === null || preferences === void 0 ? void 0 : preferences.fields) === null || _a === void 0 ? void 0 : _a[`${path}${field.name}`]) === null || _b === void 0 ? void 0 : _b.collapsed;
                         acc.rowMetadata.push({
                             id: row.id,
-                            collapsed: collapsedRowIDs === undefined ? field.admin.initCollapsed : collapsedRowIDs.includes(row.id),
+                            collapsed: collapsedRowIDs === undefined ? Boolean((_c = field === null || field === void 0 ? void 0 : field.admin) === null || _c === void 0 ? void 0 : _c.initCollapsed) : collapsedRowIDs.includes(row.id),
                             blockType: row.blockType,
                             childErrorPaths: new Set(),
                         });
@@ -181,6 +181,50 @@ const addFieldStatePromise = async ({ field, locale, user, state, path, passesCo
                     t,
                     preferences,
                 });
+                break;
+            }
+            case 'relationship': {
+                if (field.hasMany) {
+                    const relationshipValue = Array.isArray(valueWithDefault) ? valueWithDefault.map((relationship) => {
+                        var _a;
+                        if (Array.isArray(field.relationTo)) {
+                            return {
+                                relationTo: relationship.relationTo,
+                                value: typeof relationship.value === 'string' ? relationship.value : (_a = relationship.value) === null || _a === void 0 ? void 0 : _a.id,
+                            };
+                        }
+                        if (typeof relationship === 'object' && relationship !== null) {
+                            return relationship.id;
+                        }
+                        return relationship;
+                    }) : undefined;
+                    fieldState.value = relationshipValue;
+                    fieldState.initialValue = relationshipValue;
+                }
+                else if (Array.isArray(field.relationTo)) {
+                    if (valueWithDefault && typeof valueWithDefault === 'object' && 'relationTo' in valueWithDefault && 'value' in valueWithDefault) {
+                        const value = typeof (valueWithDefault === null || valueWithDefault === void 0 ? void 0 : valueWithDefault.value) === 'object' && 'id' in valueWithDefault.value ? valueWithDefault.value.id : valueWithDefault.value;
+                        const relationshipValue = {
+                            relationTo: valueWithDefault === null || valueWithDefault === void 0 ? void 0 : valueWithDefault.relationTo,
+                            value,
+                        };
+                        fieldState.value = relationshipValue;
+                        fieldState.initialValue = relationshipValue;
+                    }
+                }
+                else {
+                    const relationshipValue = valueWithDefault && typeof valueWithDefault === 'object' && 'id' in valueWithDefault ? valueWithDefault.id : valueWithDefault;
+                    fieldState.value = relationshipValue;
+                    fieldState.initialValue = relationshipValue;
+                }
+                state[`${path}${field.name}`] = fieldState;
+                break;
+            }
+            case 'upload': {
+                const relationshipValue = valueWithDefault && typeof valueWithDefault === 'object' && 'id' in valueWithDefault ? valueWithDefault.id : valueWithDefault;
+                fieldState.value = relationshipValue;
+                fieldState.initialValue = relationshipValue;
+                state[`${path}${field.name}`] = fieldState;
                 break;
             }
             default: {

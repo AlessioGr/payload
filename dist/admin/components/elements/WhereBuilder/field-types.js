@@ -41,7 +41,7 @@ const numeric = [
     },
     {
         label: 'isGreaterThanOrEqualTo',
-        value: 'greater_than_equals',
+        value: 'greater_than_equal',
     },
 ];
 const geo = [
@@ -55,6 +55,14 @@ const geo = [
         value: 'near',
     },
 ];
+const within = {
+    label: 'within',
+    value: 'within',
+};
+const intersects = {
+    label: 'intersects',
+    value: 'intersects',
+};
 const like = {
     label: 'isLike',
     value: 'like',
@@ -82,7 +90,7 @@ const fieldTypeConditions = {
     },
     json: {
         component: 'Text',
-        operators: [...base, like, contains],
+        operators: [...base, like, contains, within, intersects],
     },
     richText: {
         component: 'Text',
@@ -98,7 +106,7 @@ const fieldTypeConditions = {
     },
     point: {
         component: 'Point',
-        operators: [...geo],
+        operators: [...geo, within, intersects],
     },
     upload: {
         component: 'Text',

@@ -74,11 +74,11 @@ const Status = () => {
             body = publishedDoc;
         }
         if (collection) {
-            url = `${serverURL}${api}/${collection.slug}/${id}?depth=0&locale=${locale}&fallback-locale=null`;
+            url = `${serverURL}${api}/${collection.slug}/${id}?locale=${locale}&fallback-locale=null`;
             method = 'patch';
         }
         if (global) {
-            url = `${serverURL}${api}/globals/${global.slug}?depth=0&locale=${locale}&fallback-locale=null`;
+            url = `${serverURL}${api}/globals/${global.slug}?locale=${locale}&fallback-locale=null`;
             method = 'post';
         }
         const res = await api_1.requests[method](url, {

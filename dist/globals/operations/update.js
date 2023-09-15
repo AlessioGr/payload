@@ -110,13 +110,20 @@ async function update(args) {
     // /////////////////////////////////////
     // Update
     // /////////////////////////////////////
+    const now = new Date().toISOString();
     if (!shouldSaveDraft) {
         if (globalExists) {
-            result = await Model.findOneAndUpdate({ globalType: slug }, result, { new: true });
+            result = await Model.findOneAndUpdate({ globalType: slug }, {
+                ...result,
+                updatedAt: now,
+            }, { new: true });
         }
         else {
             result.globalType = slug;
-            result = await Model.create(result);
+            result = await Model.create({
+                ...result,
+                createdAt: now,
+            });
         }
     }
     result = JSON.parse(JSON.stringify(result));
@@ -132,7 +139,7 @@ async function update(args) {
             docWithLocales: {
                 ...result,
                 createdAt: result.createdAt,
-                updatedAt: result.updatedAt,
+                updatedAt: now,
             },
             autosave,
             draft: shouldSaveDraft,

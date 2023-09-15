@@ -107,7 +107,7 @@ const EditView = (props) => {
         return (react_1.default.createElement(react_router_dom_1.Redirect, { to: `${admin}/not-found` }));
     }
     const apiURL = `${serverURL}${api}/${slug}/${id}?locale=${locale}${collection.versions.drafts ? '&draft=true' : ''}`;
-    const action = `${serverURL}${api}/${slug}${isEditing ? `/${id}` : ''}?locale=${locale}&depth=0&fallback-locale=null`;
+    const action = `${serverURL}${api}/${slug}${isEditing ? `/${id}` : ''}?locale=${locale}&fallback-locale=null`;
     const hasSavePermission = (isEditing && ((_a = docPermissions === null || docPermissions === void 0 ? void 0 : docPermissions.update) === null || _a === void 0 ? void 0 : _a.permission)) || (!isEditing && ((_b = docPermissions === null || docPermissions === void 0 ? void 0 : docPermissions.create) === null || _b === void 0 ? void 0 : _b.permission));
     const isLoading = !internalState || !docPermissions || isLoadingData;
     return (react_1.default.createElement(EditDepth_1.EditDepthContext.Provider, { value: 1 },

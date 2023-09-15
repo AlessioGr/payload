@@ -110,7 +110,7 @@ const EditMany = (props) => {
             } }, t('edit')),
         react_1.default.createElement(Drawer_1.Drawer, { slug: drawerSlug, header: null },
             react_1.default.createElement(OperationProvider_1.OperationContext.Provider, { value: "update" },
-                react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, onSuccess: onSuccess },
+                react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, onSuccess: onSuccess, configFieldsSchema: selected },
                     react_1.default.createElement("div", { className: `${baseClass}__main` },
                         react_1.default.createElement("div", { className: `${baseClass}__header` },
                             react_1.default.createElement("h2", { className: `${baseClass}__header__title` }, t('editingLabel', { label: (0, getTranslation_1.getTranslation)(plural, i18n), count })),

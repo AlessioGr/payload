@@ -24,11 +24,11 @@ const ResetPassword = () => {
     const { admin: { user: userSlug, logoutRoute }, serverURL, routes: { admin, api } } = config;
     const { token } = (0, react_router_dom_1.useParams)();
     const history = (0, react_router_dom_1.useHistory)();
-    const { user, setToken } = (0, Auth_1.useAuth)();
+    const { user, fetchFullUser } = (0, Auth_1.useAuth)();
     const { t } = (0, react_i18next_1.useTranslation)('authentication');
-    const onSuccess = (data) => {
+    const onSuccess = async (data) => {
         if (data.token) {
-            setToken(data.token);
+            await fetchFullUser();
             history.push(`${admin}`);
         }
         else {

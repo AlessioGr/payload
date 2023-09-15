@@ -185,7 +185,7 @@ function buildMutationInputType(payload, name, fields, parentName, forceNullable
                     if (requiresAtLeastOneField)
                         type = new graphql_1.GraphQLNonNull(type);
                     return {
-                        ...inputObjectTypeConfig,
+                        ...acc,
                         [tab.name]: { type },
                     };
                 }

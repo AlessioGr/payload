@@ -22,16 +22,16 @@ const baseClass = 'login';
 const Login = () => {
     const history = (0, react_router_dom_1.useHistory)();
     const { t } = (0, react_i18next_1.useTranslation)('authentication');
-    const { user, setToken } = (0, Auth_1.useAuth)();
+    const { user, fetchFullUser } = (0, Auth_1.useAuth)();
     const config = (0, Config_1.useConfig)();
     const { admin: { user: userSlug, logoutRoute, autoLogin, components: { beforeLogin, afterLogin, } = {}, }, serverURL, routes: { admin, api, }, collections, } = config;
     const collection = collections.find(({ slug }) => slug === userSlug);
     // Fetch 'redirect' from the query string which denotes the URL the user originally tried to visit. This is set in the Routes.tsx file when a user tries to access a protected route and is redirected to the login screen.
     const query = new URLSearchParams((0, react_router_dom_1.useLocation)().search);
     const redirect = query.get('redirect');
-    const onSuccess = (data) => {
+    const onSuccess = async (data) => {
         if (data.token) {
-            setToken(data.token);
+            await fetchFullUser();
             // Ensure the redirect always starts with the admin route, and concatenate the redirect path
             history.push(admin + (redirect || ''));
         }

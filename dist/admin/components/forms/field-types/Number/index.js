@@ -108,9 +108,16 @@ const NumberField = (props) => {
         } },
         react_1.default.createElement(Error_1.default, { showError: showError, message: errorMessage }),
         react_1.default.createElement(Label_1.default, { htmlFor: `field-${path.replace(/\./gi, '__')}`, label: label, required: required }),
-        hasMany ? (react_1.default.createElement(ReactSelect_1.default, { className: `field-${path.replace(/\./gi, '__')}`, placeholder: t('general:enterAValue'), onChange: handleHasManyChange, value: valueToRender, showError: showError, disabled: readOnly, options: [], isCreatable: true, isMulti: true, isSortable: true, isClearable: true, filterOption: (option, rawInput) => {
+        hasMany ? (react_1.default.createElement(ReactSelect_1.default, { className: `field-${path.replace(/\./gi, '__')}`, placeholder: t('general:enterAValue'), onChange: handleHasManyChange, value: valueToRender, showError: showError, disabled: readOnly, options: [], isCreatable: true, isMulti: true, isSortable: true, isClearable: true, noOptionsMessage: ({ inputValue }) => {
+                const isOverHasMany = Array.isArray(value) && value.length >= maxRows;
+                if (isOverHasMany) {
+                    return t('validation:limitReached', { value: value.length + 1, max: maxRows });
+                }
+                return t('general:noOptions');
+            }, filterOption: (option, rawInput) => {
                 // eslint-disable-next-line no-restricted-globals
-                return (0, isNumber_1.isNumber)(rawInput);
+                const isOverHasMany = Array.isArray(value) && value.length >= maxRows;
+                return (0, isNumber_1.isNumber)(rawInput) && !isOverHasMany;
             }, numberOnly: true })) : (react_1.default.createElement("input", { id: `field-${path.replace(/\./gi, '__')}`, value: typeof value === 'number' ? value : '', onChange: handleChange, disabled: readOnly, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), type: "number", name: path, step: step, onWheel: (e) => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore

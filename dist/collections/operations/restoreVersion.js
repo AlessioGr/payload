@@ -76,12 +76,27 @@ async function restoreVersion(args) {
     // /////////////////////////////////////
     const prevVersion = { ...prevDocWithLocales };
     delete prevVersion.id;
+    await VersionModel.updateMany({
+        $and: [
+            {
+                parent: {
+                    $eq: parentDocID,
+                },
+            },
+            {
+                latest: {
+                    $eq: true,
+                },
+            },
+        ],
+    }, { $unset: { latest: 1 } });
     await VersionModel.create({
         parent: parentDocID,
         version: rawVersion.version,
         autosave: false,
         createdAt: prevVersion.createdAt,
         updatedAt: new Date().toISOString(),
+        latest: payload.config.database.queryDrafts_2_0 ? true : undefined,
     });
     // /////////////////////////////////////
     // afterRead - Fields

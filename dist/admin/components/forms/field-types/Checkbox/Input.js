@@ -18,7 +18,7 @@ const CheckboxInput = (props) => {
             readOnly && `${baseClass}--read-only`,
         ].filter(Boolean).join(' ') },
         react_1.default.createElement("div", { className: `${baseClass}__input` },
-            react_1.default.createElement("input", { ref: inputRef, id: id, type: "checkbox", name: name, "aria-label": ariaLabel, checked: Boolean(checked), readOnly: true, onInput: onToggle }),
+            react_1.default.createElement("input", { ref: inputRef, id: id, type: "checkbox", name: name, "aria-label": ariaLabel, defaultChecked: Boolean(checked), disabled: readOnly, onInput: onToggle }),
             react_1.default.createElement("span", { className: `${baseClass}__icon ${!partialChecked ? 'check' : 'partial'}` },
                 !partialChecked && (react_1.default.createElement(Check_1.default, null)),
                 partialChecked && (react_1.default.createElement(Line_1.default, null)))),

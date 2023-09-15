@@ -159,5 +159,8 @@ exports.default = joi_1.default.object({
     onInit: joi_1.default.func(),
     debug: joi_1.default.boolean(),
     custom: joi_1.default.object().pattern(joi_1.default.string(), joi_1.default.any()),
+    database: joi_1.default.object().keys({
+        queryDrafts_2_0: joi_1.default.boolean(),
+    }),
 });
 //# sourceMappingURL=schema.js.map

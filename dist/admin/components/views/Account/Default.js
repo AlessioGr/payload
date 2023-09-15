@@ -71,7 +71,7 @@ const DefaultAccount = (props) => {
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement(Loading_1.LoadingOverlayToggle, { name: "account", show: isLoading, type: "withoutNav" }),
         react_1.default.createElement("div", { className: classes }, !isLoading && (react_1.default.createElement(OperationProvider_1.OperationContext.Provider, { value: "update" },
-            react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, method: "patch", action: action, onSuccess: onSave, initialState: initialState, disabled: !hasSavePermission },
+            react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, method: "patch", action: action, onSuccess: onSave, initialState: initialState, disabled: !hasSavePermission, configFieldsSchema: fields },
                 react_1.default.createElement("div", { className: `${baseClass}__main` },
                     react_1.default.createElement(Meta_1.default, { title: t('account'), description: t('accountOfCurrentUser'), keywords: t('account') }),
                     react_1.default.createElement(Eyebrow_1.default, null),

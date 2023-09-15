@@ -101,7 +101,7 @@ const Content = ({ collectionSlug, drawerSlug, customHeader, onSave, }) => {
         return null;
     const isEditing = Boolean(id);
     const apiURL = id ? `${serverURL}${api}/${collectionSlug}/${id}?locale=${locale}` : null;
-    const action = `${serverURL}${api}/${collectionSlug}${id ? `/${id}` : ''}?locale=${locale}&depth=0&fallback-locale=null`;
+    const action = `${serverURL}${api}/${collectionSlug}${id ? `/${id}` : ''}?locale=${locale}&fallback-locale=null`;
     const hasSavePermission = (isEditing && ((_a = docPermissions === null || docPermissions === void 0 ? void 0 : docPermissions.update) === null || _a === void 0 ? void 0 : _a.permission)) || (!isEditing && ((_b = docPermissions === null || docPermissions === void 0 ? void 0 : docPermissions.create) === null || _b === void 0 ? void 0 : _b.permission));
     const isLoading = !internalState || !docPermissions || isLoadingDocument;
     return (react_1.default.createElement(RenderCustomComponent_1.default, { DefaultComponent: Default_1.default, CustomComponent: (_e = (_d = (_c = collectionConfig.admin) === null || _c === void 0 ? void 0 : _c.components) === null || _d === void 0 ? void 0 : _d.views) === null || _e === void 0 ? void 0 : _e.Edit, componentProps: {

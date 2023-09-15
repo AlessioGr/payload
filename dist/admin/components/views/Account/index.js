@@ -65,7 +65,7 @@ const AccountView = () => {
     const hasSavePermission = (_a = docPermissions === null || docPermissions === void 0 ? void 0 : docPermissions.update) === null || _a === void 0 ? void 0 : _a.permission;
     const dataToRender = (locationState === null || locationState === void 0 ? void 0 : locationState.data) || data;
     const apiURL = `${serverURL}${api}/${slug}/${data === null || data === void 0 ? void 0 : data.id}?locale=${locale}`;
-    const action = `${serverURL}${api}/${slug}/${data === null || data === void 0 ? void 0 : data.id}?locale=${locale}&depth=0`;
+    const action = `${serverURL}${api}/${slug}/${data === null || data === void 0 ? void 0 : data.id}?locale=${locale}`;
     const onSave = react_1.default.useCallback(async (json) => {
         getDocPermissions();
         const preferences = await getDocPreferences();

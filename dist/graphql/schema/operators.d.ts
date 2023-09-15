@@ -4,5 +4,6 @@ declare const operators: {
     contains: string[];
     comparison: string[];
     geo: string[];
+    geojson: string[];
 };
 export default operators;

@@ -71,7 +71,7 @@ const UploadDrawer = (props) => {
         awaitInitialState();
     }, [fieldSchema, element.fields, user, locale, t, getDocPreferences]);
     return (react_1.default.createElement(Drawer_1.Drawer, { slug: drawerSlug, title: t('general:editLabel', { label: (0, getTranslation_1.getTranslation)(relatedCollection.labels.singular, i18n) }) },
-        react_1.default.createElement(Form_1.default, { onSubmit: handleUpdateEditData, initialState: initialState },
+        react_1.default.createElement(Form_1.default, { onSubmit: handleUpdateEditData, initialState: initialState, configFieldsSchema: fieldSchema },
             react_1.default.createElement(RenderFields_1.default, { readOnly: false, fieldTypes: __1.default, fieldSchema: fieldSchema }),
             react_1.default.createElement(Submit_1.default, null, t('fields:saveChanges')))));
 };

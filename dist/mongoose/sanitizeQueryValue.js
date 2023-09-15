@@ -76,7 +76,7 @@ const sanitizeQueryValue = ({ field, path, operator, val, hasCustomID }) => {
         if (typeof formattedValue === 'string') {
             [lng, lat, maxDistance, minDistance] = (0, createArrayFromCommaDelineated_1.createArrayFromCommaDelineated)(formattedValue);
         }
-        if (!lng || !lat || (!maxDistance && !minDistance)) {
+        if (lng == null || lat == null || (maxDistance == null && minDistance == null)) {
             formattedValue = undefined;
         }
         else {
@@ -88,6 +88,11 @@ const sanitizeQueryValue = ({ field, path, operator, val, hasCustomID }) => {
             if (minDistance)
                 formattedValue.$minDistance = parseFloat(minDistance);
         }
+    }
+    if (operator === 'within' || operator === 'intersects') {
+        formattedValue = {
+            $geometry: formattedValue,
+        };
     }
     if (path !== '_id' || (path === '_id' && hasCustomID && field.type === 'text')) {
         if (operator === 'contains') {

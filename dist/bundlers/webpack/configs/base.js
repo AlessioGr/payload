@@ -82,7 +82,6 @@ const getBaseConfig = (payloadConfig) => ({
             template: payloadConfig.admin.indexHTML,
             filename: path_1.default.normalize('./index.html'),
         }),
-        new webpack_1.default.HotModuleReplacementPlugin(),
     ],
 });
 exports.getBaseConfig = getBaseConfig;

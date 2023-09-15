@@ -89,7 +89,7 @@ const GlobalView = (props) => {
             global,
             onSave,
             apiURL: `${serverURL}${api}/globals/${slug}?locale=${locale}${((_a = global.versions) === null || _a === void 0 ? void 0 : _a.drafts) ? '&draft=true' : ''}`,
-            action: `${serverURL}${api}/globals/${slug}?locale=${locale}&depth=0&fallback-locale=null`,
+            action: `${serverURL}${api}/globals/${slug}?locale=${locale}&fallback-locale=null`,
             updatedAt: updatedAt || (dataToRender === null || dataToRender === void 0 ? void 0 : dataToRender.updatedAt),
         } }));
 };

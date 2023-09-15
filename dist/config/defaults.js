@@ -60,5 +60,8 @@ exports.defaults = {
     localization: false,
     telemetry: true,
     custom: {},
+    database: {
+        queryDrafts_2_0: false,
+    },
 };
 //# sourceMappingURL=defaults.js.map

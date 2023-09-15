@@ -13,5 +13,5 @@ type Args = {
     payload: Payload;
     where: Where;
 };
-export declare const queryDrafts: <T extends TypeWithID>({ accessResult, collection, req, overrideAccess, payload, paginationOptions, where: incomingWhere, }: Args) => Promise<PaginatedDocs<T>>;
+export declare const queryDrafts: <T extends TypeWithID>(args: Args) => Promise<PaginatedDocs<T>>;
 export {};

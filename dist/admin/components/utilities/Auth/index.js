@@ -28,7 +28,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useAuth = exports.AuthProvider = void 0;
 const react_1 = __importStar(require("react"));
-const jwt_decode_1 = __importDefault(require("jwt-decode"));
 const react_router_dom_1 = require("react-router-dom");
 const modal_1 = require("@faceless-ui/modal");
 const react_i18next_1 = require("react-i18next");
@@ -41,11 +40,12 @@ const maxTimeoutTime = 2147483647;
 const AuthProvider = ({ children }) => {
     const [user, setUser] = (0, react_1.useState)();
     const [tokenInMemory, setTokenInMemory] = (0, react_1.useState)();
+    const [tokenExpiration, setTokenExpiration] = (0, react_1.useState)();
     const { pathname } = (0, react_router_dom_1.useLocation)();
     const { push } = (0, react_router_dom_1.useHistory)();
     const config = (0, Config_1.useConfig)();
     const { admin: { user: userSlug, inactivityRoute: logoutInactivityRoute, autoLogin, }, serverURL, routes: { admin, api, }, } = config;
-    const exp = user === null || user === void 0 ? void 0 : user.exp;
+    const exp = tokenExpiration;
     const [permissions, setPermissions] = (0, react_1.useState)();
     const { i18n } = (0, react_i18next_1.useTranslation)();
     const { openModal, closeAllModals } = (0, modal_1.useModal)();
@@ -62,9 +62,23 @@ const AuthProvider = ({ children }) => {
         }
         closeAllModals();
     }, [push, admin, logoutInactivityRoute, closeAllModals]);
+    const revokeTokenAndExpire = (0, react_1.useCallback)(() => {
+        setTokenInMemory(undefined);
+        setTokenExpiration(undefined);
+    }, []);
+    const setTokenAndExpiration = (0, react_1.useCallback)((json) => {
+        const token = (json === null || json === void 0 ? void 0 : json.token) || (json === null || json === void 0 ? void 0 : json.refreshedToken);
+        if (token && (json === null || json === void 0 ? void 0 : json.exp)) {
+            setTokenInMemory(token);
+            setTokenExpiration(json.exp);
+        }
+        else {
+            revokeTokenAndExpire();
+        }
+    }, [revokeTokenAndExpire]);
     const refreshCookie = (0, react_1.useCallback)((forceRefresh) => {
         const now = Math.round((new Date()).getTime() / 1000);
-        const remainingTime = (exp || 0) - now;
+        const remainingTime = (typeof exp === 'number' ? exp : 0) - now;
         if (forceRefresh || (exp && remainingTime < 120)) {
             setTimeout(async () => {
                 try {
@@ -76,6 +90,7 @@ const AuthProvider = ({ children }) => {
                     if (request.status === 200) {
                         const json = await request.json();
                         setUser(json.user);
+                        setTokenAndExpiration(json);
                     }
                     else {
                         setUser(null);
@@ -87,7 +102,7 @@ const AuthProvider = ({ children }) => {
                 }
             }, 1000);
         }
-    }, [exp, serverURL, api, userSlug, i18n, redirectToInactivityRoute]);
+    }, [serverURL, api, userSlug, i18n, exp, redirectToInactivityRoute, setTokenAndExpiration]);
     const refreshCookieAsync = (0, react_1.useCallback)(async (skipSetUser) => {
         try {
             const request = await api_1.requests.post(`${serverURL}${api}/${userSlug}/refresh-token`, {
@@ -97,8 +112,10 @@ const AuthProvider = ({ children }) => {
             });
             if (request.status === 200) {
                 const json = await request.json();
-                if (!skipSetUser)
+                if (!skipSetUser) {
                     setUser(json.user);
+                    setTokenAndExpiration(json);
+                }
                 return json.user;
             }
             setUser(null);
@@ -109,17 +126,12 @@ const AuthProvider = ({ children }) => {
             react_toastify_1.toast.error(`Refreshing token failed: ${e.message}`);
             return null;
         }
-    }, [serverURL, api, userSlug, i18n, redirectToInactivityRoute]);
-    const setToken = (0, react_1.useCallback)((token) => {
-        const decoded = (0, jwt_decode_1.default)(token);
-        setUser(decoded);
-        setTokenInMemory(token);
-    }, []);
+    }, [serverURL, api, userSlug, i18n, redirectToInactivityRoute, setTokenAndExpiration]);
     const logOut = (0, react_1.useCallback)(() => {
         setUser(null);
-        setTokenInMemory(undefined);
+        revokeTokenAndExpire();
         api_1.requests.post(`${serverURL}${api}/${userSlug}/logout`);
-    }, [serverURL, api, userSlug]);
+    }, [serverURL, api, userSlug, revokeTokenAndExpire]);
     const refreshPermissions = (0, react_1.useCallback)(async () => {
         try {
             const request = await api_1.requests.get(`${serverURL}${api}/access`, {
@@ -139,58 +151,60 @@ const AuthProvider = ({ children }) => {
             react_toastify_1.toast.error(`Refreshing permissions failed: ${e.message}`);
         }
     }, [serverURL, api, i18n]);
-    // On mount, get user and set
-    (0, react_1.useEffect)(() => {
-        const fetchMe = async () => {
-            try {
-                const request = await api_1.requests.get(`${serverURL}${api}/${userSlug}/me`, {
-                    headers: {
-                        'Accept-Language': i18n.language,
-                    },
-                });
-                if (request.status === 200) {
-                    const json = await request.json();
-                    if (json === null || json === void 0 ? void 0 : json.user) {
-                        setUser(json.user);
+    const fetchFullUser = react_1.default.useCallback(async () => {
+        try {
+            const request = await api_1.requests.get(`${serverURL}${api}/${userSlug}/me`, {
+                headers: {
+                    'Accept-Language': i18n.language,
+                },
+            });
+            if (request.status === 200) {
+                const json = await request.json();
+                if (json === null || json === void 0 ? void 0 : json.user) {
+                    setUser(json.user);
+                    if (json === null || json === void 0 ? void 0 : json.token) {
+                        setTokenAndExpiration(json);
                     }
-                    else if (json === null || json === void 0 ? void 0 : json.token) {
-                        setToken(json.token);
-                    }
-                    else if (autoLogin && autoLogin.prefillOnly !== true) {
-                        // auto log-in with the provided autoLogin credentials. This is used in dev mode
-                        // so you don't have to log in over and over again
-                        const autoLoginResult = await api_1.requests.post(`${serverURL}${api}/${userSlug}/login`, {
-                            body: JSON.stringify({
-                                email: autoLogin.email,
-                                password: autoLogin.password,
-                            }),
-                            headers: {
-                                'Accept-Language': i18n.language,
-                                'Content-Type': 'application/json',
-                            },
-                        });
-                        if (autoLoginResult.status === 200) {
-                            const autoLoginJson = await autoLoginResult.json();
-                            setUser(autoLoginJson.user);
-                            if (autoLoginJson === null || autoLoginJson === void 0 ? void 0 : autoLoginJson.token) {
-                                setToken(autoLoginJson.token);
-                            }
-                        }
-                        else {
-                            setUser(null);
+                }
+                else if (autoLogin && autoLogin.prefillOnly !== true) {
+                    // auto log-in with the provided autoLogin credentials. This is used in dev mode
+                    // so you don't have to log in over and over again
+                    const autoLoginResult = await api_1.requests.post(`${serverURL}${api}/${userSlug}/login`, {
+                        body: JSON.stringify({
+                            email: autoLogin.email,
+                            password: autoLogin.password,
+                        }),
+                        headers: {
+                            'Accept-Language': i18n.language,
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    if (autoLoginResult.status === 200) {
+                        const autoLoginJson = await autoLoginResult.json();
+                        setUser(autoLoginJson.user);
+                        if (autoLoginJson === null || autoLoginJson === void 0 ? void 0 : autoLoginJson.token) {
+                            setTokenAndExpiration(autoLoginJson);
                         }
                     }
                     else {
                         setUser(null);
+                        revokeTokenAndExpire();
                     }
                 }
+                else {
+                    setUser(null);
+                    revokeTokenAndExpire();
+                }
             }
-            catch (e) {
-                react_toastify_1.toast.error(`Fetching user failed: ${e.message}`);
-            }
-        };
-        fetchMe();
-    }, [i18n, setToken, api, serverURL, userSlug, autoLogin]);
+        }
+        catch (e) {
+            react_toastify_1.toast.error(`Fetching user failed: ${e.message}`);
+        }
+    }, [serverURL, api, userSlug, i18n, autoLogin, setTokenAndExpiration, revokeTokenAndExpire]);
+    // On mount, get user and set
+    (0, react_1.useEffect)(() => {
+        fetchFullUser();
+    }, [fetchFullUser]);
     // When location changes, refresh cookie
     (0, react_1.useEffect)(() => {
         if (id) {
@@ -209,11 +223,11 @@ const AuthProvider = ({ children }) => {
     (0, react_1.useEffect)(() => {
         let reminder;
         const now = Math.round((new Date()).getTime() / 1000);
-        const remainingTime = exp - now;
+        const remainingTime = typeof exp === 'number' ? exp - now : 0;
         if (remainingTime > 0) {
             reminder = setTimeout(() => {
                 openModal('stay-logged-in');
-            }, (Math.min((remainingTime - 60) * 1000), maxTimeoutTime));
+            }, Math.max(Math.min((remainingTime - 60) * 1000, maxTimeoutTime)));
         }
         return () => {
             if (reminder)
@@ -223,18 +237,19 @@ const AuthProvider = ({ children }) => {
     (0, react_1.useEffect)(() => {
         let forceLogOut;
         const now = Math.round((new Date()).getTime() / 1000);
-        const remainingTime = exp - now;
+        const remainingTime = typeof exp === 'number' ? exp - now : 0;
         if (remainingTime > 0) {
             forceLogOut = setTimeout(() => {
                 setUser(null);
+                revokeTokenAndExpire();
                 redirectToInactivityRoute();
-            }, Math.min(remainingTime * 1000, maxTimeoutTime));
+            }, Math.max(Math.min(remainingTime * 1000, maxTimeoutTime), 0));
         }
         return () => {
             if (forceLogOut)
                 clearTimeout(forceLogOut);
         };
-    }, [exp, closeAllModals, i18n, redirectToInactivityRoute]);
+    }, [exp, closeAllModals, i18n, redirectToInactivityRoute, revokeTokenAndExpire]);
     return (react_1.default.createElement(Context.Provider, { value: {
             user,
             setUser,
@@ -243,8 +258,8 @@ const AuthProvider = ({ children }) => {
             refreshCookieAsync,
             refreshPermissions,
             permissions,
-            setToken,
             token: tokenInMemory,
+            fetchFullUser,
         } }, children));
 };
 exports.AuthProvider = AuthProvider;

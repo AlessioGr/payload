@@ -26,14 +26,14 @@ const createOption = (label) => ({
 const SelectAdapter = (props) => {
     const { t, i18n } = (0, react_i18next_1.useTranslation)();
     const [inputValue, setInputValue] = react_1.default.useState(''); // for creatable select
-    const { className, showError, options, onChange, value, disabled = false, placeholder = t('general:selectValue'), isSearchable = true, isClearable = true, filterOption = undefined, numberOnly = false, isLoading, onMenuOpen, components, isCreatable, selectProps, } = props;
+    const { className, showError, options, onChange, value, disabled = false, placeholder = t('general:selectValue'), isSearchable = true, isClearable = true, filterOption = undefined, numberOnly = false, isLoading, onMenuOpen, components, isCreatable, selectProps, noOptionsMessage, } = props;
     const classes = [
         className,
         'react-select',
         showError && 'react-select--error',
     ].filter(Boolean).join(' ');
     if (!isCreatable) {
-        return (react_1.default.createElement(react_select_1.default, { isLoading: isLoading, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), captureMenuScroll: true, customProps: selectProps, ...props, value: value, onChange: onChange, isDisabled: disabled, className: classes, classNamePrefix: "rs", options: options, isSearchable: isSearchable, isClearable: isClearable, filterOption: filterOption, onMenuOpen: onMenuOpen, menuPlacement: "auto", components: {
+        return (react_1.default.createElement(react_select_1.default, { isLoading: isLoading, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), captureMenuScroll: true, customProps: selectProps, ...props, value: value, onChange: onChange, isDisabled: disabled, className: classes, classNamePrefix: "rs", options: options, isSearchable: isSearchable, isClearable: isClearable, filterOption: filterOption, onMenuOpen: onMenuOpen, menuPlacement: "auto", noOptionsMessage: noOptionsMessage, components: {
                 ValueContainer: ValueContainer_1.ValueContainer,
                 SingleValue: SingleValue_1.SingleValue,
                 MultiValue: MultiValue_1.MultiValue,
@@ -72,7 +72,7 @@ const SelectAdapter = (props) => {
                 break;
         }
     };
-    return (react_1.default.createElement(creatable_1.default, { isLoading: isLoading, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), captureMenuScroll: true, ...props, value: value, onChange: onChange, isDisabled: disabled, className: classes, classNamePrefix: "rs", options: options, isSearchable: isSearchable, isClearable: isClearable, filterOption: filterOption, onMenuOpen: onMenuOpen, menuPlacement: "auto", inputValue: inputValue, onInputChange: (newValue) => setInputValue(newValue), onKeyDown: handleKeyDown, components: {
+    return (react_1.default.createElement(creatable_1.default, { isLoading: isLoading, placeholder: (0, getTranslation_1.getTranslation)(placeholder, i18n), captureMenuScroll: true, ...props, value: value, onChange: onChange, isDisabled: disabled, className: classes, classNamePrefix: "rs", options: options, isSearchable: isSearchable, isClearable: isClearable, filterOption: filterOption, onMenuOpen: onMenuOpen, menuPlacement: "auto", inputValue: inputValue, onInputChange: (newValue) => setInputValue(newValue), onKeyDown: handleKeyDown, noOptionsMessage: noOptionsMessage, components: {
             ValueContainer: ValueContainer_1.ValueContainer,
             SingleValue: SingleValue_1.SingleValue,
             MultiValue: MultiValue_1.MultiValue,

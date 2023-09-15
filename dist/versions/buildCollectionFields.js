@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildVersionCollectionFields = void 0;
 const buildVersionCollectionFields = (collection) => {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     const fields = [
         {
             name: 'parent',
@@ -37,6 +37,16 @@ const buildVersionCollectionFields = (collection) => {
             name: 'autosave',
             type: 'checkbox',
             index: true,
+        });
+    }
+    if ((_d = collection === null || collection === void 0 ? void 0 : collection.versions) === null || _d === void 0 ? void 0 : _d.drafts) {
+        fields.push({
+            name: 'latest',
+            type: 'checkbox',
+            index: true,
+            admin: {
+                disabled: true,
+            },
         });
     }
     return fields;

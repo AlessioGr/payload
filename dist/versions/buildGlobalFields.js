@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildVersionGlobalFields = void 0;
 const buildVersionGlobalFields = (global) => {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     const fields = [
         {
             name: 'version',
@@ -29,6 +29,16 @@ const buildVersionGlobalFields = (global) => {
             name: 'autosave',
             type: 'checkbox',
             index: true,
+        });
+    }
+    if ((_d = global === null || global === void 0 ? void 0 : global.versions) === null || _d === void 0 ? void 0 : _d.drafts) {
+        fields.push({
+            name: 'latest',
+            type: 'checkbox',
+            index: true,
+            admin: {
+                disabled: true,
+            },
         });
     }
     return fields;

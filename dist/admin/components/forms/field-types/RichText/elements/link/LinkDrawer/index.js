@@ -41,7 +41,7 @@ const baseClass = 'rich-text-link-edit-modal';
 const LinkDrawer = ({ handleModalSubmit, initialState, fieldSchema, drawerSlug, }) => {
     const { t } = (0, react_i18next_1.useTranslation)('fields');
     return (react_1.default.createElement(Drawer_1.Drawer, { slug: drawerSlug, className: baseClass, title: t('editLink') },
-        react_1.default.createElement(Form_1.default, { onSubmit: handleModalSubmit, initialState: initialState },
+        react_1.default.createElement(Form_1.default, { onSubmit: handleModalSubmit, initialState: initialState, configFieldsSchema: fieldSchema },
             react_1.default.createElement(RenderFields_1.default, { fieldTypes: __1.default, readOnly: false, fieldSchema: fieldSchema, forceRender: true }),
             react_1.default.createElement(LinkSubmit, null))));
 };

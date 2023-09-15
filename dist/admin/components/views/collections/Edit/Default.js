@@ -86,7 +86,7 @@ const DefaultEditView = (props) => {
     return (react_1.default.createElement(react_1.default.Fragment, null,
         react_1.default.createElement("div", { className: classes },
             react_1.default.createElement(OperationProvider_1.OperationContext.Provider, { value: operation },
-                react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, method: id ? 'patch' : 'post', action: action, onSuccess: onSave, disabled: !hasSavePermission, initialState: internalState },
+                react_1.default.createElement(Form_1.default, { className: `${baseClass}__form`, method: id ? 'patch' : 'post', action: action, onSuccess: onSave, disabled: !hasSavePermission, initialState: internalState, configFieldsSchema: fields },
                     react_1.default.createElement(Loading_1.FormLoadingOverlayToggle, { formIsLoading: isLoading, action: isLoading ? 'loading' : operation, name: `collection-edit--${collection.labels.singular}`, loadingSuffix: (0, getTranslation_1.getTranslation)(collection.labels.singular, i18n), type: "withoutNav" }),
                     !isLoading && (react_1.default.createElement(react_1.default.Fragment, null,
                         !disableEyebrow && (react_1.default.createElement(SetStepNav_1.SetStepNav, { collection: collection, isEditing: isEditing, id: data === null || data === void 0 ? void 0 : data.id })),
